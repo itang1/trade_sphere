@@ -1,0 +1,217 @@
+Country,Continent,Group,ISO3,ISO2,Included
+Afghanistan,Asia,Asia,AFG,AF,1
+Albania,Europe,Europe,ALB,AL,1
+Algeria,Africa,"North Africa, OPEC",DZA,DZ,1
+American Samoa,Australia,,ASM,AS,0
+Andorra,Europe,,AND,AD,1
+Angola,Africa,West Africa,AGO,AO,1
+Antigua and Barbuda,America,,ATG,AG,0
+Argentina,America,Latin America,ARG,AR,1
+Armenia,Asia,Asia,ARM,AM,1
+Aruba,America,,ABW,AW,1
+Australia,Australia,"Australia, Major",AUS,AU,1
+Austria,Europe,Euro Area,AUT,AT,1
+Azerbaijan,Asia,Asia,AZE,AZ,1
+Bahamas,America,North America,BHS,BS,1
+Bahrain,Asia,Asia,BHR,BH,1
+Bangladesh,Asia,Asia,BGD,BD,1
+Barbados,America,,BRB,BB,1
+Belarus,Europe,Europe,BLR,BY,1
+Belgium,Europe,Euro Area,BEL,BE,1
+Belize,America,,BLZ,BZ,1
+Benin,Africa,Africa,BEN,BJ,1
+Bermuda,America,,BMU,BM,1
+Bhutan,Asia,Asia,BTN,BT,1
+Bolivia,America,"Latin America, South America",BOL,BO,1
+Bosnia and Herzegovina,Europe,Europe,BIH,BA,0
+Botswana,Africa,South Africa,BWA,BW,1
+Brazil,America,"BRIC, Latin America",BRA,BR,1
+Brunei,Asia,Africa,BRN,BN,0
+Bulgaria,Europe,Central and Eastern Europe,BGR,BG,1
+Burkina Faso,Africa,Africa,BFA,BF,1
+Burundi,Africa,Africa,BDI,BI,1
+Cambodia,Asia,Asia,KHM,KH,1
+Cameroon,Africa,Africa,CMR,CM,1
+Canada,America,"Major, North America",CAN,CA,1
+Cape Verde,Africa,Africa,CPV,CV,0
+Cayman Islands,America,Other,CYM,KY,1
+Central African Republic,Africa,Africa,CAF,CF,1
+Chad,Africa,Africa,TCD,TD,1
+,,,,,
+Chile,America,Latin America,CHL,CL,1
+China,Asia,"Major, BRIC",CHN,CN,1
+Colombia,America,Latin America,COL,CO,1
+Comoros,Africa,Africa,COM,KM,1
+Congo,Africa,Africa,COD,CD,1
+Costa Rica,America,North America,CRI,CR,1
+Croatia,Europe,,HRV,HR,1
+Cuba,America,Other,CUB,CU,1
+Cyprus,Europe,Euro Area,CYP,CY,1
+Czech Republic,Europe,"Central and Eastern Europe, EMEA",CZE,CZ,0
+Denmark,Europe,Scandinavia,DNK,DK,1
+Djibouti,Africa,Africa,DJI,DJ,1
+Dominica,America,,DMA,DM,1
+Dominican Republic,America,North America,DOM,DO,1
+East Timor,Asia,Asia,TLS,TL,0
+Ecuador,America,South America,ECU,EC,1
+Egypt,Africa,"North Africa, EMEA, Middle East",EGY,EG,1
+El Salvador,America,North America,SLV,SV,1
+Equatorial Guinea,Africa,Africa,GNQ,GQ,0
+Eritrea,Africa,Africa,ERI,ER,1
+Estonia,Europe,"Euro Area, Central and Eastern Europe",EST,EE,1
+Ethiopia,Africa,Africa,ETH,ET,1
+,,,,,
+,,,,,
+Faroe Islands,Europe,,FRO,FO,1
+Fiji,Australia,Australia,FJI,FJ,1
+Finland,Europe,"Euro Area, Scandinavia",FIN,FI,1
+France,Europe,"Major, Euro Area",FRA,FR,1
+French Polynesia,Australia,,PYF,PF,1
+Gabon,Africa,Africa,GAB,GA,1
+Gambia,Africa,Africa,GMB,GM,1
+Georgia,Asia,Asia,GEO,GE,1
+Germany,Europe,"Major, Euro Area",DEU,DE,1
+Ghana,Africa,West Africa,GHA,GH,1
+Greece,Europe,Euro Area,GRC,GR,1
+Greenland,America,,GRL,GL,1
+Grenada,America,,GRD,GD,1
+Guam,Australia,,GUM,GU,1
+Guatemala,America,North America,GTM,GT,1
+Guinea,Africa,Africa,GIN,GN,1
+Guinea Bissau,Africa,Other,GNB,GW,0
+Guyana,America,North America,GUY,GY,1
+Haiti,America,North America,HTI,HT,1
+Honduras,America,North America,HND,HN,1
+Hong Kong,Asia,"Asia, Southeast Asia",HKG,HK,1
+Hungary,Europe,"Central and Eastern Europe, EMEA",HUN,HU,1
+Iceland,Europe,Scandinavia,ISL,IS,1
+India,Asia,"Major, BRIC",IND,IN,1
+Indonesia,Asia,Southeast Asia,IDN,ID,1
+Iran,Asia,Asia,IRN,IR,1
+Iraq,Asia,Asia,IRQ,IQ,1
+Ireland,Europe,Euro Area,IRL,IE,1
+Isle of Man,Europe,,IMY,IM,1
+Israel,Asia,"Middle East, EMEA",ISR,IL,1
+Italy,Europe,Euro Area,ITA,IT,1
+Ivory Coast,Africa,Africa,CIV,CI,0
+Jamaica,America,North America,JAM,JM,1
+Japan,Asia,Major,JPN,JP,1
+Jordan,Asia,Asia,JOR,JO,1
+Kazakhstan,Asia,Central Asia,KAZ,KZ,1
+Kenya,Africa,East Africa,KEN,KE,1
+Kiribati,Australia,,KIR,KI,1
+Kosovo,Europe,Europe,UNK,XK,0
+Kuwait,Asia,Asia,KWT,KW,1
+Kyrgyzstan,Asia,Asia,KGZ,KG,1
+Laos,Asia,Other,LAO,LA,0
+Latvia,Europe,Central and Eastern Europe,LVA,LV,1
+Lebanon,Asia,Asia,LBN,LB,1
+Lesotho,Africa,Africa,LSO,LS,1
+Liberia,Africa,Africa,LBR,LR,1
+Libya,Africa,Africa,LBY,LY,1
+Liechtenstein,Europe,Europe,LIE,LI,1
+Lithuania,Europe,Central and Eastern Europe,LTU,LT,1
+Luxembourg,Europe,Euro Area,LUX,LU,1
+Macau,Asia,Other,MAC,MO,0
+Macedonia,Europe,Central Europe,MKD,MK,0
+Madagascar,Africa,Africa,MDG,MG,1
+Malawi,Africa,Africa,MWI,MW,1
+Malaysia,Asia,Southeast Asia,MYS,MY,1
+Maldives,Asia,Asia,MDV,MV,1
+Mali,Africa,Africa,MLI,ML,1
+Malta,Europe,Euro Area,MLT,MT,1
+Marshall Islands,Australia,,MHL,MH,0
+Mauritania,Africa,Africa,MRT,MR,1
+Mauritius,Africa,Africa,MUS,MU,1
+Mayotte,Africa,,MYT,YT,1
+Mexico,America,"North America, Latin America,  OPEC",MEX,MX,1
+Micronesia,Australia,,FSM,FM,1
+Moldova,Europe,Europe,MDA,MD,1
+Monaco,Europe,Europe,MCO,MC,1
+Mongolia,Asia,Asia,MNG,MN,1
+Montenegro,Europe,Europe,MNE,ME,1
+Morocco,Africa,North Africa,MAR,MA,1
+Mozambique,Africa,East Africa,MOZ,MZ,1
+Myanmar,Asia,Asia,MMR,MM,1
+Namibia,Africa,West Africa,NAM,,1
+Nepal,Asia,Asia,NPL,NP,1
+Netherlands,Europe,Euro Area,NLD,NL,1
+Netherlands Antilles,America,,ANT,AN,0
+New Caledonia,Australia,Other,NCL,NC,1
+New Zealand,Australia,Australia,NZL,NZ,1
+Nicaragua,America,North America,NIC,NI,1
+Niger,Africa,Africa,NER,NE,1
+Nigeria,Africa,"West Africa,  OPEC",NGA,NG,1
+North Korea,Asia,,PRK,KP,1
+Northern Mariana Islands,Asia,,MNP,MP,1
+Norway,Europe,"Scandinavia, OPEC",NOR,NO,1
+Oman,Asia,Asia,OMN,OM,1
+Pakistan,Asia,Middle East,PAK,PK,1
+Palau,Australia,,PLW,PW,1
+Palestine,Asia,Middle East,PSE,PS,1
+Panama,America,North America,PAN,PA,1
+Papua New Guinea,Australia,Australia,PNG,PG,1
+Paraguay,America,"Latin America, South America",PRY,PY,1
+Peru,America,Latin America,PER,PE,1
+Philippines,Asia,Southeast Asia,PHL,PH,1
+Poland,Europe,"Central and Eastern Europe, EMEA",POL,PL,1
+Portugal,Europe,Euro Area,PRT,PT,1
+Puerto Rico,America,North America,PRI,PR,1
+Qatar,Asia,"Middle East, OPEC",QAT,QA,1
+Republic of the Congo,Africa,Other,COG,CG,0
+Romania,Europe,Central and Eastern Europe,ROU,RO,1
+Russia,Europe,"BRIC, EMEA",RUS,RU,1
+Rwanda,Africa,Africa,RWA,RW,1
+Samoa,Australia,,WSM,WS,1
+San Marino,Europe,,SMR,SM,1
+Sao Tome and Principe,Africa,Africa,STP,ST,1
+Saudi Arabia,Asia,"Middle East, OPEC",SAU,SA,1
+Senegal,Africa,Africa,SEN,SN,1
+Serbia,Europe,Europe,SRB,RS,1
+Seychelles,Africa,Africa,SYC,SC,1
+Sierra Leone,Africa,Africa,SLE,SL,1
+Singapore,Asia,Southeast Asia,SGP,SG,1
+Slovakia,Europe,"Euro Area, Central and Eastern Europe",SVK,SK,1
+Slovenia,Europe,"Euro Area, Central and Eastern Europe",SVN,SI,1
+Solomon Islands,Australia,,SLB,SB,1
+Somalia,Africa,Africa,SOM,SO,1
+South Africa,Africa,"South Africa, EMEA",ZAF,ZA,1
+South Korea,Asia,"Asia, Southeast Asia",KOR,KR,1
+South Sudan,Africa,Africa,SSD,SS,1
+Spain,Europe,Euro Area,ESP,ES,1
+Sri Lanka,Asia,Asia,LKA,LK,1
+St Kitts and Nevis,America,,KNA,KN,0
+St Lucia,America,,LCA,LC,0
+St Vincent and the Grenadines,America,,VCT,VC,0
+Sudan,Africa,Africa,SDN,SD,1
+Suriname,America,Africa,SUR,SR,1
+Swaziland,Africa,Africa,SWZ,SZ,0
+Sweden,Europe,Scandinavia,SWE,SE,1
+Switzerland,Europe,Europe,CHE,CH,1
+Syria,Asia,Other,SYR,SY,1
+Taiwan,Asia,Asia,TWN,TW,1
+Tajikistan,Asia,Asia,TJK,TJ,1
+Tanzania,Africa,East Africa,TZA,TZ,1
+Thailand,Asia,Southeast Asia,THA,TH,1
+Togo,Africa,Africa,TGO,TG,1
+Tonga,Australia,,TON,TO,1
+Trinidad and Tobago,America,North America,TTO,TT,0
+Tunisia,Africa,North Africa,TUN,TN,1
+Turkey,Europe,"EMEA, Middle East",TUR,TR,1
+Turkmenistan,Asia,Asia,TKM,TM,1
+Uganda,Africa,Africa,UGA,UG,1
+Ukraine,Europe,Central and Eastern Europe,UKR,UA,1
+United Arab Emirates,Asia,"Middle East, OPEC",ARE,AE,1
+United Kingdom,Europe,Major,GBR,GB,1
+United States,America,"Major, North America",USA,US,1
+Uruguay,America,South America,URY,UY,1
+Uzbekistan,Asia,Asia,UZB,UZ,1
+Vanuatu,Australia,,VUT,VU,1
+Venezuela,America,"Latin America, OPEC",VEN,VE,1
+Vietnam,Asia,Southeast Asia,VNM,VN,1
+Virgin Islands,America,,VIR,VI,0
+West Bank and Gaza,Asia,,WBG,WB,0
+World,Other,,WLD,WL,0
+Yemen,Asia,Asia,YEM,YE,1
+Zambia,Africa,Africa,ZMB,ZM,1
+Zimbabwe,Africa,Africa,ZWE,ZW,1
