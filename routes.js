@@ -23,9 +23,9 @@ const author = async function(req, res) {
 
 // Route 2: GET /trading/trading_data
 const trading_data = async function(req, res) {
-    const Type = req.params.Type; 
-    const Category = req.params.Category; 
-    connection.query(`SELECT * FROM USTradingData WHERE Type = '${Type}' AND Category = '${Category}'`, (err, data) => {
+    const type = req.query.type; 
+    const category = req.query.category; 
+    connection.query(`SELECT * FROM USTradingData WHERE Type = '${type}' AND Category = '${category}'`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
         res.json({});
@@ -35,11 +35,11 @@ const trading_data = async function(req, res) {
     });
   }
 
-// Route 3: GET /trading/larg_trading_partner
+// Route 3: GET /trading/trading_partner
 const trading_partner = async function(req, res) {
-    const Type = req.params.Type; 
-    const Category = req.params.Category; 
-    connection.query(`SELECT * FROM USTradingData WHERE Type = '${Type}' AND Category = '${Category}' ORDER BY Value DESC LIMIT 1`, (err, data) => {
+    const type = req.query.type; 
+    const category = req.query.category; 
+    connection.query(`SELECT * FROM USTradingData WHERE Type = '${type}' AND Category = '${category}' ORDER BY Value DESC LIMIT 1`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
         res.json({});
@@ -51,10 +51,10 @@ const trading_partner = async function(req, res) {
 
 // Route 4: GET /trading/trading_partner_catg
 const trading_partner_catg = async function(req, res) {
-    const Type = req.params.Type; 
-    const Country2 = req.params.Country2; 
-    connection.query(`SELECT Category, Value FROM USTradingData WHERE Country2 = '${Country2}' AND Type = '${Type}' AND Category IS NOT NULL
-    ORDER BY Value DESC/ ASC LIMIT 1`, (err, data) => {
+    const type = req.query.type; 
+    const country2 = req.query.country2; 
+    connection.query(`SELECT Category, Value FROM USTradingData WHERE Country2 = '${country2}' AND Type = '${type}' AND Category IS NOT NULL
+    ORDER BY Value DESC LIMIT 1`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
         res.json({});
@@ -66,9 +66,9 @@ const trading_partner_catg = async function(req, res) {
 
 // Route 5: GET /trading/trading_volume
 const trading_volume = async function(req, res) {
-    const Type = req.params.Type; 
+    const type = req.query.type; 
     connection.query(`SELECT C.Continent, sum(U.Value) AS TotalExportValue FROM USTradingData U JOIN CountryInfo C ON C.CountryName = U.Country2
-    WHERE Type = '${Type}' AND C.Continent IS NOT NULL GROUP BY C.Continent ORDER BY TotalExportValue DESC`, (err, data) => {
+    WHERE Type = '${type}' AND C.Continent IS NOT NULL GROUP BY C.Continent ORDER BY TotalExportValue DESC`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
         res.json({});
@@ -80,8 +80,8 @@ const trading_volume = async function(req, res) {
 
   // Route 6: GET /home/trading_export
 const trading_export = async function(req, res) {
-    const page = req.query.page;
-    const page_size = req.query.page_size ?? 10;
+    const page = req.param.page;
+    const page_size = req.param.page_size ?? 10;
     const offset = (page-1)*page_size;
   
     if (!page) {
@@ -113,12 +113,12 @@ const trading_export = async function(req, res) {
 
   // Route 7: GET /country/population
 const population = async function(req, res) {
-    const page = req.query.page;
-    const page_size = req.query.page_size ?? 10;
+    const page = req.param.page;
+    const page_size = req.param.page_size ?? 10;
     const offset = (page-1)*page_size;
   
     if (!page) {
-    connection.query(`SELECT Country, Urban_Population/Population*100 AS UrbanProportion FROM HealthData`,
+    connection.query(`SELECT Country, Urban_Population/Population*100 AS UrbanProportion FROM CountryDemographics`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
@@ -129,7 +129,7 @@ const population = async function(req, res) {
         }
       }); 
     } else {
-      connection.query(`SELECT Country, Urban_Population/Population*100 AS UrbanProportion FROM HealthData
+      connection.query(`SELECT Country, Urban_Population/Population*100 AS UrbanProportion FROM CountryDemographics
        LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
@@ -145,15 +145,15 @@ const population = async function(req, res) {
   
   // Route 8: GET /country/populationwater
 const populationwater = async function(req, res) {
-    const page = req.query.page;
-    const page_size = req.query.page_size ?? 10;
+    const page = req.param.page;
+    const page_size = req.param.page_size ?? 10;
     const offset = (page-1)*page_size;
   
     if (!page) {
     connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
-    FROM HealthData H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
+    FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
     GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
-    FROM HealthData H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater`,
+    FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
@@ -165,9 +165,9 @@ const populationwater = async function(req, res) {
       }); 
     } else {
       connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
-      FROM HealthData H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
+      FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
       GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
-      FROM HealthData H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater
+      FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater
       LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
@@ -183,14 +183,14 @@ const populationwater = async function(req, res) {
 
   // Route 9: GET /country/wages
   const wages = async function(req, res) {
-    const Country1 = req.params.Country1; 
-    const Country2 = req.params.Country2; 
+    const country1 = req.query.country1; 
+    const country2 = req.query.country2; 
     connection.query(`WITH WageTable AS (
         SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
         FROM Labour B JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
         JOIN UnitConversion U ON I.Unit = U.Unit WHERE B.Category = 'Wages')
         SELECT * FROM WageTable
-        WHERE Country = '${Country1}' OR Country = '${Country2}' ORDER BY Year, Month ASC`, (err, data) => {
+        WHERE Country = '${country1}' OR Country = '${country2}' ORDER BY Year, Month ASC`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
         res.json({});
@@ -203,27 +203,50 @@ const populationwater = async function(req, res) {
 //test
   // Route 10: GET /country/wage_growth
   const wage_growth = async function(req, res) {
-  const page = req.query.page;
-  const page_size = req.query.page_size ?? 10;
+  const page = req.param.page;
+  const page_size = req.param.page_size ?? 10;
   const offset = (page-1)*page_size;
 
   if (!page) {
-  connection.query(`WITH WageManuTable AS (SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
-    FROM Labour B JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country JOIN UnitConversion U ON I.Unit = U.Unit
-    WHERE B.Category = 'Wages in Manufacturing')
-    WITH WageTable AS (SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate AS ConvertedValue, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
-    FROM Labour B JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country JOIN UnitConversion U ON I.Unit = U.Unit WHERE B.Category = 'Wages'), FirstYear AS (
-       SELECT Country, MIN(Year) as FirstYear FROM WageTable GROUP BY Country), LastYear AS (
-       SELECT Country, MAX(Year) as LastYear FROM WageTable GROUP BY Country), FirstValue AS (
-       SELECT wt.Country, wt.ConvertedValue as FirstValue FROM WageTable wt INNER JOIN FirstYear fy ON wt.Country = fy.Country AND wt.Year = fy.FirstYear
-       WHERE Month = (SELECT MIN(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)), LastValue AS (
-       SELECT wt.Country, wt.ConvertedValue as LastValue FROM WageTable wt INNER JOIN LastYear ly ON wt.Country = ly.Country AND wt.Year = ly.LastYear
-       WHERE Month = (SELECT MAX(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)), ProportionalIncrease AS (
-       SELECT fv.Country, (lv.LastValue - fv.FirstValue) / fv.FirstValue as PropIncrease, ly.LastYear - fy.FirstYear as YearDifference
-       FROM FirstValue fv INNER JOIN LastValue lv ON fv.Country = lv.Country INNER JOIN FirstYear fy ON fv.Country = fy.Country
-       INNER JOIN LastYear ly ON fv.Country = ly.Country)
-    SELECT Country, CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease(%)
-    FROM ProportionalIncrease ORDER BY AvgYearlyIncrease(%) DESC`,
+  connection.query(`WITH WageTable AS (
+    SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate AS ConvertedValue, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
+    FROM Labour B
+    JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+    JOIN UnitConversion U ON I.Unit = U.Unit
+    WHERE B.Category = 'Wages'
+    ), FirstYear AS (
+       SELECT Country, MIN(Year) as FirstYear
+       FROM WageTable
+       GROUP BY Country
+    ), LastYear AS (
+       SELECT Country, MAX(Year) as LastYear
+       FROM WageTable
+       GROUP BY Country
+    ), FirstValue AS (
+       SELECT wt.Country, wt.ConvertedValue as FirstValue
+       FROM WageTable wt
+       INNER JOIN FirstYear fy ON wt.Country = fy.Country AND wt.Year = fy.FirstYear
+       WHERE Month = (SELECT MIN(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)
+    ), LastValue AS (
+       SELECT wt.Country, wt.ConvertedValue as LastValue
+       FROM WageTable wt
+       INNER JOIN LastYear ly ON wt.Country = ly.Country AND wt.Year = ly.LastYear
+       WHERE Month = (SELECT MAX(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)
+    ), ProportionalIncrease AS (
+       SELECT
+           fv.Country,
+           (lv.LastValue - fv.FirstValue) / fv.FirstValue as PropIncrease,
+           ly.LastYear - fy.FirstYear as YearDifference
+       FROM FirstValue fv
+       INNER JOIN LastValue lv ON fv.Country = lv.Country
+       INNER JOIN FirstYear fy ON fv.Country = fy.Country
+       INNER JOIN LastYear ly ON fv.Country = ly.Country
+    )
+    SELECT
+       Country,
+       CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
+    FROM ProportionalIncrease
+    ORDER BY AvgYearlyIncrease_perc DESC`,
     (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
@@ -234,22 +257,45 @@ const populationwater = async function(req, res) {
       }
     }); 
   } else {
-    connection.query(`WITH WageManuTable AS (SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
-    FROM Labour B JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country JOIN UnitConversion U ON I.Unit = U.Unit
-        WHERE B.Category = 'Wages in Manufacturing')
-        WITH WageTable AS (SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate AS ConvertedValue, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
-        FROM Labour B JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country JOIN UnitConversion U ON I.Unit = U.Unit WHERE B.Category = 'Wages'), FirstYear AS (
-           SELECT Country, MIN(Year) as FirstYear FROM WageTable GROUP BY Country), LastYear AS (
-           SELECT Country, MAX(Year) as LastYear FROM WageTable GROUP BY Country), FirstValue AS (
-           SELECT wt.Country, wt.ConvertedValue as FirstValue FROM WageTable wt INNER JOIN FirstYear fy ON wt.Country = fy.Country AND wt.Year = fy.FirstYear
-           WHERE Month = (SELECT MIN(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)), LastValue AS (
-           SELECT wt.Country, wt.ConvertedValue as LastValue FROM WageTable wt INNER JOIN LastYear ly ON wt.Country = ly.Country AND wt.Year = ly.LastYear
-           WHERE Month = (SELECT MAX(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)), ProportionalIncrease AS (
-           SELECT fv.Country, (lv.LastValue - fv.FirstValue) / fv.FirstValue as PropIncrease, ly.LastYear - fy.FirstYear as YearDifference
-           FROM FirstValue fv INNER JOIN LastValue lv ON fv.Country = lv.Country INNER JOIN FirstYear fy ON fv.Country = fy.Country
-           INNER JOIN LastYear ly ON fv.Country = ly.Country)
-        SELECT Country, CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease(%)
-        FROM ProportionalIncrease ORDER BY AvgYearlyIncrease(%) DESC
+    connection.query(`WITH WageTable AS (
+      SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate AS ConvertedValue, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
+      FROM Labour B
+      JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+      JOIN UnitConversion U ON I.Unit = U.Unit
+      WHERE B.Category = 'Wages'
+      ), FirstYear AS (
+         SELECT Country, MIN(Year) as FirstYear
+         FROM WageTable
+         GROUP BY Country
+      ), LastYear AS (
+         SELECT Country, MAX(Year) as LastYear
+         FROM WageTable
+         GROUP BY Country
+      ), FirstValue AS (
+         SELECT wt.Country, wt.ConvertedValue as FirstValue
+         FROM WageTable wt
+         INNER JOIN FirstYear fy ON wt.Country = fy.Country AND wt.Year = fy.FirstYear
+         WHERE Month = (SELECT MIN(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)
+      ), LastValue AS (
+         SELECT wt.Country, wt.ConvertedValue as LastValue
+         FROM WageTable wt
+         INNER JOIN LastYear ly ON wt.Country = ly.Country AND wt.Year = ly.LastYear
+         WHERE Month = (SELECT MAX(Month) FROM WageTable WHERE Country = wt.Country AND Year = wt.Year)
+      ), ProportionalIncrease AS (
+         SELECT
+             fv.Country,
+             (lv.LastValue - fv.FirstValue) / fv.FirstValue as PropIncrease,
+             ly.LastYear - fy.FirstYear as YearDifference
+         FROM FirstValue fv
+         INNER JOIN LastValue lv ON fv.Country = lv.Country
+         INNER JOIN FirstYear fy ON fv.Country = fy.Country
+         INNER JOIN LastYear ly ON fv.Country = ly.Country
+      )
+      SELECT
+         Country,
+         CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
+      FROM ProportionalIncrease
+      ORDER BY AvgYearlyIncrease_perc DESC
         LIMIT ${page_size} OFFSET ${offset}`,
     (err, data) => {
       if (err || data.length === 0) {
@@ -265,8 +311,8 @@ const populationwater = async function(req, res) {
 
   // Route 11: GET /home/labour
   const labour = async function(req, res) {
-  const page = req.query.page;
-  const page_size = req.query.page_size ?? 10;
+  const page = req.param.page;
+  const page_size = req.param.page_size ?? 10;
   const offset = (page-1)*page_size;
 
   if (!page) {
@@ -301,8 +347,8 @@ const populationwater = async function(req, res) {
 
   // Route 12: GET /country/temperature
   const temperature = async function(req, res) {
-  const page = req.query.page;
-  const page_size = req.query.page_size ?? 10;
+  const page = req.param.page;
+  const page_size = req.param.page_size ?? 10;
   const offset = (page-1)*page_size;
 
   if (!page) {
