@@ -38,7 +38,7 @@ export default function NavBar() {
     <AppBar position='static' style={{ background: 'teal' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <NavText href='/' text='TRADING ECONOMICS PROJECT (CIS 5500)' isMain />
+          <NavText href='/' text='TRADING ECONOMICS PROJECT' isMain />
           <NavText href='/countries' text='COUNTRIES' />
           <NavText href='/trades' text='TRADES' />
         </Toolbar>
