@@ -11,7 +11,9 @@ export default function HomePage() {
   const [countryOfTheDay, setCountryOfTheDay] = useState({});
   const [author, setAuthor] = useState('');
   const [selectedCountryId, setSelectedCountryId] = useState(null);
-
+  const [expor, setExpor] = useState([])
+  const [pageSize, setPageSize] = useState(10);
+  
   // The useEffect hook by default runs the provided callback after every render
   // The second (optional) argument, [], is the dependency array which signals
   // to the hook to only run the provided callback if the value of the dependency array
@@ -24,7 +26,15 @@ export default function HomePage() {
     fetch(`http://${config.server_host}:${config.server_port}/random`)
       .then(res => res.json())
       .then(resJson => setCountryOfTheDay(resJson));
-
+    
+    fetch(`http://${config.server_host}:${config.server_port}/trading_export`)
+          .then(res => res.json())
+          .then(resJson => {
+            const expoID = resJson.map((expo) => ({cat: expo.Category, val: expo.TotalExportValue}));
+            setExpor(expoID)
+          })
+          .catch(error => console.error(error));
+    
     // TODO (TASK 14): add a fetch call to get the app author (name not pennkey) and store it in the state variable
     // Hint: note that the app author is a string, not a JSON object. To convert to text, call res.text() instead of res.json()
     fetch(`http://${config.server_host}:${config.server_port}/author/name`)
@@ -74,6 +84,17 @@ export default function HomePage() {
     },
   ]
 
+ const traidEColumns = [
+    {
+      field: 'category',
+      headerName: 'Category',
+    },
+    {
+      field: 'totalexportvalue',
+      headerName: 'TotalExportValue '
+    },
+  ];
+
   return (
     <Container>
       {/* Embed Neo4j Browser */}
@@ -93,6 +114,20 @@ export default function HomePage() {
       <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={commodityColumns} />
       <Divider />
       {/* TODO (TASK 17): add a paragraph (<p>text</p>) that displays the value of your author state variable from TASK 13 */}
+    
+        <h1>Trading Economics Web Application</h1>
+    <h4>Purpose of website and database</h4>
+      <h2>US Trading Export</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/trading_export`} 
+      columns={traidEColumns} defaultPageSize={5} rowsPerPageOptions={ [5, 10]}/>
+      <DataGrid
+          rows={expor}
+          columns={traidEColumns}
+          pageSize={pageSize}
+          rowsPerPageOptions={[5, 10, 25]}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          autoHeight
+        />
       <p>{author}</p>
     </Container>
   );
