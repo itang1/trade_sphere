@@ -25,7 +25,7 @@ const author = async function(req, res) {
 const trading_data = async function(req, res) {
     const type = req.query.type; 
     const category = req.query.category; 
-    connection.query(`SELECT * FROM USTradingData WHERE Type = '${type}' AND Category = '${category}'`, (err, data) => {
+    connection.query(`SELECT Country1, Country2, Type, Year, Category, Value FROM USTradingData WHERE Type = '${type}' AND Category = '${category}'`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
         res.json({});
