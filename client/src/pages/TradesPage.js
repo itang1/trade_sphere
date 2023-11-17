@@ -1,169 +1,322 @@
-
 import { useEffect, useState } from 'react';
-import { Button, Checkbox, Container, FormControlLabel, Grid, Link, Slider, TextField } from '@mui/material';
+import { Button, Checkbox, Container, InputLabel, Select, ListItemText , MenuItem, OutlinedInput, FormControlLabel, FormLabel, FormGroup, FormControl, Grid, Link, Slider, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import * as L from "leaflet";
 
-import SongCard from '../components/SongCard';
 import { formatDuration } from '../helpers/formatter';
+
 const config = require('../config.json');
 
-export default function SongsPage() {
-  const [pageSize, setPageSize] = useState(10);
-  const [data, setData] = useState([]);
-  const [selectedSongId, setSelectedSongId] = useState(null);
 
-  const [title, setTitle] = useState('');
-  const [duration, setDuration] = useState([60, 660]);
-  const [plays, setPlays] = useState([0, 1100000000]);
-  const [danceability, setDanceability] = useState([0, 1]);
-  const [energy, setEnergy] = useState([0, 1]);
-  const [valence, setValence] = useState([0, 1]);
-  const [explicit, setExplicit] = useState(false);
+export default function TradingPage() {
 
-  useEffect(() => {
-    fetch(`http://${config.server_host}:${config.server_port}/search_songs`)
-      .then(res => res.json())
-      .then(resJson => {
-        const songsWithId = resJson.map((song) => ({ id: song.song_id, ...song }));
-        setData(songsWithId);
+    const [pageSize, setPageSize] = useState(10);
+    const [volume, setVolume] = useState([]);
+    const [traid, setTraiD] = useState([]);
+    const [traip, setTraiP] = useState([]);
+    const [traipc, setTraiPC] = useState([]);
+
+    const [type, setType] = useState({
+        Export: true,
+        Import: false,
       });
-  }, []);
+    const { Export, Import } = type;
 
-  const search = () => {
-    fetch(`http://${config.server_host}:${config.server_port}/search_songs?title=${title}` +
-      `&duration_low=${duration[0]}&duration_high=${duration[1]}` +
-      `&plays_low=${plays[0]}&plays_high=${plays[1]}` +
-      `&danceability_low=${danceability[0]}&danceability_high=${danceability[1]}` +
-      `&energy_low=${energy[0]}&energy_high=${energy[1]}` +
-      `&valence_low=${valence[0]}&valence_high=${valence[1]}` +
-      `&explicit=${explicit}`
-    )
-      .then(res => res.json())
-      .then(resJson => {
-        // DataGrid expects an array of objects with a unique id.
-        // To accomplish this, we use a map with spread syntax (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-        const songsWithId = resJson.map((song) => ({ id: song.song_id, ...song }));
-        setData(songsWithId);
-      });
-  }
-
-  // This defines the columns of the table of songs used by the DataGrid component.
-  // The format of the columns array and the DataGrid component itself is very similar to our
-  // LazyTable component. The big difference is we provide all data to the DataGrid component
-  // instead of loading only the data we need (which is necessary in order to be able to sort by column)
-  const columns = [
-    {
-      field: 'title', headerName: 'Title', width: 300, renderCell: (params) => (
-        <Link onClick={() => setSelectedSongId(params.row.song_id)}>{params.value}</Link>
+    const categories = [ 'Rubbers', 'Aluminum', 'Cereals', 'Plastics'];
+    const countries = [ 'Brazil', 'Peru', 'Argentina', 'Germany'];
+    
+    useEffect(() => {
+      fetch(`http://${config.server_host}:${config.server_port}/trading_volume`)
+        .then(res => res.json())
+        .then(resJson => setVolume(resJson))
+        .catch(error => console.error(error));
+        
+    }, []);
+  
+    const searchVol = () => {
+      fetch(`http://${config.server_host}:${config.server_port}/trading_volume?Type=${type}`
       )
-    },
-    { field: 'duration', headerName: 'Duration' },
-    { field: 'plays', headerName: 'Plays' },
-    { field: 'danceability', headerName: 'Danceability' },
-    { field: 'energy', headerName: 'Energy' },
-    { field: 'valence', headerName: 'Valence' },
-    { field: 'tempo', headerName: 'Tempo' },
-    { field: 'key_mode', headerName: 'Key' },
-    { field: 'explicit', headerName: 'Explicit' },
-  ]
+        .then(res => res.json())
+        .then(resJson => setVolume(resJson))
+        .catch(error => console.error(error));
+    }
 
-  // This component makes uses of the Grid component from MUI (https://mui.com/material-ui/react-grid/).
-  // The Grid component is super simple way to create a page layout. Simply make a <Grid container> tag
-  // (optionally has spacing prop that specifies the distance between grid items). Then, enclose whatever
-  // component you want in a <Grid item xs={}> tag where xs is a number between 1 and 12. Each row of the
-  // grid is 12 units wide and the xs attribute specifies how many units the grid item is. So if you want
-  // two grid items of the same size on the same row, define two grid items with xs={6}. The Grid container
-  // will automatically lay out all the grid items into rows based on their xs values.
-  return (
-    <Container>
-      {selectedSongId && <SongCard songId={selectedSongId} handleClose={() => setSelectedSongId(null)} />}
-      <h2>Search Songs</h2>
-      <Grid container spacing={6}>
-        <Grid item xs={8}>
-          <TextField label='Title' value={title} onChange={(e) => setTitle(e.target.value)} style={{ width: "100%" }} />
-        </Grid>
-        <Grid item xs={4}>
-          <FormControlLabel
-            label='Explicit'
-            control={<Checkbox checked={explicit} onChange={(e) => setExplicit(e.target.checked)} />}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <p>Duration</p>
-          <Slider
-            value={duration}
-            min={60}
-            max={660}
-            step={10}
-            onChange={(e, newValue) => setDuration(newValue)}
-            valueLabelDisplay='auto'
-            valueLabelFormat={value => <div>{formatDuration(value)}</div>}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <p>Plays (millions)</p>
-          <Slider
-            value={plays}
-            min={0}
-            max={1100000000}
-            step={10000000}
-            onChange={(e, newValue) => setPlays(newValue)}
-            valueLabelDisplay='auto'
-            valueLabelFormat={value => <div>{value / 1000000}</div>}
-          />
-        </Grid>
-        {/* TODO (TASK 24): add sliders for danceability, energy, and valence (they should be all in the same row of the Grid) */}
-        {/* Hint: consider what value xs should be to make them fit on the same row. Set max, min, and a reasonable step. Is valueLabelFormat is necessary? */}
-        <Grid item xs={4}>
-          <p>Danceability</p>
-          <Slider
-            value={danceability}
-            min={0}
-            max={1}
-            step={0.1}
-            onChange={(e, newValue) => setDanceability(newValue)}
-            valueLabelDisplay='auto'
-          // valueLabelFormat={value => <div>{formatDuration(value)}</div>}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <p>Energy</p>
-          <Slider
-            value={energy}
-            min={0}
-            max={1}
-            step={0.1}
-            onChange={(e, newValue) => setEnergy(newValue)}
-            valueLabelDisplay='auto'
-          // valueLabelFormat={value => <div>{value / 1000000}</div>}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <p>Valence</p>
-          <Slider
-            value={valence}
-            min={0}
-            max={1}
-            step={0.1}
-            onChange={(e, newValue) => setValence(newValue)}
-            valueLabelDisplay='auto'
-          // valueLabelFormat={value => <div>{value / 1000000}</div>}
-          />
-        </Grid>
-      </Grid>
-      <Button onClick={() => search()} style={{ left: '50%', transform: 'translateX(-50%)' }}>
-        Search
-      </Button>
-      <h2>Results</h2>
-      {/* Notice how similar the DataGrid component is to our LazyTable! What are the differences? */}
-      <DataGrid
-        rows={data}
-        columns={columns}
-        pageSize={pageSize}
-        rowsPerPageOptions={[5, 10, 25]}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        autoHeight
-      />
-    </Container>
-  );
+    useEffect(() => {
+        fetch(`http://${config.server_host}:${config.server_port}/trading_data`)
+          .then(res => res.json())
+          .then(resJson => setTraiD(resJson))
+          .catch(error => console.error(error));
+          
+      }, []);
+    
+    const searchTraiD = () => {
+        fetch(`http://${config.server_host}:${config.server_port}/trading_data?Type=${type}` +
+        `&Category=${categories}`)
+          .then(res => res.json())
+          .then(resJson => setTraiD(resJson))
+          .catch(error => console.error(error));
+      }
+
+    useEffect(() => {
+        fetch(`http://${config.server_host}:${config.server_port}/trading_partner_catg`)
+          .then(res => res.json())
+          .then(resJson => setTraiP(resJson))
+          .catch(error => console.error(error));
+          
+      }, []);
+    
+      const searchTraiP = () => {
+        fetch(`http://${config.server_host}:${config.server_port}/trading_partner_catg?Type=${type}` +
+        `&Country2=${countries}`)
+          .then(res => res.json())
+          .then(resJson => setTraiP(resJson))
+          .catch(error => console.error(error));
+      }
+
+      useEffect(() => {
+        fetch(`http://${config.server_host}:${config.server_port}/trading_partner`)
+          .then(res => res.json())
+          .then(resJson => setTraiPC(resJson))
+          .catch(error => console.error(error));
+          
+      }, []);
+    
+      const searchTraiPC = () => {
+        fetch(`http://${config.server_host}:${config.server_port}/trading_partner?Type=${type}` +
+        `&Category=${categories}`)
+          .then(res => res.json())
+          .then(resJson => setTraiPC(resJson))
+          .catch(error => console.error(error));
+      }
+  
+    const columnsVol = [
+      { field: 'continent', headerName: 'Continent'},
+      { field: 'volume', headerName: 'Volume' },
+    ]
+
+    const columnsTraiD = [
+        { field: 'country1', headerName: 'country1'},
+        { field: 'country2', headerName: 'country2'},
+        { field: 'type', headerName: 'Type' },
+        { field: 'year', headerName: 'year'},
+        { field: 'category', headerName: 'Category'},
+        { field: 'value', headerName: 'Value'},
+      ]
+
+    const columnsTraiP = [
+        { field: 'category', headerName: 'Category'},
+        { field: 'value', headerName: 'Value' },
+      ]
+
+    const handleChange = (event) => {
+          const {
+            target: { value },
+          } = event;
+          setTraiD(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+          );
+        };
+   
+        //dropdown for map
+        {/*var html = [$('<option>', {val: 0, text: 'Select a state'})],
+        dropdown = $('#regions-dropdown');
+        $.each(map_cfg.map_data, function(i, obj) {
+        html.push($('<option>', {id:'st'+obj.id, val:'st'+obj.id, text: obj.name}))});
+
+        var selected_region = 0;
+
+        map.on('click', function(ev, sid, map) {
+        var option = $('#' + sid);
+        if (selected_region != 0) map.stateHighlightOff(selected_region);
+        if(selected_region == sid) {
+        dropdown.find('option').first().prop('selected', true);
+        selected_region = 0;
+        } else {
+        option.prop('selected', true);
+        map.stateHighlightOn(sid, '#3CB371', '#ffffff');
+        selected_region = sid;
+        }
+        });
+
+        dropdown.on('change', function(ev){
+        if (selected_region != 0) map.stateHighlightOff(selected_region);
+        var id = $(this).val();
+        if (id == 0) return false;
+        map.stateHighlightOn(id, '#3CB371', '#ffffff');
+        selected_region = id;
+        });
+
+        dropdown.html(html);
+
+        */}
+return (  
+      <Container>
+        <h2>Largest US trading partner in a specific category </h2>
+        <MapContainer center={[54, 15]} zoom={5.5}scrollWheelZoom={false } style={{ height: '50vh', width: '50wh' } } id="map"
+        > 
+        {/*<link
+        rel="stylesheet"
+        href= "https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+crossorigin=""/> */}
+        {/*<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+crossorigin=""></script>*/}
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+        
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+        
+        <TileLayer
+        attribution= '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        />
+
+       {/* const map = L.map('map');
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        { attribution= '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' 
+        }).addTo(map); */}
+        {/*<TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+/>*/}
+        </MapContainer>
+        <h2>Total trading volume by continent</h2>
+        <Grid container spacing={2}>
+           {/*<<Grid item xs={2}>
+            {/*<TextField label='Continent' value={type} onChange={(e) => setVolume(e.target.value)} style={{ width: "100%" }}/> 
+          </Grid>*/}
+          <Grid item xs={4}>
+          <FormLabel component="legend">Choose Type</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              label='Export'
+              control={<Checkbox checked={Export} onChange={(e) => setType(e.target.checked)} name="Export" />}
+            />
+                <FormControlLabel
+              label='Import'
+              control={<Checkbox checked={Import} onChange={(e) => setType(e.target.checked)} name="Import" />}
+            />
+          </FormGroup>
+          </Grid>
+          </Grid>
+          <Button onClick={() => searchVol() } style={{ left: '50%', transform: 'translateX(-50%)' }}>
+          Search
+          </Button>
+          <h2>Results</h2>
+          <DataGrid
+          rows={volume}
+          columns={columnsVol}
+          pageSize={pageSize}
+          rowsPerPageOptions={[5, 10, 25]}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          autoHeight
+        />
+         <h4>Interpretation of results</h4>
+         <h2>All country trading data with the United States </h2>
+         <Grid item xs={2}>
+         <FormControl sx={{ m: 1, width: 300 }}>
+         <InputLabel id="demo-multiple-checkbox-label">Category</InputLabel>
+         <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          multiple
+          value={traid}
+          onChange={handleChange}
+          input={<OutlinedInput label="Choose Category" />}
+          renderValue={(traind) => traid.join(', ')}
+         >
+          {categories.map((name) => (
+            <MenuItem key={name} value={name}>
+              <Checkbox checked={categories.indexOf(name) > -1} />
+              <ListItemText primary={name} />
+            </MenuItem>
+          ))} 
+         </Select>
+         </FormControl>
+          <FormLabel component="legend">Choose Type</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              label='Export'
+              control={<Checkbox checked={Export} onChange={(e) => setType(e.target.checked)} name="Export" />}
+            />
+            <FormControlLabel
+              label='Import'
+              control={<Checkbox checked={Import} onChange={(e) => setType(e.target.checked)} name="Import" />}
+            />
+          </FormGroup>
+          </Grid>
+          <Button onClick={() => searchTraiD() } style={{ left: '50%', transform: 'translateX(-50%)' }}>
+          Search
+          </Button>
+          <h2>Results</h2>
+          <DataGrid
+          rows={traid}
+          columns={columnsTraiD}
+          pageSize={pageSize}
+          rowsPerPageOptions={[5, 10, 25]}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          autoHeight
+        />
+        <h4>Interpretation of results</h4>
+        <h2>Largest trading category with the US </h2>
+         <Grid item xs={2}>
+         <FormControl sx={{ m: 1, width: 300 }}>
+         <InputLabel id="demo-multiple-checkbox-label">Category</InputLabel>
+         <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          multiple
+          value={traip}
+          onChange={handleChange}
+          input={<OutlinedInput label="Choose Category" />}
+          renderValue={(traip) => traip.join(', ')}
+         >
+          {categories.map((name) => (
+            <MenuItem key={name} value={name}>
+              <Checkbox checked={categories.indexOf(name) > -1} />
+              <ListItemText primary={name} />
+            </MenuItem>
+          ))} 
+         </Select>
+         </FormControl>
+         <FormControl sx={{ m: 1, width: 300 }}>
+         <InputLabel id="demo-multiple-checkbox-label">Country</InputLabel>
+         <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          multiple
+          value={traip}
+          onChange={handleChange}
+          input={<OutlinedInput label="Choose Country" />}
+          renderValue={(traip) => traip.join(', ')}
+         >
+          {countries.map((name) => (
+            <MenuItem key={name} value={name}>
+              <Checkbox checked={countries.indexOf(name) > -1} />
+              <ListItemText primary={name} />
+            </MenuItem>
+          ))} 
+         </Select>
+          </FormControl>
+          </Grid>
+          <Button onClick={() => searchTraiP() } style={{ left: '50%', transform: 'translateX(-50%)' }}>
+          Search
+          </Button>
+          <h2>Results</h2>
+          <DataGrid
+          rows={traip}
+          columns={columnsTraiP}
+          pageSize={pageSize}
+          rowsPerPageOptions={[5, 10, 25]}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          autoHeight
+        />
+        <h4>Interpretation of results</h4>
+      </Container>
+    );
 }
