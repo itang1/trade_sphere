@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Container, Divider, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { DataGrid } from '@mui/x-data-grid';
 
 import LazyTable from '../components/LazyTable';
 import CountryCard from '../components/CountryCard';
@@ -13,7 +14,7 @@ export default function HomePage() {
   const [selectedCountryId, setSelectedCountryId] = useState(null);
   const [expor, setExpor] = useState([])
   const [pageSize, setPageSize] = useState(10);
-  
+
   // The useEffect hook by default runs the provided callback after every render
   // The second (optional) argument, [], is the dependency array which signals
   // to the hook to only run the provided callback if the value of the dependency array
@@ -26,15 +27,15 @@ export default function HomePage() {
     fetch(`http://${config.server_host}:${config.server_port}/random`)
       .then(res => res.json())
       .then(resJson => setCountryOfTheDay(resJson));
-    
+
     fetch(`http://${config.server_host}:${config.server_port}/trading_export`)
-          .then(res => res.json())
-          .then(resJson => {
-            const expoID = resJson.map((expo) => ({cat: expo.Category, val: expo.TotalExportValue}));
-            setExpor(expoID)
-          })
-          .catch(error => console.error(error));
-    
+      .then(res => res.json())
+      .then(resJson => {
+        const expoID = resJson.map((expo) => ({ cat: expo.Category, val: expo.TotalExportValue }));
+        setExpor(expoID)
+      })
+      .catch(error => console.error(error));
+
     // TODO (TASK 14): add a fetch call to get the app author (name not pennkey) and store it in the state variable
     // Hint: note that the app author is a string, not a JSON object. To convert to text, call res.text() instead of res.json()
     fetch(`http://${config.server_host}:${config.server_port}/author/name`)
@@ -84,7 +85,7 @@ export default function HomePage() {
     },
   ]
 
- const traidEColumns = [
+  const traidEColumns = [
     {
       field: 'category',
       headerName: 'Category',
@@ -97,37 +98,64 @@ export default function HomePage() {
 
   return (
     <Container>
-      {/* Embed Neo4j Browser */}
-      <iframe title="Neo4j Browser" width="100%" height="600" src="https://your-neo4j-instance.cloud.neo4j.com/browser/" frameBorder="0"></iframe>
+      <h1>PURPOSE</h1>
+      <p>This web application provides an interactive platform for visualizing statistics pertaining to
+        the United States' domestic trading patterns of the United States. It also displays
+        additional characteristics, such as population size, on its trading partners.
+        <br></br>
+        <br></br>
+        Users can explore detailed analytical findings in detail tin the Countries and Trades pages.
+        They can interactively customize their data exploration by selecting countries,
+        specific time intervals, and the type of exchanged goods by using our
+        user-friendly tools (including sliders, drop-down menus, and pagination).
+        <br></br>
+        <br></br>
+        We anticipate that our web application appeals to researchers and business
+        owners who are interested in import and export strategies, market selection,
+        and supply chain optimization.</p>
 
-      {/* CountryCard is a custom component that we made. selectedCountryId && <CountryCard .../> makes use of short-circuit logic to only render the CountryCard if a non-null song is selected */}
-      {selectedCountryId && <CountryCard songId={selectedCountryId} handleClose={() => setSelectedCountryId(null)} />}
-      {/* <h2>Check out your country of the day:&nbsp;
-        <Link onClick={() => setSelectedCountryId(countryOfTheDay.song_id)}>{countryOfTheDay.title}</Link>
-      </h2>
-      <Divider /> */}
-      <h2>Most Active Countries</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={countryColumns} />
-      <Divider />
-      {/* TODO (TASK 16): add a h2 heading, LazyTable, and divider for top albums. Set the LazyTable's props for defaultPageSize to 5 and rowsPerPageOptions to [5, 10] */}
-      <h2>Most Traded Commodities</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={commodityColumns} />
-      <Divider />
-      {/* TODO (TASK 17): add a paragraph (<p>text</p>) that displays the value of your author state variable from TASK 13 */}
-    
-        <h1>Trading Economics Web Application</h1>
-    <h4>Purpose of website and database</h4>
-      <h2>US Trading Export</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/trading_export`} 
-      columns={traidEColumns} defaultPageSize={5} rowsPerPageOptions={ [5, 10]}/>
-      <DataGrid
+      <br></br>
+      <br></br>
+      <br></br>
+
+
+      <h1>US TRADING EXPORT</h1>
+
+
+      <h2>All Trade Information</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/trading_export`}
+        columns={traidEColumns} defaultPageSize={5} rowsPerPageOptions={[5, 10]} />
+      {/* {<DataGrid
           rows={expor}
           columns={traidEColumns}
           pageSize={pageSize}
           rowsPerPageOptions={[5, 10, 25]}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           autoHeight
-        />
+        />} */}
+
+
+      <br></br>
+      <br></br>
+      <br></br>
+
+
+      <h2>Most Active Countries</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={countryColumns} />
+      <Divider />
+
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <h2>Most Traded Commodities</h2>
+      <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={commodityColumns} />
+      <Divider />
+
+      <br></br>
+      <br></br>
+      <br></br>
+
       <p>{author}</p>
     </Container>
   );

@@ -15,7 +15,7 @@ const author = async function(req, res) {
   const name = 'Lisa Garcia, Zung-Ru Lin, Hanling Su, Irene Tang';
   if (req.params.type === 'name') {
     res.send(`Created by ${name}`);
-  } 
+  }
  else {
     res.status(400).send(`'${req.params.type}' is not a valid author type.`);
   }
@@ -23,8 +23,8 @@ const author = async function(req, res) {
 
 // Route 2: GET /trading/trading_data
 const trading_data = async function(req, res) {
-    const type = req.query.type; 
-    const category = req.query.category; 
+    const type = req.query.type;
+    const category = req.query.category;
     connection.query(`SELECT Country1, Country2, Type, Year, Category, Value FROM USTradingData WHERE Type = '${type}' AND Category = '${category}'`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
@@ -37,8 +37,8 @@ const trading_data = async function(req, res) {
 
 // Route 3: GET /trading/trading_partner
 const trading_partner = async function(req, res) {
-    const type = req.query.type; 
-    const category = req.query.category; 
+    const type = req.query.type;
+    const category = req.query.category;
     connection.query(`SELECT * FROM USTradingData WHERE Type = '${type}' AND Category = '${category}' ORDER BY Value DESC LIMIT 1`, (err, data) => {
       if (err || data.length === 0) {
         console.log(err);
@@ -51,8 +51,8 @@ const trading_partner = async function(req, res) {
 
 // Route 4: GET /trading/trading_partner_catg
 const trading_partner_catg = async function(req, res) {
-    const type = req.query.type; 
-    const country2 = req.query.country2; 
+    const type = req.query.type;
+    const country2 = req.query.country2;
     connection.query(`SELECT Category, Value FROM USTradingData WHERE Country2 = '${country2}' AND Type = '${type}' AND Category IS NOT NULL
     ORDER BY Value DESC LIMIT 1`, (err, data) => {
       if (err || data.length === 0) {
@@ -66,7 +66,7 @@ const trading_partner_catg = async function(req, res) {
 
 // Route 5: GET /trading/trading_volume
 const trading_volume = async function(req, res) {
-    const type = req.query.type; 
+    const type = req.query.type;
     connection.query(`SELECT C.Continent, sum(U.Value) AS TotalExportValue FROM USTradingData U JOIN CountryInfo C ON C.CountryName = U.Country2
     WHERE Type = '${type}' AND C.Continent IS NOT NULL GROUP BY C.Continent ORDER BY TotalExportValue DESC`, (err, data) => {
       if (err || data.length === 0) {
@@ -83,7 +83,7 @@ const trading_export = async function(req, res) {
     const page = req.param.page;
     const page_size = req.param.page_size ?? 10;
     const offset = (page-1)*page_size;
-  
+
     if (!page) {
       connection.query(`SELECT Category, SUM(Value) AS TotalExportValue FROM USTradingData WHERE Type = 'Export' AND Category is not null
       GROUP BY Category ORDER BY TotalExportValue DESC`,
@@ -93,9 +93,9 @@ const trading_export = async function(req, res) {
           res.json([]);
           console.log(err);
         } else {
-        res.json(data); 
+        res.json(data);
         }
-      }); 
+      });
     } else {
       connection.query(`SELECT Category, SUM(Value) AS TotalExportValue FROM USTradingData WHERE Type = 'Export' AND Category is not null
       GROUP BY Category ORDER BY TotalExportValue DESC LIMIT ${page_size} OFFSET ${offset}`,
@@ -116,39 +116,59 @@ const population = async function(req, res) {
     const page = req.param.page;
     const page_size = req.param.page_size ?? 10;
     const offset = (page-1)*page_size;
-  
+
+    const urban_prop_low = req.query.urban_prop_low ?? 0
+    const urban_prop_high = req.query.urban_prop_high ?? 100
+
     if (!page) {
-    connection.query(`SELECT Country, Urban_Population/Population*100 AS UrbanProportion FROM CountryDemographics`,
+    connection.query(`
+        WITH UrbanPropCte AS (
+          SELECT Country, Urban_Population/Population*100 AS UrbanProportion
+          FROM CountryDemographics
+        )
+        SELECT Country, UrbanProportion
+        FROM UrbanPropCte
+        WHERE UrbanProportion > ${urban_prop_low}
+            AND UrbanProportion < ${urban_prop_high}
+        `,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
           res.json([]);
           console.log(err);
         } else {
-        res.json(data); 
+        res.json(data);
         }
-      }); 
+      });
     } else {
-      connection.query(`SELECT Country, Urban_Population/Population*100 AS UrbanProportion FROM CountryDemographics
-       LIMIT ${page_size} OFFSET ${offset}`,
+      connection.query(`
+        WITH UrbanPropCte AS (
+          SELECT Country, Urban_Population/Population*100 AS UrbanProportion
+          FROM CountryDemographics
+        )
+        SELECT Country, UrbanProportion
+        FROM UrbanPropCte
+        WHERE UrbanProportion > ${urban_prop_low}
+            AND UrbanProportion < ${urban_prop_high}
+        LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
         console.log(err);
         res.json([]);
         console.log(err);
         } else {
-        res.json(data); 
+        res.json(data);
         }
     });
   }
   }
-  
+
   // Route 8: GET /country/populationwater
 const populationwater = async function(req, res) {
     const page = req.param.page;
     const page_size = req.param.page_size ?? 10;
     const offset = (page-1)*page_size;
-  
+
     if (!page) {
     connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
     FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
@@ -160,9 +180,9 @@ const populationwater = async function(req, res) {
           res.json([]);
           console.log(err);
         } else {
-        res.json(data); 
+        res.json(data);
         }
-      }); 
+      });
     } else {
       connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
       FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
@@ -175,7 +195,7 @@ const populationwater = async function(req, res) {
         res.json([]);
         console.log(err);
         } else {
-        res.json(data); 
+        res.json(data);
         }
     });
   }
@@ -183,8 +203,8 @@ const populationwater = async function(req, res) {
 
   // Route 9: GET /country/wages
   const wages = async function(req, res) {
-    const country1 = req.query.country1; 
-    const country2 = req.query.country2; 
+    const country1 = req.query.country1;
+    const country2 = req.query.country2;
     connection.query(`WITH WageTable AS (
         SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
         FROM Labour B JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
@@ -253,9 +273,9 @@ const populationwater = async function(req, res) {
         res.json([]);
         console.log(err);
       } else {
-      res.json(data); 
+      res.json(data);
       }
-    }); 
+    });
   } else {
     connection.query(`WITH WageTable AS (
       SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate AS ConvertedValue, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
@@ -325,9 +345,9 @@ const populationwater = async function(req, res) {
         res.json([]);
         console.log(err);
       } else {
-      res.json(data); 
+      res.json(data);
       }
-    }); 
+    });
   } else {
     connection.query(`WITH RankedLabour AS (SELECT Country,Year,Month,Value, RANK() OVER (PARTITION BY Country ORDER BY Value DESC) AS ValueRank
     FROM Labour WHERE Category = 'Unemployment Rate')
@@ -339,7 +359,7 @@ const populationwater = async function(req, res) {
       res.json([]);
       console.log(err);
       } else {
-      res.json(data); 
+      res.json(data);
       }
   });
 }
@@ -365,9 +385,9 @@ const populationwater = async function(req, res) {
         res.json([]);
         console.log(err);
       } else {
-      res.json(data); 
+      res.json(data);
       }
-    }); 
+    });
   } else {
     connection.query(`WITH FirstLastYears AS (SELECT Country, MIN(Year) as FirstYear, MAX(Year) as LastYear FROM Climate
     WHERE Category = 'Temperature' GROUP BY Country), FirstYearValue AS (SELECT c.Country, c.Year as Year, c.Value as FirstYearValue
@@ -383,7 +403,7 @@ const populationwater = async function(req, res) {
       res.json([]);
       console.log(err);
       } else {
-      res.json(data); 
+      res.json(data);
       }
   });
 }
