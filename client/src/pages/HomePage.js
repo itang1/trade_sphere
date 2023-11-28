@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 
 import LazyTable from '../components/LazyTable';
-import CountryCard from '../components/CountryCard';
 const config = require('../config.json');
 
 export default function HomePage() {
