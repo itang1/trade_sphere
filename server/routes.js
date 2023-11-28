@@ -117,19 +117,37 @@ const population = async function(req, res) {
     const page_size = req.param.page_size ?? 10;
     const offset = (page-1)*page_size;
 
-    const urban_prop_low = req.query.urban_prop_low ?? 0
-    const urban_prop_high = req.query.urban_prop_high ?? 100
+    const urban_low = req.query.urban_low ?? 0
+    const urban_high = req.query.urban_high ?? 100
+    const drinking_water_low = req.query.drinking_water_low ?? 0
+    const drinking_water_high = req.query.drinking_water_high ?? 100
+    const sanitation_low = req.query.sanitation_low ?? 0
+    const sanitation_high = req.query.sanitation_high ?? 100
+    const infant_low = req.query.infant_low ?? 0
+    const infant_high = req.query.infant_high ?? 100
 
     if (!page) {
     connection.query(`
-        WITH UrbanPropCte AS (
-          SELECT Country, Urban_Population/Population*100 AS UrbanProportion
+        WITH PopulationCTE AS (
+          SELECT Country,
+            Region,
+            Urban_Population/Population*100 AS UrbanProportion,
+            Improved_Drinking_Water_Access As DrinkingWaterProportion,
+            Improved_Sanitation_Access AS SanitationProportion,
+            Population_under_1yo/Population*100 AS InfantProportion,
+            Population AS TotalPopulation
           FROM CountryDemographics
         )
-        SELECT Country, UrbanProportion
-        FROM UrbanPropCte
-        WHERE UrbanProportion > ${urban_prop_low}
-            AND UrbanProportion < ${urban_prop_high}
+        SELECT *
+        FROM PopulationCTE
+        WHERE UrbanProportion > ${urban_low}
+            AND UrbanProportion < ${urban_high}
+            AND DrinkingWaterProportion > ${drinking_water_low}
+            AND DrinkingWaterProportion < ${drinking_water_high}
+            AND SanitationProportion > ${sanitation_low}
+            AND SanitationProportion < ${sanitation_high}
+            AND InfantProportion > ${infant_low}
+            AND InfantProportion < ${infant_high}
         `,
       (err, data) => {
         if (err || data.length === 0) {
@@ -142,14 +160,26 @@ const population = async function(req, res) {
       });
     } else {
       connection.query(`
-        WITH UrbanPropCte AS (
-          SELECT Country, Urban_Population/Population*100 AS UrbanProportion
+        WITH PopulationCTE AS (
+          SELECT Country,
+            Region,
+            Urban_Population/Population*100 AS UrbanProportion,
+            Improved_Drinking_Water_Access As DrinkingWaterProportion,
+            Improved_Sanitation_Access AS SanitationProportion,
+            Population_under_1yo/Population*100 AS InfantProportion,
+            Population AS TotalPopulation
           FROM CountryDemographics
         )
-        SELECT Country, UrbanProportion
-        FROM UrbanPropCte
-        WHERE UrbanProportion > ${urban_prop_low}
-            AND UrbanProportion < ${urban_prop_high}
+        SELECT *
+        FROM PopulationCTE
+        WHERE UrbanProportion > ${urban_low}
+            AND UrbanProportion < ${urban_high}
+            AND DrinkingWaterProportion > ${drinking_water_low}
+            AND DrinkingWaterProportion < ${drinking_water_high}
+            AND SanitationProportion > ${sanitation_low}
+            AND SanitationProportion < ${sanitation_high}
+            AND InfantProportion > ${infant_low}
+            AND InfantProportion < ${infant_high}
         LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
