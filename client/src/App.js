@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import CountriesLivingConditionsPage from './pages/CountriesLivingConditionsPage'
 import TradesPage from './pages/TradesPage'
 import CountriesTemperaturePage from "./pages/CountriesTemperaturePage";
+import CountriesWagesPage from "./pages/CountriesWagesPage";
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -33,6 +34,7 @@ export default function App() {
           {/* <Route path="/countries" element={<CountriesPage />} /> */}
           <Route path="/countries-living-conditions" element={<CountriesLivingConditionsPage />} />
           <Route path="/countries-temperature" element={<CountriesTemperaturePage />} />
+          <Route path="/countries-wages" element={<CountriesWagesPage />} />
           <Route path="/trading" element={<TradesPage />} />
         </Routes>
       </BrowserRouter>

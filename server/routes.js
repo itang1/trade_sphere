@@ -240,14 +240,20 @@ const populationwater = async function (req, res) {
 
 // Route 9: GET /country/wages
 const wages = async function (req, res) {
-  const country1 = req.query.country1;
-  const country2 = req.query.country2;
-  connection.query(`WITH WageTable AS (
-        SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
-        FROM Labour B JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
-        JOIN UnitConversion U ON I.Unit = U.Unit WHERE B.Category = 'Wages')
-        SELECT * FROM WageTable
-        WHERE Country = '${country1}' OR Country = '${country2}' ORDER BY Year, Month ASC`, (err, data) => {
+  const country1 = req.query.country1 ?? 'United States';
+  const country2 = req.query.country2 ?? 'Mexico';
+  connection.query(`
+    WITH WageTable AS (
+      SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
+      FROM Labour B
+        JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+        JOIN UnitConversion U ON I.Unit = U.Unit
+      WHERE B.Category = 'Wages'
+    )
+    SELECT * FROM WageTable
+    WHERE Country = '${country1}' OR Country = '${country2}'
+    ORDER BY Year, Month ASC`,
+    (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
       res.json({});

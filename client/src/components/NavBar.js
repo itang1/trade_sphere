@@ -83,6 +83,9 @@ export default function NavBar() {
             <MenuItem component={NavLink} to='/countries-temperature' onClick={handleMenuClose}>
               Temperature
             </MenuItem>
+            <MenuItem component={NavLink} to='/countries-wages' onClick={handleMenuClose}>
+              Wages
+            </MenuItem>
             {/* Add more MenuItems as needed */}
           </Menu>
           <NavText href='/trades' text='TRADES' />
