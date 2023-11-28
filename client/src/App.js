@@ -30,7 +30,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/countries" element={<CountriesPage />} />
-          <Route path="/trades" element={<TradesPage />} />
+          <Route path="/trading" element={<TradesPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
