@@ -12,7 +12,7 @@ export default function HomePage() {
   const [author, setAuthor] = useState('');
   const [selectedCountryId, setSelectedCountryId] = useState(null);
   const [expor, setExpor] = useState([])
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
 
   // The useEffect hook by default runs the provided callback after every render
   // The second (optional) argument, [], is the dependency array which signals
@@ -20,9 +20,6 @@ export default function HomePage() {
   // changes from the previous render. In this case, an empty array means the callback
   // will only run on the very first render.
   useEffect(() => {
-    // Fetch request to get the song of the day. Fetch runs asynchronously.
-    // The .then() method is called when the fetch request is complete
-    // and proceeds to convert the result to a JSON which is finally placed in state.
     fetch(`http://${config.server_host}:${config.server_port}/random`)
       .then(res => res.json())
       .then(resJson => setCountryOfTheDay(resJson));
@@ -35,18 +32,13 @@ export default function HomePage() {
       })
       .catch(error => console.error(error));
 
-    // TODO (TASK 14): add a fetch call to get the app author (name not pennkey) and store it in the state variable
-    // Hint: note that the app author is a string, not a JSON object. To convert to text, call res.text() instead of res.json()
     fetch(`http://${config.server_host}:${config.server_port}/author/name`)
       .then(res => res.text())
       .then(restText => setAuthor(restText));
 
   }, []);
 
-  // Here, we define the columns of the "Top Songs" table. The countryColumns variable is an array (in order)
-  // of objects with each object representing a column. Each object has a "field" property representing
-  // what data field to display from the raw data, "headerName" property representing the column label,
-  // and an optional renderCell property which given a row returns a custom JSX element to display in the cell.
+
   const countryColumns = [
     {
       field: 'country',
@@ -69,9 +61,7 @@ export default function HomePage() {
     },
   ];
 
-  // TODO (TASK 15): define the columns for the top albums (schema is Album Title, Plays), where Album Title is a link to the album page
-  // Hint: this should be very similar to countryColumns defined above, but has 2 columns instead of 3
-  // Hint: recall the schema for an album is different from that of a song (see the API docs for /top_albums). How does that impact the "field" parameter and the "renderCell" function for the album title column?
+
   const commodityColumns = [
     {
       field: 'commodity',
@@ -84,14 +74,15 @@ export default function HomePage() {
     },
   ]
 
-  const traidEColumns = [
+
+  const tradeColumns = [
     {
-      field: 'category',
+      field: 'Category',
       headerName: 'Category',
     },
     {
-      field: 'totalexportvalue',
-      headerName: 'TotalExportValue '
+      field: 'TotalExportValue',
+      headerName: 'Total Export Value '
     },
   ];
 
@@ -120,21 +111,19 @@ export default function HomePage() {
 
       <h1>US TRADING EXPORT</h1>
 
+<h3>PAGE SIZING IS BROKEN BELOW -- NEED TO FIX</h3>
 
-      <h2>All Trade Information</h2>
+      <h2>All Exports Information</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/trading_export`}
-        columns={traidEColumns} defaultPageSize={5} rowsPerPageOptions={[5, 10]} />
-      {/* {<DataGrid
-          rows={expor}
-          columns={traidEColumns}
-          pageSize={pageSize}
-          rowsPerPageOptions={[5, 10, 25]}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          autoHeight
-        />} */}
+        columns={tradeColumns}
+        defaultPageSize={5}
+        pageSize={pageSize}
+        rowsPerPageOptions={[5, 10, 25]}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        autoHeight
+      />
 
-
-      <br></br>
+      {/* <br></br>
       <br></br>
       <br></br>
 
@@ -150,6 +139,10 @@ export default function HomePage() {
       <h2>Most Traded Commodities</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={commodityColumns} />
       <Divider />
+
+      <br></br>
+      <br></br>
+      <br></br> */}
 
       <br></br>
       <br></br>

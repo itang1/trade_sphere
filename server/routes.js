@@ -85,13 +85,14 @@ const trading_volume = async function (req, res) {
 // Route 6: GET /home/trading_export
 const trading_export = async function (req, res) {
   const page = req.param.page;
-  const page_size = req.param.page_size ?? 10;
+  const page_size = req.param.page_size ?? 5;
   const offset = (page - 1) * page_size;
 
   if (!page) {
     connection.query(`SELECT Category, SUM(Value) AS TotalExportValue
       FROM USTradingData WHERE Type = 'Export' AND Category is not null
-      GROUP BY Category ORDER BY TotalExportValue DESC`,
+      GROUP BY Category ORDER BY TotalExportValue DESC
+      `,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
