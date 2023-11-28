@@ -1,5 +1,9 @@
 *.DS_Store*
-
+client/package.json
+client/package-lock.json
+server/config.json
+server/package-lock.json
+server/package.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
