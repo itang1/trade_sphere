@@ -12,10 +12,10 @@ app.use(cors({
 // provide their handlers that we implemented in routes.js
 app.get('/author/:type', routes.author);
 app.get('/trading/trading_data', routes.trading_data);
-app.get('/trading/trading_partner', routes.trading_partner);
-app.get('/trading/trading_partner_catg', routes.trading_partner_catg);
-app.get('/trading/trading_volume', routes.trading_volume);
-app.get('/home/trading_export', routes.trading_export);
+app.get('/trading_partner', routes.trading_partner);
+app.get('/trading_partner_catg', routes.trading_partner_catg);
+app.get('/trading_volume', routes.trading_volume);
+app.get('/trading_export', routes.trading_export);
 app.get('/country/population', routes.population);
 app.get('/country/populationwater', routes.populationwater);
 app.get('/country/wages', routes.wages);
