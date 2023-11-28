@@ -4,13 +4,12 @@ import { Button, Checkbox, Container, FormControlLabel, Grid, Link, Slider, Text
 import { DataGrid } from '@mui/x-data-grid';
 import LazyTable from '../components/LazyTable';
 
-
 const config = require('../config.json');
 
-export default function CountriesPage() {
+export default function CountriesLivingConditionsPage() {
     const flexFormat = { display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' };
 
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(5);
     const [data, setData] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState(null);
 
@@ -19,7 +18,7 @@ export default function CountriesPage() {
     const [sanitationProportion, setSanitationProportion] = useState([0, 100]);
     const [infantProprtion, setInfantProportion] = useState([0, 5]);
 
-    const searchPopulation = () => {
+    const search = () => {
         fetch(`http://${config.server_host}:${config.server_port}/country/population?urban_low=${urbanProportion[0]}&urban_high=${urbanProportion[1]}`
             + `&drinking_water_low=${drinkingWaterProportion[0]}&drinking_water_high=${drinkingWaterProportion[1]}`
             + `&sanitation_low=${sanitationProportion[0]}&sanitation_high=${sanitationProportion[1]}`
@@ -32,6 +31,7 @@ export default function CountriesPage() {
             });
     };
 
+
     const columns = [
         { field: 'Country', headerName: 'Country', width: 100 },
         { field: 'Region', headerName: 'Region', width: 200 },
@@ -43,7 +43,6 @@ export default function CountriesPage() {
 
     return (
         <Container>
-            {selectedCountry && <p>{`Selected Country: ${selectedCountry}`}</p>}
             <h2>View Countries by Living Condition</h2>
             <Grid container spacing={6}>
                 <Grid item xs={3}>
@@ -91,7 +90,7 @@ export default function CountriesPage() {
                     />
                 </Grid>
             </Grid>
-            <Button onClick={() => searchPopulation()} style={{ marginTop: '16px' }}>
+            <Button onClick={() => search()} style={{ marginTop: '16px' }} variant="contained" color="primary" >
                 Search
             </Button>
             <h2></h2>
@@ -104,6 +103,7 @@ export default function CountriesPage() {
                 autoHeight
                 onSelectionModelChange={(selection) => setSelectedCountry(selection[0])}
             />
+
         </Container>
     );
 }

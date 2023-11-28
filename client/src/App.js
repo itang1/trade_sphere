@@ -5,8 +5,9 @@ import { createTheme } from "@mui/material/styles";
 
 import NavBar from './components/NavBar';
 import HomePage from './pages/HomePage';
-import CountriesPage from './pages/CountriesPage'
+import CountriesLivingConditionsPage from './pages/CountriesLivingConditionsPage'
 import TradesPage from './pages/TradesPage'
+import CountriesTemperaturePage from "./pages/CountriesTemperaturePage";
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -29,7 +30,9 @@ export default function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/countries" element={<CountriesPage />} />
+          {/* <Route path="/countries" element={<CountriesPage />} /> */}
+          <Route path="/countries-living-conditions" element={<CountriesLivingConditionsPage />} />
+          <Route path="/countries-temperature" element={<CountriesTemperaturePage />} />
           <Route path="/trading" element={<TradesPage />} />
         </Routes>
       </BrowserRouter>
