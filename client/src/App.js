@@ -35,7 +35,7 @@ export default function App() {
           <Route path="/countries-living-conditions" element={<CountriesLivingConditionsPage />} />
           <Route path="/countries-temperature" element={<CountriesTemperaturePage />} />
           <Route path="/countries-wages" element={<CountriesWagesPage />} />
-          <Route path="/trading" element={<TradesPage />} />
+          <Route path="/trades" element={<TradesPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
