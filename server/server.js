@@ -22,6 +22,8 @@ app.get('/country/wages', routes.wages);
 app.get('/country/wage_growth', routes.wage_growth);
 app.get('/home/labour', routes.labour);
 app.get('/country/temperature', routes.temperature);
+app.get('/distcountries', routes.distcountries);
+app.get('/distcategories', routes.distcategories);
 
 
 
