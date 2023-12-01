@@ -11,7 +11,7 @@ app.use(cors({
 // We use express to define our various API endpoints and
 // provide their handlers that we implemented in routes.js
 app.get('/author/:type', routes.author);
-app.get('/trading/trading_data', routes.trading_data);
+app.get('/trading_data', routes.trading_data);
 app.get('/trading_partner', routes.trading_partner);
 app.get('/trading_partner_catg', routes.trading_partner_catg);
 app.get('/trading_volume', routes.trading_volume);
