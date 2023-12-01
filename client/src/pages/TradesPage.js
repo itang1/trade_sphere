@@ -166,14 +166,6 @@ export default function TradingPage() {
                           }
                         ]);
                       };
-        
-                      //changing values test
-        { /*             
-        function numberWithCommas(x) {
-                return x?.String().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    }
-       
-                  console.log(numberWithCommas(volume.TotalExportValue)) */}
      
         const menuItems = data.map(item => (
           <MenuItem value={item.Country2}>{item.Country2}</MenuItem>
@@ -182,15 +174,14 @@ export default function TradingPage() {
         const menuItems2 = data2.map(item => (
           <MenuItem value={item.Category}>{item.Category}</MenuItem>
         ));
-
        
 return (  
       
-      <Container><div style={{padding: "10px", backgroundColor: 'WhiteSmoke'}} > 
+      <Container><div style={{padding: "10px"}} > 
         <h1>International Trade</h1>
 
         
-        <div style={{padding: "10px", border: '2px solid CornflowerBlue'}} >
+        <div style={{padding: "10px", backgroundColor: '#F4ECE2'}} >
         <p> International trade has been prominent throughout history. However, with social, political, and economic changes, such as increasing globalization, international trade has grown immensly both in value and diversity within the last century. The number and types of goods, as well as the pairings of trading partners convey a complex picture of the global economy and inform decision-making by global powers, such as the United States. Therefore, mapping those relationships and collecting trade information is of uttermost importance to understand the state of the global economy and gain educated insights. </p>
         <p>
           This page provides an overview of trading-related data, including the influence of different trading categories and types on trading patterns between the United States and other countries. The below displayed data should be viewed as an example of exploratory analysis that can be conducted with the abc database but it only displays a small selection of available variables.</p>
@@ -211,8 +202,8 @@ return (
         width: 200,
         height: 50, 
         border:1, 
-        borderColor: 'DarkBlue',
-        backgroundColor: 'LightSteelBlue'}}
+        borderColor: '#7E7E7E',
+        }}
         label= "Type" onChange =
         {(event) => {setType(event.target.value)}} value = {type} >
         <MenuItem disabled>Choose a Type ...</MenuItem>
@@ -226,8 +217,8 @@ return (
         Select a Category
        </InputLabel>
         <Select id = "categories" 
-        sx={{width: 200,height: 50, border:1, borderColor: 'DarkBlue',
-        backgroundColor: 'LightSteelBlue'
+        sx={{width: 200,height: 50, border:1,  borderColor: '#7E7E7E',
+        
       }} onChange =
         {(event) => {setCategories(event.target.value)}} value = {categories} options = {menuItems2}>
         <MenuItem disabled>Choose a Category ...</MenuItem>
@@ -289,8 +280,8 @@ return (
         <Select id = "types"
         sx={{
         width: 200,
-        height: 50, border:1, borderColor: 'DarkBlue',
-        backgroundColor: 'LightSteelBlue'}}
+        height: 50, border:1,  borderColor: '#7E7E7E',
+        }}
         label= "Type" onChange =
         {(event) => {setType(event.target.value)}} value = {type} >
         <MenuItem disabled>Choose a Type ...</MenuItem>
@@ -302,8 +293,8 @@ return (
         Select a Category
        </InputLabel>
         <Select id = "categories" 
-        sx={{width: 200,height: 50, border:1, borderColor: 'DarkBlue',
-        backgroundColor: 'LightSteelBlue'
+        sx={{width: 200,height: 50, border:1,  borderColor: '#7E7E7E',
+        
       }} onChange =
         {(event) => {setCategories(event.target.value)}} value = {categories} >
         <MenuItem disabled>Choose a Category ...</MenuItem>
@@ -314,7 +305,7 @@ return (
           <Button onClick={() => searchTraidD() } style={{ left: '10%', transform: 'translateX(-90%)' }}>
           Search
           </Button>
-          <div style= {{backgroundColor: 'GhostWhite'}}>
+          <div style= {{border: 1 , backgroundColor: '#D9D9D9'}}>
           <DataGrid
           rows={traidd}
           columns={columnsTraiD}
@@ -338,8 +329,8 @@ return (
         <Select id = "types"
         sx={{
         width: 200,
-        height: 50,border:1, borderColor: 'DarkBlue',
-        backgroundColor: 'LightSteelBlue'}}
+        height: 50,border:1,  borderColor: '#7E7E7E',
+        }}
         label= "Type" onChange =
         {(event) => {setType(event.target.value)}} value = {type} >
         <MenuItem disabled>Choose a Type ...</MenuItem>
@@ -353,7 +344,7 @@ return (
         <Button onClick={() => searchVol() } style={{ left: '10%', transform: 'translateX(-90%)' }}>
           Search
           </Button> 
-          <div style= {{backgroundColor: 'GhostWhite'}}>
+          <div style= {{backgroundColor: '#D9D9D9'}}>
           <DataGrid
           rows={volume}
           columns={columnsVol}
@@ -372,8 +363,8 @@ return (
         <Select id = "types"
         sx={{
         width: 200,
-        height: 50, border:1, borderColor: 'DarkBlue',
-        backgroundColor: 'LightSteelBlue'}}
+        height: 50, border:1,  borderColor: '#7E7E7E',
+        }}
         label= "Type" onChange =
         {(event) => {setType(event.target.value)}} value = {type} >
         <MenuItem disabled>Choose a Type ...</MenuItem>
@@ -395,8 +386,8 @@ return (
         </Select> */}
        
         <Select id = "countries" placeholder="Country"
-        sx={{width: 200,height: 50, border:1, borderColor: 'DarkBlue',
-        backgroundColor: 'LightSteelBlue'
+        sx={{width: 200,height: 50, border:1,  borderColor: '#7E7E7E',
+        
       }} onChange =
         {(event) => {setCountries2(event.target.value)}} value = {countries2} >
           <MenuItem disabled>Choose a Country ...</MenuItem>
@@ -408,7 +399,7 @@ return (
           Search
           </Button> 
 
-          <div style= {{backgroundColor: 'GhostWhite'}}>
+          <div style= {{backgroundColor: '#D9D9D9'}}>
           <DataGrid
           rows={traidp}
           columns={columnsTraiP}
