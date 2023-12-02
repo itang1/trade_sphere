@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { indigo, amber } from '@mui/material/colors'
 import { createTheme } from "@mui/material/styles";
+import React, { useEffect, useState } from 'react';
+
 
 import NavBar from './components/NavBar';
 import HomePage from './pages/HomePage';
@@ -9,6 +11,7 @@ import CountriesLivingConditionsPage from './pages/CountriesLivingConditionsPage
 import TradesPage from './pages/TradesPage'
 import CountriesTemperaturePage from "./pages/CountriesTemperaturePage";
 import CountriesWagesPage from "./pages/CountriesWagesPage";
+import CountriesWageGrowthPage from "./pages/CountriesWageGrowthPage";
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -35,6 +38,7 @@ export default function App() {
           <Route path="/countries-living-conditions" element={<CountriesLivingConditionsPage />} />
           <Route path="/countries-temperature" element={<CountriesTemperaturePage />} />
           <Route path="/countries-wages" element={<CountriesWagesPage />} />
+          <Route path="/countries-wage-growth" element={<CountriesWageGrowthPage />} />
           <Route path="/trades" element={<TradesPage />} />
         </Routes>
       </BrowserRouter>
