@@ -271,6 +271,9 @@ const wage_growth = async function (req, res) {
   const page_size = req.param.page_size ?? 10;
   const offset = (page - 1) * page_size;
 
+  const growth_low = req.query.growth_low ?? 0
+  const growth_high = req.query.growth_high ?? 0
+
   if (!page) {
     connection.query(`WITH WageTable AS (
     SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate AS ConvertedValue, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
@@ -310,6 +313,8 @@ const wage_growth = async function (req, res) {
        Country,
        CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
     FROM ProportionalIncrease
+    WHERE AvgYearlyIncrease_perc > ${growth_low}
+      AND AvgYearlyIncrease_perc < ${growth_high}
     ORDER BY AvgYearlyIncrease_perc DESC`,
       (err, data) => {
         if (err || data.length === 0) {
@@ -359,6 +364,8 @@ const wage_growth = async function (req, res) {
          Country,
          CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
       FROM ProportionalIncrease
+      WHERE AvgYearlyIncrease_perc > ${growth_low}
+        AND AvgYearlyIncrease_perc < ${growth_high}
       ORDER BY AvgYearlyIncrease_perc DESC
         LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
