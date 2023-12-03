@@ -86,14 +86,16 @@ const trading_volume = async function(req, res) {
 
   // Route 6: GET /home/trading_export
 const trading_export = async function(req, res) {
-    const page = req.param.page;
-    const page_size = req.param.page_size ?? 10;
+    const page = req.query.page;
+    const page_size = req.query.page_size ?? 10;
     const offset = (page-1)*page_size;
   
     if (!page) {
       connection.query(`SELECT Category, FORMAT(SUM(Value),'NO') AS TotalExportValue 
-      FROM USTradingData WHERE Type = 'Export' AND Category is not null
-      GROUP BY Category ORDER BY TotalExportValue DESC`,
+      FROM USTradingData
+      WHERE Type = 'Export' AND Category is not null
+      GROUP BY Category
+      ORDER BY TotalExportValue DESC`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
@@ -271,8 +273,8 @@ const wage_growth = async function (req, res) {
   const page_size = req.param.page_size ?? 10;
   const offset = (page - 1) * page_size;
 
-  const growth_low = req.query.growth_low ?? 0
-  const growth_high = req.query.growth_high ?? 0
+  const growth_low = req.query.growth_low ?? -99999
+  const growth_high = req.query.growth_high ?? 99999
 
   if (!page) {
     connection.query(`WITH WageTable AS (
@@ -308,14 +310,18 @@ const wage_growth = async function (req, res) {
        INNER JOIN LastValue lv ON fv.Country = lv.Country
        INNER JOIN FirstYear fy ON fv.Country = fy.Country
        INNER JOIN LastYear ly ON fv.Country = ly.Country
+    ),
+    PercIncrease AS (
+      SELECT
+        Country,
+        CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
+      FROM ProportionalIncrease
+      ORDER BY AvgYearlyIncrease_perc DESC
     )
-    SELECT
-       Country,
-       CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
-    FROM ProportionalIncrease
+    SELECT *
+    FROM PercIncrease
     WHERE AvgYearlyIncrease_perc > ${growth_low}
-      AND AvgYearlyIncrease_perc < ${growth_high}
-    ORDER BY AvgYearlyIncrease_perc DESC`,
+        AND AvgYearlyIncrease_perc < ${growth_high}`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
@@ -359,15 +365,19 @@ const wage_growth = async function (req, res) {
          INNER JOIN LastValue lv ON fv.Country = lv.Country
          INNER JOIN FirstYear fy ON fv.Country = fy.Country
          INNER JOIN LastYear ly ON fv.Country = ly.Country
-      )
+    ),
+    PercIncrease AS (
       SELECT
-         Country,
-         CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
+        Country,
+        CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
       FROM ProportionalIncrease
-      WHERE AvgYearlyIncrease_perc > ${growth_low}
-        AND AvgYearlyIncrease_perc < ${growth_high}
       ORDER BY AvgYearlyIncrease_perc DESC
-        LIMIT ${page_size} OFFSET ${offset}`,
+    )
+    SELECT *
+    FROM PercIncrease
+    WHERE AvgYearlyIncrease_perc > ${growth_low}
+        AND AvgYearlyIncrease_perc < ${growth_high}
+    LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
