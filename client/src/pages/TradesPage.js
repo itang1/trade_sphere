@@ -131,7 +131,7 @@ export default function TradingPage() {
 
     const columnsTraiP = [
         { field: 'Category', headerName: 'Category', flex:1} ,
-        { field: 'Value', headerName: 'Value', flex:1 },
+        { field: 'Value2', headerName: 'Value', flex:1 },
       ]
 
       {/*const columnsTraidPC = [
@@ -362,7 +362,7 @@ return (
         sx={{width: 200,height: 50, border:1,  borderColor: '#7E7E7E',
         
       }} onChange =
-        {(event) => {setCountries2(event.target.value)}} value = {countries2} >
+        {(event) => {setCountries2(event.target.value2)}} value = {countries2} >
           <MenuItem disabled>Choose a Country ...</MenuItem>
         {menuItems}
         </Select> 
