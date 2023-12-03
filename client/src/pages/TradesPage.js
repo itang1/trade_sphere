@@ -1,24 +1,9 @@
-import { useEffect, useState} from 'react';
-import { Button, Container, InputLabel, Select, MenuItem, Grid, Box} from '@mui/material';
+import React, { useEffect, useState} from 'react';
+import { Button, Container, InputLabel, Select, MenuItem, Grid} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import L from "leaflet";
 
-const customMarkerIcon = L.icon({
-    iconUrl: markerIcon,
-    iconRetinaUrl: markerIcon2x,
-    shadowUrl: markerShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    tooltipAnchor: [16, -28],
-    shadowSize: [41, 41],
-  });
 
-//import { formatDuration } from '../helpers/formatter';
 
 const config = require('../config.json');
 
@@ -38,8 +23,6 @@ export default function TradingPage() {
 
     const [data,setData] = useState([])
     const [data2,setData2] = useState([])
-    const [data3,setData3] = useState([])
-    const [continent,setContinent] = useState('[]')
    
     
     useEffect(() => {
@@ -133,7 +116,6 @@ export default function TradingPage() {
          .catch(error => console.error(error));
           
      }, []);
-     //console.log(data2)
       
     
     const columnsVol = [
@@ -231,15 +213,6 @@ return (
           Search
         </Button> 
        
-        {/*<DataGrid
-          rows={traidpc}
-          columns={columnsTraidPC}
-          pageSize={pageSize}
-          getRowId={(pc) => pc.Country2}
-          rowsPerPageOptions={[5, 10, 25]}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          autoHeight
-    />*/}
 
         <MapContainer center={[54, 15]} zoom={0.5}scrollWheelZoom={false } style={{ height: '50vh', width: '50wh' } } id="map"
         > 

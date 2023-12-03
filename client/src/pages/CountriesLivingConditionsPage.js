@@ -1,17 +1,12 @@
-
-import { useEffect, useState } from 'react';
-import { Button, Checkbox, Container, FormControlLabel, Grid, Link, Slider, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Container, Grid, Slider} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import LazyTable from '../components/LazyTable';
 
 const config = require('../config.json');
 
 export default function CountriesLivingConditionsPage() {
-    const flexFormat = { display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' };
-
     const [pageSize, setPageSize] = useState(5);
     const [data, setData] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState(null);
 
     const [urbanProportion, setUrbanProportion] = useState([0, 100]);
     const [drinkingWaterProportion, setDrinkingWaterProportion] = useState([0, 100]);
@@ -93,7 +88,7 @@ export default function CountriesLivingConditionsPage() {
             <Button onClick={() => search()} style={{ marginTop: '16px' }} variant="contained" color="primary" >
                 Search
             </Button>
-            <h2></h2>
+            <br></br>
             <DataGrid
                 rows={data}
                 columns={columns}
@@ -101,9 +96,7 @@ export default function CountriesLivingConditionsPage() {
                 rowsPerPageOptions={[5, 10, 25]}
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 autoHeight
-                onSelectionModelChange={(selection) => setSelectedCountry(selection[0])}
             />
-
         </Container>
     );
 }

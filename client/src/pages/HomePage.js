@@ -1,78 +1,20 @@
-import { useEffect, useState } from 'react';
-import { Container, Divider, Link } from '@mui/material';
-import { NavLink } from 'react-router-dom';
-import { DataGrid } from '@mui/x-data-grid';
-
+import React, { useEffect, useState } from 'react';
 import LazyTable from '../components/LazyTable';
+import {Container} from '@mui/material';
+
+
 const config = require('../config.json');
 
 export default function HomePage() {
-  // We use the setState hook to persist information across renders (such as the result of our API calls)
-  const [countryOfTheDay, setCountryOfTheDay] = useState({});
   const [author, setAuthor] = useState('');
-  const [selectedCountryId, setSelectedCountryId] = useState(null);
-  const [expor, setExpor] = useState([])
-  const [pageSize, setPageSize] = useState(5);
 
-  // The useEffect hook by default runs the provided callback after every render
-  // The second (optional) argument, [], is the dependency array which signals
-  // to the hook to only run the provided callback if the value of the dependency array
-  // changes from the previous render. In this case, an empty array means the callback
-  // will only run on the very first render.
   useEffect(() => {
-    fetch(`http://${config.server_host}:${config.server_port}/random`)
-      .then(res => res.json())
-      .then(resJson => setCountryOfTheDay(resJson));
-
-    fetch(`http://${config.server_host}:${config.server_port}/trading_export`)
-      .then(res => res.json())
-      .then(resJson => {
-        const expoID = resJson.map((expo) => ({ cat: expo.Category, val: expo.TotalExportValue }));
-        setExpor(expoID)
-      })
-      .catch(error => console.error(error));
-
     fetch(`http://${config.server_host}:${config.server_port}/author/name`)
       .then(res => res.text())
       .then(restText => setAuthor(restText));
 
   }, []);
 
-
-  const countryColumns = [
-    {
-      field: 'country',
-      headerName: 'Country',
-      renderCell: (row) => <Link onClick={() => setSelectedCountryId(row.Continent)}>{row.Continent}</Link> // A Link component is used just for formatting purposes
-    },
-    {
-      field: 'continent',
-      headerName: 'Continent',
-      renderCell: (row) => <NavLink to={`/albums/${row.Continent}`}>{row.Continent}</NavLink> // A NavLink component is used to create a link to the album page
-    },
-    {
-      field: 'population',
-      headerName: 'Population',
-      renderCell: (row) => <NavLink to={`/albums/${row.Continent}`}>{row.Continent}</NavLink> // A NavLink component is used to create a link to the album page
-    },
-    {
-      field: 'trade_count',
-      headerName: 'Trade Count'
-    },
-  ];
-
-
-  const commodityColumns = [
-    {
-      field: 'commodity',
-      headerName: 'Commodity',
-      renderCell: (row) => <NavLink to={`/trades/${row.Continent}`}>{row.Continent}</NavLink> // A NavLink component is used to create a link to the album page
-    },
-    {
-      field: 'plays',
-      headerName: 'Trade Count'
-    },
-  ]
 
 
   const tradeColumns = [
@@ -105,44 +47,17 @@ export default function HomePage() {
         and supply chain optimization.</p>
 
       <br></br>
-      <br></br>
-      <br></br>
-
 
       <h1>US TRADING EXPORT</h1>
 
-<h3>PAGE SIZING IS BROKEN BELOW -- NEED TO FIX</h3>
+      <h3>PAGE SIZING IS BROKEN BELOW -- NEED TO FIX</h3>
 
       <h2>All Exports Information</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/trading_export`}
         columns={tradeColumns}
-        defaultPageSize={5}
-        pageSize={pageSize}
-        rowsPerPageOptions={[5, 10, 25]}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        autoHeight
+        defaultPageSize={10}
+        rowsPerPageOptions={[5, 10, 25, 50, 100]}
       />
-
-      {/* <br></br>
-      <br></br>
-      <br></br>
-
-
-      <h2>Most Active Countries</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={countryColumns} />
-      <Divider />
-
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <h2>Most Traded Commodities</h2>
-      <LazyTable route={`http://${config.server_host}:${config.server_port}/author/name/`} columns={commodityColumns} />
-      <Divider />
-
-      <br></br>
-      <br></br>
-      <br></br> */}
 
       <br></br>
       <br></br>

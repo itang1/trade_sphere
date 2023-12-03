@@ -1,12 +1,10 @@
-import { Button, Checkbox, Container, FormControlLabel, Grid, Link, Slider, TextField } from '@mui/material';
+import { Button, Container, Grid, Slider } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const config = require('../config.json');
 
 export default function CountriesWageGrowthPage() {
-    const flexFormat = { display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' };
-
     const [pageSize, setPageSize] = useState(5);
     const [data, setData] = useState([]);
 
@@ -46,7 +44,7 @@ export default function CountriesWageGrowthPage() {
             <Button onClick={() => search()} style={{ marginTop: '16px' }} variant="contained" color="primary" >
                 Search
             </Button>
-            <h2></h2>
+            <br></br>
             <DataGrid
                 rows={data}
                 columns={columns}
