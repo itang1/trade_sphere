@@ -245,9 +245,13 @@ const populationwater = async function (req, res) {
 const wages = async function (req, res) {
   const country1 = req.query.country1 ?? 'United States';
   const country2 = req.query.country2 ?? 'Mexico';
-  connection.query(`
-    WITH WageTable AS (
-      SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
+  const page = req.param.page;
+  const page_size = req.param.page_size ?? 10;
+  const offset = (page - 1) * page_size;
+
+  if (!page) {
+    connection.query(`WITH WageTable AS(
+      SELECT B.Country, B.Year, B.Month, B.Value * U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
       FROM Labour B
         JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
         JOIN UnitConversion U ON I.Unit = U.Unit
@@ -256,15 +260,39 @@ const wages = async function (req, res) {
     SELECT * FROM WageTable
     WHERE Country = '${country1}' OR Country = '${country2}'
     ORDER BY Year, Month ASC`,
-    (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json({});
-      } else {
-        res.json(data);
-      }
-    });
+      (err, data) => {
+        if (err || data.length === 0) {
+          console.log(err);
+          res.json([]);
+          console.log(err);
+        } else {
+          res.json(data);
+        }
+      });
+  } else {
+    connection.query(`WITH WageTable AS (
+      SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
+      FROM Labour B
+        JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+        JOIN UnitConversion U ON I.Unit = U.Unit
+      WHERE B.Category = 'Wages'
+    )
+    SELECT * FROM WageTable
+    WHERE Country = '${country1}' OR Country = '${country2}'
+    ORDER BY Year, Month ASC
+    LIMIT ${page_size} OFFSET ${offset}`,
+      (err, data) => {
+        if (err || data.length === 0) {
+          console.log(err);
+          res.json([]);
+          console.log(err);
+        } else {
+          res.json(data);
+        }
+      });
+  }
 }
+
 
 // Route 10: GET /country/wage_growth
 const wage_growth = async function (req, res) {
@@ -272,8 +300,8 @@ const wage_growth = async function (req, res) {
   const page_size = req.param.page_size ?? 10;
   const offset = (page - 1) * page_size;
 
-  const growth_low = req.query.growth_low ?? -99999
-  const growth_high = req.query.growth_high ?? 99999
+  const growth_low = req.query.growth_low ?? -99999;
+  const growth_high = req.query.growth_high ?? 99999;
 
   if (!page) {
     connection.query(`WITH WageTable AS (
@@ -395,10 +423,18 @@ const labour = async function (req, res) {
   const page_size = req.param.page_size ?? 10;
   const offset = (page - 1) * page_size;
 
+  const unemp_low = req.query.unemp_low ?? 0;
+  const unemp_high = req.query.unemp_high ?? 100;
+
   if (!page) {
     connection.query(`WITH RankedLabour AS (SELECT Country,Year,Month,Value, RANK() OVER (PARTITION BY Country ORDER BY Value DESC) AS ValueRank
     FROM Labour WHERE Category = 'Unemployment Rate')
-    SELECT Country, Year, Month, Value AS HighestUnemploymentRate FROM RankedLabour WHERE ValueRank = 1 ORDER BY HighestUnemploymentRate DESC, Country, Year, Month`,
+    SELECT Country, Year, Month, Value AS HighestUnemploymentRate
+    FROM RankedLabour
+    WHERE ValueRank = 1
+      AND unemp_low > ${unemp_low}
+      AND unemp_high < ${unemp_high}
+    ORDER BY HighestUnemploymentRate DESC, Country, Year, Month`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
@@ -411,8 +447,13 @@ const labour = async function (req, res) {
   } else {
     connection.query(`WITH RankedLabour AS (SELECT Country,Year,Month,Value, RANK() OVER (PARTITION BY Country ORDER BY Value DESC) AS ValueRank
     FROM Labour WHERE Category = 'Unemployment Rate')
-    SELECT Country, Year, Month, Value AS HighestUnemploymentRate FROM RankedLabour WHERE ValueRank = 1 ORDER BY HighestUnemploymentRate DESC, Country, Year, Month
-        LIMIT ${page_size} OFFSET ${offset}`,
+    SELECT Country, Year, Month, Value AS HighestUnemploymentRate
+    FROM RankedLabour
+    WHERE ValueRank = 1
+      AND unemp_low > ${unemp_low}
+      AND unemp_high < ${unemp_high}
+    ORDER BY HighestUnemploymentRate DESC, Country, Year, Month
+    LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
