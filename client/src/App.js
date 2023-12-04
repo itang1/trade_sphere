@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { indigo, amber } from '@mui/material/colors'
 import { createTheme } from "@mui/material/styles";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 
 import NavBar from './components/NavBar';
@@ -34,7 +34,6 @@ export default function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {/* <Route path="/countries" element={<CountriesPage />} /> */}
           <Route path="/countries-living-conditions" element={<CountriesLivingConditionsPage />} />
           <Route path="/countries-temperature" element={<CountriesTemperaturePage />} />
           <Route path="/countries-wages" element={<CountriesWagesPage />} />
