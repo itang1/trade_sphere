@@ -21,15 +21,15 @@ export default function CountriesWageGrowthPage() {
 
 
     const columns = [
-        { field: 'Country', headerName: 'Country', width: 100 },
-        { field: 'AvgYearlyIncrease_perc', headerName: '% Yearly Wage Increase'},
+        { field: 'Country', headerName: 'Country', width: 200 },
+        { field: 'AvgYearlyIncrease_perc', headerName: '% Yearly Wage Increase', width: 500},
     ];
 
     return (
         <Container>
             <h2>View Countries by Average Yearly Wage Increase</h2>
-            <Grid container spacing={6}>
-                <Grid item xs={3}>
+            <Grid container spacing={15}>
+                <Grid item xs={15}>
                     <p>Average Percent Yearly Increase</p>
                     <Slider
                         value={avgYearlyIncrease_perc}
@@ -44,6 +44,8 @@ export default function CountriesWageGrowthPage() {
             <Button onClick={() => search()} style={{ marginTop: '16px' }} variant="contained" color="primary" >
                 Search
             </Button>
+            <br></br>
+            <br></br>
             <br></br>
             <DataGrid
                 rows={data}

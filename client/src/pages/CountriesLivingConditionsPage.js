@@ -89,6 +89,8 @@ export default function CountriesLivingConditionsPage() {
                 Search
             </Button>
             <br></br>
+            <br></br>
+            <br></br>
             <DataGrid
                 rows={data}
                 columns={columns}
