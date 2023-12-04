@@ -21,63 +21,78 @@ const author = async function (req, res) {
   }
 }
 
+// Route 2: GET /trading/trading_data
+const trading_data = async function (req, res) {
+  const type = req.query.type ?? '';
+  const category = req.query.category ?? '';
+  connection.query(`SELECT Symbol, Country1, Country2, Type, Year, Category, FORMAT(Value,'NO') AS Value FROM USTradingData 
+    WHERE Type = '${type}' AND Category = '${category}'`, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 // Route 3: GET /trading/trading_partner
-const trading_partner = async function(req, res) {
-    const type = req.query.type ?? ''; 
-    const category = req.query.category ?? ''; 
-    connection.query(`SELECT U.Country2, FORMAT(U.Value, 'NO') AS Value, C.Latitude, C.Longitude FROM USTradingData U 
+const trading_partner = async function (req, res) {
+  const type = req.query.type ?? '';
+  const category = req.query.category ?? '';
+  connection.query(`SELECT U.Country2, FORMAT(U.Value, 'NO') AS Value, C.Latitude, C.Longitude FROM USTradingData U 
     JOIN CountryInfo C ON C.CountryName = U.Country2 WHERE Type = '${type}' 
     AND U.Category = '${category}' AND U.Country2 != "World" AND C.Latitude IS NOT NULL AND C.Longitude  IS NOT NULL
     ORDER BY U.Value DESC LIMIT 5`, (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    });
-  }
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
 
 // Route 4: GET /trading/trading_partner_catg
-const trading_partner_catg = async function(req, res) {
-    const type = req.query.type ?? ''; 
-    const country2 = req.query.country2 ?? ''; 
-    connection.query(`SELECT Category, FORMAT(Value, 'NO') AS Value2 FROM USTradingData 
+const trading_partner_catg = async function (req, res) {
+  const type = req.query.type ?? '';
+  const country2 = req.query.country2 ?? '';
+  connection.query(`SELECT Category, FORMAT(Value, 'NO') AS Value2 FROM USTradingData 
     WHERE Country2 = '${country2}' AND Type = '${type}' AND Category IS NOT NULL
     ORDER BY Value DESC LIMIT 1`, (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    });
-  }
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
 
 // Route 5: GET /trading/trading_volume
-const trading_volume = async function(req, res) {
-    const type = req.query.type ?? ''; 
-    connection.query(`SELECT C.Continent, FORMAT(sum(U.Value),'N', 'en-us') AS TotalExportValue 
+const trading_volume = async function (req, res) {
+  const type = req.query.type ?? '';
+  connection.query(`SELECT C.Continent, FORMAT(sum(U.Value),'N', 'en-us') AS TotalExportValue 
     FROM USTradingData U JOIN CountryInfo C ON C.CountryName = U.Country2
     WHERE Type = '${type}' AND C.Continent IS NOT NULL 
     GROUP BY C.Continent ORDER BY sum(U.Value) DESC`, (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    });
-  }
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
 
-  // Route 6: GET /home/trading_export
-const trading_export = async function(req, res) {
-    const page = req.param.page;
-    const page_size = req.param.page_size ?? 10;
-    const offset = (page-1)*page_size;
-  
-    if (!page) {
-      connection.query(`SELECT Category, FORMAT(SUM(Value),'N', 'en-us') AS TotalExportValue 
+// Route 6: GET /home/trading_export
+const trading_export = async function (req, res) {
+  const page = req.query.page;
+  const page_size = req.query.page_size ?? 10;
+  const offset = (page - 1) * page_size;
+
+  if (!page) {
+    connection.query(`SELECT Category, FORMAT(SUM(Value),'N', 'en-us') AS TotalExportValue 
       FROM USTradingData WHERE Type = 'Export' AND Category is not null
       GROUP BY Category ORDER BY SUM(Value) DESC`,
       (err, data) => {
@@ -86,25 +101,25 @@ const trading_export = async function(req, res) {
           res.json([]);
           console.log(err);
         } else {
-        res.json(data); 
+          res.json(data);
         }
-      }); 
-    } else {
-      connection.query(`SELECT Category, FORMAT(SUM(Value),'N', 'en-us') AS TotalExportValue 
+      });
+  } else {
+    connection.query(`SELECT Category, FORMAT(SUM(Value),'N', 'en-us') AS TotalExportValue 
       FROM USTradingData WHERE Type = 'Export' AND Category is not null
       GROUP BY Category ORDER BY SUM(Value) DESC
       LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-        console.log(err);
+          console.log(err);
+          res.json([]);
+          console.log(err);
         } else {
-        res.json(data);
+          res.json(data);
         }
-    });
+      });
   }
-  }
+}
 
 // Route 7: GET /country/population
 const population = async function (req, res) {
@@ -242,13 +257,13 @@ const wages = async function (req, res) {
     WHERE Country = '${country1}' OR Country = '${country2}'
     ORDER BY Year, Month ASC`,
     (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json({});
-    } else {
-      res.json(data);
-    }
-  });
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json({});
+      } else {
+        res.json(data);
+      }
+    });
 }
 
 // Route 10: GET /country/wage_growth
@@ -491,34 +506,34 @@ const temperature = async function (req, res) {
   }
 }
 
- // Route 13: 
- const distcountries = async function(req, res) {
+// Route 13: 
+const distcountries = async function (req, res) {
   connection.query(`SELECT DISTINCT C.Continent,  Country2
   FROM USTradingData U JOIN CountryInfo C ON C.CountryName = U.Country2
-  AND C.Continent IS NOT NULL ORDER BY U.Country2;`, 
-      (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  });
+  AND C.Continent IS NOT NULL ORDER BY U.Country2;`,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    });
 }
 
- // Route 14: 
- const distcategories = async function(req, res) {
+// Route 14: 
+const distcategories = async function (req, res) {
   connection.query(`SELECT DISTINCT Category
   FROM USTradingData
-  ORDER BY Category;`, 
-      (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  });
+  ORDER BY Category;`,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    });
 }
 
 module.exports = {
