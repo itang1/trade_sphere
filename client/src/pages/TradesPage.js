@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, InputLabel, Select, MenuItem, Grid } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-
 
 
 const config = require('../config.json');
@@ -18,7 +17,11 @@ export default function TradingPage() {
 
   const [countries2, setCountries2] = useState('');
   const [type, setType] = useState('')
+  const [type2, setType2] = useState('')
+  const [type3, setType3] = useState('')
+  const [type4, setType4] = useState('')
   const [categories, setCategories] = useState('')
+  const [categories2, setCategories2] = useState('')
 
 
   const [data, setData] = useState([])
@@ -53,7 +56,7 @@ export default function TradingPage() {
   //console.log(traidd)
 
   const searchTraidD = () => {
-    fetch(`http://${config.server_host}:${config.server_port}/trading_data?type=${type}` +
+    fetch(`http://${config.server_host}:${config.server_port}/trading_data?type=${type2}` +
       `&category=${categories}`)
       .then(res => res.json())
       .then(resJson => setTraidD(resJson))
@@ -71,7 +74,7 @@ export default function TradingPage() {
   //console.log(traidp)
 
   const searchTraidP = () => {
-    fetch(`http://${config.server_host}:${config.server_port}/trading_partner_catg?type=${type}` +
+    fetch(`http://${config.server_host}:${config.server_port}/trading_partner_catg?type=${type3}` +
       `&country2=${countries2}`)
       .then(res => res.json())
       .then(resJson => setTraidP(resJson))
@@ -91,8 +94,8 @@ export default function TradingPage() {
   //console.log(traidpc)
 
   const searchTraidPC = () => {
-    fetch(`http://${config.server_host}:${config.server_port}/trading_partner?type=${type}` +
-      `&category=${categories}`)
+    fetch(`http://${config.server_host}:${config.server_port}/trading_partner?type=${type4}` +
+      `&category=${categories2}`)
       .then(res => res.json())
       .then(resJson => setTraidPC(resJson))
       .catch(error => console.error(error));
@@ -182,7 +185,7 @@ export default function TradingPage() {
             borderColor: '#7E7E7E',
           }}
           label="Type" onChange=
-          {(event) => { setType(event.target.value) }} value={type} >
+          {(event) => { setType4(event.target.value) }} value={type4} >
           <MenuItem disabled>Choose a Type ...</MenuItem>
           <MenuItem value="Export">Export</MenuItem>
           <MenuItem value="Import">Import</MenuItem>
@@ -198,7 +201,7 @@ export default function TradingPage() {
             width: 200, height: 50, border: 1, borderColor: '#7E7E7E',
 
           }} onChange=
-          {(event) => { setCategories(event.target.value) }} value={categories} options={menuItems2}>
+          {(event) => { setCategories2(event.target.value) }} value={categories2} options={menuItems2}>
           <MenuItem disabled>Choose a Category ...</MenuItem>
           {menuItems2}
 
@@ -210,7 +213,7 @@ export default function TradingPage() {
       </Button>
 
 
-      <MapContainer center={[54, 15]} zoom={0.5} scrollWheelZoom={false} style={{ height: '50vh', width: '50wh' }} id="map"
+      <MapContainer center={[54, 15]} zoom={1} scrollWheelZoom={false} style={{ height: '40vh', width: '50wh' }} id="map"
       >
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossOrigin="" />
@@ -252,7 +255,7 @@ export default function TradingPage() {
             height: 50, border: 1, borderColor: '#7E7E7E',
           }}
           label="Type" onChange=
-          {(event) => { setType(event.target.value) }} value={type} >
+          {(event) => { setType2(event.target.value) }} value={type2} >
           <MenuItem disabled>Choose a Type ...</MenuItem>
           <MenuItem value="Export">Export</MenuItem>
           <MenuItem value="Import">Import</MenuItem>
@@ -283,6 +286,14 @@ export default function TradingPage() {
           pageSize={pageSize}
           rowsPerPageOptions={[5, 10, 25]}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          components={{ Toolbar: GridToolbar }}
+          componentsProps={{
+            toolbar: {
+              csvOptions: { disableToolbarButton: false},
+              printOptions: { disableToolbarButton: true },
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 250 },
+            },}}
           autoHeight
         /></div>
 
@@ -322,6 +333,14 @@ export default function TradingPage() {
           getRowId={(vol) => vol.Continent}
           rowsPerPageOptions={[5, 10, 25]}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          components={{ Toolbar: GridToolbar }}
+          componentsProps={{
+            toolbar: {
+              csvOptions: { disableToolbarButton: false},
+              printOptions: { disableToolbarButton: true },
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 250 },
+            },}}
           autoHeight
         /></div>
       <h4>template with text</h4>
@@ -336,7 +355,7 @@ export default function TradingPage() {
             height: 50, border: 1, borderColor: '#7E7E7E',
           }}
           label="Type" onChange=
-          {(event) => { setType(event.target.value) }} value={type} >
+          {(event) => { setType3(event.target.value) }} value={type3} >
           <MenuItem disabled>Choose a Type ...</MenuItem>
           <MenuItem value="Export">Export</MenuItem>
           <MenuItem value="Import">Import</MenuItem>
@@ -375,7 +394,14 @@ export default function TradingPage() {
           rows={traidp}
           columns={columnsTraiP}
           getRowId={(vol) => vol.Category}
-
+          components={{ Toolbar: GridToolbar }}
+          componentsProps={{
+            toolbar: {
+              csvOptions: { disableToolbarButton: false},
+              printOptions: { disableToolbarButton: true },
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 250 },
+            },}}
           autoHeight
         /></div>
       <h4>template with text</h4>
