@@ -47,6 +47,7 @@ export default function HomePage() {
         and supply chain optimization.</p>
 
       <br></br>
+      <hr></hr>
 
       <h1>US TRADING EXPORT</h1>
 
