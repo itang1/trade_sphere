@@ -1,6 +1,6 @@
 import { AppBar, Container, Toolbar, Typography, Menu, MenuItem } from '@mui/material'
 import { NavLink } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 
 // The hyperlinks in the NavBar contain a lot of repeated formatting code so a
@@ -13,7 +13,6 @@ function NavText({ href, text, isMain }) {
       style={{
         marginRight: '30px',
         fontFamily: 'monospace',
-        // fontFamily: 'Roboto',
         fontWeight: 700,
         letterSpacing: '.3rem',
       }}
@@ -31,9 +30,6 @@ function NavText({ href, text, isMain }) {
   )
 }
 
-// Here, we define the NavBar. Note that we heavily leverage MUI components
-// to make the component look nice. Feel free to try changing the formatting
-// props to how it changes the look of the component.
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -78,8 +74,9 @@ export default function NavBar() {
           >
             <MenuItem component={NavLink} to='/countries-living-conditions' onClick={handleMenuClose}>Living Conditions</MenuItem>
             <MenuItem component={NavLink} to='/countries-temperature' onClick={handleMenuClose}>Temperature</MenuItem>
+            <MenuItem component={NavLink} to='/countries-labor' onClick={handleMenuClose}>Labor</MenuItem>
             <MenuItem component={NavLink} to='/countries-wages' onClick={handleMenuClose}>Wages</MenuItem>
-            <MenuItem component={NavLink} to='/countries-wage-growth' onClick={handleMenuClose}>Wages</MenuItem>
+            <MenuItem component={NavLink} to='/countries-wage-growth' onClick={handleMenuClose}>Wage Growth</MenuItem>
             {/* Add more MenuItems as needed */}
           </Menu>
           <NavText href='/trades' text='TRADES' />
