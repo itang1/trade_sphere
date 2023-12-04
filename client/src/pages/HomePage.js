@@ -30,7 +30,7 @@ export default function HomePage() {
 
   return (
     <Container>
-      <h1>PURPOSE</h1>
+      <h1>PURPOSE OF WEBSITE AND DATABSE </h1>
       <p>This web application provides an interactive platform for visualizing statistics pertaining to
         the United States' domestic trading patterns of the United States. It also displays
         additional characteristics, such as population size, on its trading partners.
@@ -50,13 +50,15 @@ export default function HomePage() {
 
       <h1>US TRADING EXPORT</h1>
 
-      <h3>PAGE SIZING IS BROKEN BELOW -- NEED TO FIX</h3>
+      <p>The table below displays all of the material categories that the United States
+        exports, along with their total dollar value in USD.
+      </p>
 
       <h2>All Exports Information</h2>
       <LazyTable route={`http://${config.server_host}:${config.server_port}/trading_export`}
         columns={tradeColumns}
         defaultPageSize={10}
-        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        rowsPerPageOptions={[10, 25, 50, 100]}
       />
 
       <br></br>
