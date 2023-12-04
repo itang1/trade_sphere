@@ -12,6 +12,7 @@ import TradesPage from './pages/TradesPage'
 import CountriesTemperaturePage from "./pages/CountriesTemperaturePage";
 import CountriesWagesPage from "./pages/CountriesWagesPage";
 import CountriesWageGrowthPage from "./pages/CountriesWageGrowthPage";
+import CountriesLaborPage from "./pages/CountriesLaborPage";
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
