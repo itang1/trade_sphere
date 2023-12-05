@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Grid, Slider } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 // import Chart from 'chart.js/auto'; // Import Chart.js
@@ -8,7 +8,6 @@ const config = require('../config.json');
 export default function CountriesTemperaturePage() {
     const [pageSize, setPageSize] = useState(5);
     const [data, setData] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState(null);
     const [temperatureChange, setTemperatureChange] = useState([-2, 2]);
 
     const search = () => {
@@ -78,7 +77,8 @@ export default function CountriesTemperaturePage() {
             <Button onClick={() => search()} style={{ marginTop: '16px' }} variant="contained" color="primary" >
                 Search
             </Button>
-            <h2></h2>
+            <br></br>
+            <br></br>
             <DataGrid
                 rows={data}
                 columns={columns}
@@ -86,7 +86,6 @@ export default function CountriesTemperaturePage() {
                 rowsPerPageOptions={[5, 10, 25]}
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 autoHeight
-                onSelectionModelChange={(selection) => setSelectedCountry(selection[0])}
             />
 
             <br></br>

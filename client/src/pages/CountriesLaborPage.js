@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { Button, Container, Grid, Slider } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -45,7 +45,10 @@ export default function CountriesLaborPage() {
             <Button onClick={() => search()} style={{ marginTop: '16px' }} variant="contained" color="primary" >
                 Search
             </Button>
-            <h2></h2>
+            
+            <br></br>
+            <br></br>
+            
             <DataGrid
                 rows={data}
                 columns={columns}
