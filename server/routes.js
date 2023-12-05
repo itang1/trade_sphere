@@ -549,18 +549,17 @@ const temperature = async function (req, res) {
 }
 
 // Route 13: 
-const distcountries = async function (req, res) {
-  connection.query(`SELECT DISTINCT C.Continent,  Country2
-  FROM USTradingData U JOIN CountryInfo C ON C.CountryName = U.Country2
-  AND C.Continent IS NOT NULL ORDER BY U.Country2;`,
-    (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    });
+ const distcountries = async function(req, res) {
+  connection.query(`SELECT DISTINCT Country2
+  FROM USTradingData ORDER BY Country2;`, 
+      (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
 }
 
 // Route 14: 
