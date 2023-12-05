@@ -204,42 +204,24 @@ const population = async function (req, res) {
 }
 
 // Route 8: GET /country/populationwater
-const populationwater = async function (req, res) {
-  const page = req.param.page;
-  const page_size = req.param.page_size ?? 10;
-  const offset = (page - 1) * page_size;
-
-  if (!page) {
-    connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
-    FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
-    GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
-    FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater`,
-      (err, data) => {
-        if (err || data.length === 0) {
-          console.log(err);
-          res.json([]);
-          console.log(err);
-        } else {
-          res.json(data);
-        }
-      });
-  } else {
-    connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
-      FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
-      GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
-      FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater
-      LIMIT ${page_size} OFFSET ${offset}`,
-      (err, data) => {
-        if (err || data.length === 0) {
-          console.log(err);
-          res.json([]);
-          console.log(err);
-        } else {
-          res.json(data);
-        }
-      });
+const populationwater2 = async function(req, res) {
+  const continent = req.query.continent ?? '';
+  connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access)
+  AS MaxUnimprovedWater FROM CountryDemographics H
+  JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
+  GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
+  FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName
+  JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater WHERE C.Continent = '${continent}'`,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+        console.log(err);
+      } else {
+      res.json(data);
+      }
+    });
   }
-}
 
 // Route 9: GET /country/wages
 const wages = async function (req, res) {
