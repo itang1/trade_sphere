@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Container, InputLabel, Select, MenuItem, Grid } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+//import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Line, Tooltip, Legend} from 'recharts'
 
 
 const config = require('../config.json');
@@ -235,9 +236,6 @@ export default function TradingPage() {
             <Popup> Country: {marker.Country2} <br /> Value: {marker.Value}
             </Popup>
           </Marker>))}
-
-
-
       </MapContainer>
 
       <p> template with interpretation text</p>
@@ -318,14 +316,24 @@ export default function TradingPage() {
             <MenuItem value="Export">Export</MenuItem>
             <MenuItem value="Import">Import</MenuItem>
             <MenuItem value="Re-Export">Re-Export</MenuItem>
-          </Select></Grid>
+          </Select>
 
       </Grid>
 
       <Button onClick={() => searchVol()} style={{ left: '10%', transform: 'translateX(-90%)' }}>
         Search
-      </Button>
-      <div style={{ backgroundColor: '#D9D9D9' }}>
+      </Button> </Grid>
+       {/*
+      {volume?.map((marker) => (
+      <BarChart  width={730} height={250} data={volume}>
+              <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="Continent" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="TotalExportValue" fill="#9994d8" />
+  
+        </BarChart>))}*/}
+     <div style={{ backgroundColor: '#D9D9D9' }}>
         <DataGrid
           rows={volume}
           columns={columnsVol}
@@ -342,8 +350,7 @@ export default function TradingPage() {
               quickFilterProps: { debounceMs: 250 },
             },}}
           autoHeight
-        /></div>
-      <h4>template with text</h4>
+          /></div>
       <h3>Largest Trade Category for United States Trade Partners</h3>
       <Grid item xs={2} >
         <InputLabel variant="standard" htmlFor="types">
@@ -404,7 +411,6 @@ export default function TradingPage() {
             },}}
           autoHeight
         /></div>
-      <h4>template with text</h4>
     </div>
 
     </Container>
