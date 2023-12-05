@@ -245,6 +245,7 @@ const populationwater = async function (req, res) {
 const wages = async function (req, res) {
   const country1 = req.query.country1 ?? 'United States';
   const country2 = req.query.country2 ?? 'Mexico';
+  const year = req.query.year ?? 2009;
   const page = req.param.page;
   const page_size = req.param.page_size ?? 10;
   const offset = (page - 1) * page_size;
@@ -258,7 +259,7 @@ const wages = async function (req, res) {
       WHERE B.Category = 'Wages'
     )
     SELECT * FROM WageTable
-    WHERE Country = '${country1}' OR Country = '${country2}'
+    WHERE Country = '${country1}' OR Country = '${country2}' AND Year = ${year}
     ORDER BY Year, Month ASC`,
       (err, data) => {
         if (err || data.length === 0) {
@@ -278,7 +279,7 @@ const wages = async function (req, res) {
       WHERE B.Category = 'Wages'
     )
     SELECT * FROM WageTable
-    WHERE Country = '${country1}' OR Country = '${country2}'
+    WHERE Country = '${country1}' OR Country = '${country2}' AND Year = ${year}
     ORDER BY Year, Month ASC
     LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
@@ -432,8 +433,8 @@ const labour = async function (req, res) {
     SELECT Country, Year, Month, Value AS HighestUnemploymentRate
     FROM RankedLabour
     WHERE ValueRank = 1
-      AND unemp_low > ${unemp_low}
-      AND unemp_high < ${unemp_high}
+      AND Value > ${unemp_low}
+      AND Value < ${unemp_high}
     ORDER BY HighestUnemploymentRate DESC, Country, Year, Month`,
       (err, data) => {
         if (err || data.length === 0) {
@@ -450,8 +451,8 @@ const labour = async function (req, res) {
     SELECT Country, Year, Month, Value AS HighestUnemploymentRate
     FROM RankedLabour
     WHERE ValueRank = 1
-      AND unemp_low > ${unemp_low}
-      AND unemp_high < ${unemp_high}
+      AND Value > ${unemp_low}
+      AND Value < ${unemp_high}
     ORDER BY HighestUnemploymentRate DESC, Country, Year, Month
     LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
@@ -577,6 +578,23 @@ const distcategories = async function (req, res) {
     });
 }
 
+// Route 15: 
+const distyears = async function (req, res) {
+  connection.query(`
+  SELECT DISTINCT Year
+  FROM Labour
+  ORDER BY Year;`,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log("ee")
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    });
+}
+
 module.exports = {
   author,
   trading_data,
@@ -592,4 +610,5 @@ module.exports = {
   temperature,
   distcountries,
   distcategories,
+  distyears
 }
