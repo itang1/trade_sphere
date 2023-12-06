@@ -466,7 +466,7 @@ const labour = async function (req, res) {
     WHERE ValueRank = 1
       AND Value > ${unemp_low}
       AND Value < ${unemp_high}
-    ORDER BY HighestUnemploymentRate DESC, Country, Year, Month`,
+    ORDER BY Country`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
