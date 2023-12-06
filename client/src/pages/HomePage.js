@@ -31,19 +31,7 @@ export default function TradingPage() {
         
         .catch(error => console.error(error));
        }, []);   
-       console.log(expor)  
-
-
-      useEffect(() => {
-
-        fetch(`http://${config.server_host}:${config.server_port}/labour`)
-          .then(data=> data.json())
-          .then((data) => {setLabour(data) ;
-          })
-        
-        .catch(error => console.error(error));
-       }, []);   
-       console.log(labour)  
+       //console.log(expor)  
 
        useEffect(() => {
        fetch(`http://${config.server_host}:${config.server_port}/country/populationwater`)
@@ -53,18 +41,6 @@ export default function TradingPage() {
         
         .catch(error => console.error(error));
        }, []);   
-       console.log(labour) 
-  
-      useEffect(() => {
-        fetch(`http://${config.server_host}:${config.server_port}/distcountries`)
-          .then(res => res.json())
-          .then(resJson => setData(resJson))
-          .catch(error => console.error(error));
-      }, []);
-
-      const menuItems = data.map(item => (
-        <MenuItem value={item.Country2}>{item.Country2}</MenuItem>
-      ));
 
     const traidEColumns = [
     {
@@ -75,19 +51,6 @@ export default function TradingPage() {
     {
       field: 'TotalExportValue',
       headerName: 'Total Export Value ',
-      flex:1
-    }
-  ];
-
-  const labourColumns = [
-    {
-      field: 'HighestUnemploymentRate',
-      headerName: 'HighestUnemploymentRate',
-      flex:1
-    },
-    {
-      field: 'Year',
-      headerName: 'Year',
       flex:1
     }
   ];
