@@ -25,6 +25,7 @@ app.get('/country/temperature', routes.temperature);
 app.get('/distcountries', routes.distcountries);
 app.get('/distcategories', routes.distcategories);
 app.get('/distyears', routes.distyears);
+app.get('/distcountries2', routes.distcountries2);
 
 
 
