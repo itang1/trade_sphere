@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 //import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Line, Tooltip, Legend} from 'recharts'
 
 
+
 const config = require('../config.json');
 
 
@@ -121,6 +122,10 @@ export default function TradingPage() {
 
   }, []);
 
+  function formatNumberWithCommas(number) {
+    return number.toLocaleString();
+}
+
 
   const columnsVol = [
     { field: 'Continent', headerName: 'Continent', flex: 1 },
@@ -130,12 +135,17 @@ export default function TradingPage() {
   const columnsTraiD = [
     { field: 'Country2', headerName: 'Country', flex: 1 },
     { field: 'Year', headerName: 'Year', flex: 1 },
-    { field: 'Value', headerName: 'Value', flex: 1 },
+    { 
+      field: 'Value', 
+      headerName: 'Volume', 
+      flex: 1,
+      renderCell: (params) => formatNumberWithCommas(params.value)
+    }
   ]
 
   const columnsTraiP = [
     { field: 'Category', headerName: 'Category', flex: 1 },
-    { field: 'Value2', headerName: 'Value', flex: 1 },
+    { field: 'Value2', headerName: 'Volume', flex: 1 },
   ]
 
   const [setMarker] = useState([]);
@@ -147,6 +157,7 @@ export default function TradingPage() {
     }
     ]);
   };
+  
 
   const menuItems = data.map(item => (
     <MenuItem value={item.Country2}>{item.Country2}</MenuItem>
@@ -157,24 +168,31 @@ export default function TradingPage() {
   ));
 
   return (
-
+    <div style={{ backgroundColor: '#F8F7F1', padding: '10px' }}>
     <Container><div style={{ padding: "10px" }} >
       <h1>International Trade</h1>
 
 
-      <div style={{ padding: "10px", backgroundColor: '#F4ECE2' }} >
-        <p> International trade has been prominent throughout history. However, with social, political, and economic changes, such as increasing globalization, international trade has grown immensly both in value and diversity within the last century. The number and types of goods, as well as the pairings of trading partners convey a complex picture of the global economy and inform decision-making by global powers, such as the United States. Therefore, mapping those relationships and collecting trade information is of uttermost importance to understand the state of the global economy and gain educated insights. </p>
-        <p>
-          This page provides an overview of trading-related data, including the influence of different trading categories and types on trading patterns between the United States and other countries. The below displayed data should be viewed as an example of exploratory analysis that can be conducted with the abc database but it only displays a small selection of available variables.</p>
+      <div style={{ 
+        fontStyle: 'italic',
+          padding: "10px", 
+          backgroundColor: '#F2ECE1',
+          border: '1px solid #CCCCCC', // Adjust the color as needed
+          borderRadius: '10px' // Optional, for rounded corners
+      }} >
+          <p>International trade has been prominent throughout history. However, with social, political, and economic changes, such as increasing globalization, international trade has grown immensely both in value and diversity within the last century. The number and types of goods, as well as the pairings of trading partners convey a complex picture of the global economy and inform decision-making by global powers, such as the United States. Therefore, mapping those relationships and collecting trade information is of utmost importance to understand the state of the global economy and gain educated insights.
+          </p>
+          <p>This page provides an overview of trading-related data, including the influence of different trading categories and types on trading patterns between the United States and other countries. The below displayed data should be viewed as an example of exploratory analysis that can be conducted with the abc database but it only displays a small selection of available variables.
+          </p>
       </div>
       <div >
-        <h2>Trading by Trade Category </h2>
+        <h2>(I) Trading by Trade Category </h2>
 
         <p>
           Trading category is the most diverse part of trading data as it describes what goods were exchanged between the trading partners. The abc database reports on over 1000 categories that range from food, agriculture, clothing to raw materials, tools and more. </p>
       </div>
       <h3>Top 5 Largest Trading Partners with the United States </h3>
-      <Grid item xs={2} >
+      <Grid item xs={2} style={{ marginLeft: '10px' }}>
         <InputLabel variant="standard" htmlFor="types">
           Select a Trade Type
         </InputLabel>
@@ -193,7 +211,7 @@ export default function TradingPage() {
           <MenuItem value="Re-Export">Re-Export</MenuItem>
         </Select></Grid>
 
-      <Grid item xs={2}>
+      <Grid item xs={2} style={{ marginLeft: '10px' }}>
         <InputLabel variant="standard" htmlFor="categories">
           Select a Category
         </InputLabel>
@@ -209,12 +227,20 @@ export default function TradingPage() {
         </Select>
       </Grid>
 
-      <Button onClick={() => searchTraidPC()} style={{ left: '10%', transform: 'translateX(-90%)' }}>
-        Search
-      </Button>
+      <Grid item xs={12} >
+    <Button 
+      onClick={() => searchTraidPC()} 
+      style={{ marginTop: '20px', left: '12%', transform: 'translateX(-90%)', backgroundColor: '#3C6E71', color: 'white'}} 
+      variant="contained" 
+    >
+      Search
+    </Button>
+    <br></br>
+    <br></br>
+  </Grid>
 
 
-      <MapContainer center={[54, 15]} zoom={1} scrollWheelZoom={false} style={{ height: '40vh', width: '50wh' }} id="map"
+      <MapContainer center={[54, 15]} zoom={1} scrollWheelZoom={false} style={{ height: '40vh', width: '50wh',backgroundColor: '#F8F7F1' }} id="map"
       >
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossOrigin="" />
@@ -238,12 +264,20 @@ export default function TradingPage() {
           </Marker>))}
       </MapContainer>
 
-      <p> template with interpretation text</p>
+      <p> Experience a customized view of global trade on our interactive map. As you select your trade type as {type4} and product categories as {categories2}, the map dynamically updates to 
+        showcase the United States' five largest trading partners in this sector. This tailored visualization brings to life the vibrant trade networks and volumes based on your specific interests, offering a unique perspective on international commerce.
+        <ol>
+        {traidpc.slice(0, 5).map((partner, index) => (
+          <li key={index}>
+            {partner.Country2}: {partner.Value}
+          </li>
+        ))}
+      </ol>
+        
+      </p>
 
-      <p>
-        To find a more detailed account on the different goods that are exchanged between countries, including all countries within a category and allowing a year filter, can be found below: </p>
-
-      <Grid item xs={2} >
+      <h3>All Trading Partners with the United States </h3>
+      <Grid item xs={2} style={{ marginLeft: '10px' }}>
         <InputLabel variant="standard" htmlFor="types">
           Select a Trade Type
         </InputLabel>
@@ -273,9 +307,17 @@ export default function TradingPage() {
         </Select>
       </Grid>
 
-      <Button onClick={() => searchTraidD()} style={{ left: '10%', transform: 'translateX(-90%)' }}>
-        Search
-      </Button>
+      <Grid item xs={12} >
+    <Button 
+      onClick={() => searchTraidD()}
+      style={{ marginTop: '20px', left: '12%', transform: 'translateX(-90%)', backgroundColor: '#3C6E71', color: 'white'}} 
+      variant="contained" 
+    >
+      Search
+    </Button>
+    <br></br>
+    <br></br>
+  </Grid>
       <div style={{ border: 1, backgroundColor: '#D9D9D9' }}>
         <DataGrid
           rows={traidd}
@@ -293,15 +335,32 @@ export default function TradingPage() {
               quickFilterProps: { debounceMs: 250 },
             },}}
           autoHeight
+          sx={{
+            backgroundColor: '#F2ECE1',
+            '& .MuiDataGrid-cell': {
+                borderColor: '#F7E7CE',
+            },
+            '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#F2ECE1',
+            },
+            '& .MuiDataGrid-row': {
+                '&:nth-of-type(odd)': {
+                    backgroundColor: '#F8F7F1', // for zebra striping, if needed
+                },
+            },
+        }}
         /></div>
+        <br></br>
+        <hr></hr>
+        <br></br>
 
 
-      <h2>Regional Trading Differences</h2>
+      <h2>(II) Regional Trading Differences</h2>
       <p> The two below displayed tables showcase the changes of total trade volume by the trade type for the different continents and the largest trading category a country has with the United States. The abc database reports on close to 200 different trading partners with the United States. </p>
-      <h3>Volume by Continent</h3>
+      <h3>Total Trading Volume by Continent</h3>
       <Grid container spacing={2}>
 
-        <Grid item xs={2} >
+        <Grid item xs={2} style={{ marginLeft: '10px' }}>
           <InputLabel variant="standard" htmlFor="types">
             Select a Trade Type
           </InputLabel>
@@ -320,9 +379,17 @@ export default function TradingPage() {
 
       </Grid>
 
-      <Button onClick={() => searchVol()} style={{ left: '10%', transform: 'translateX(-90%)' }}>
-        Search
-      </Button> </Grid>
+      <Grid item xs={12}>
+    <Button 
+      onClick={() => searchVol()}
+      style={{ marginTop: '10px', left: '12%', transform: 'translateX(-90%)', backgroundColor: '#3C6E71', color: 'white'}} 
+      variant="contained" 
+    >
+      Search
+    </Button>
+    <br></br>
+    <br></br>
+  </Grid> </Grid>
        {/*
       {volume?.map((marker) => (
       <BarChart  width={730} height={250} data={volume}>
@@ -333,7 +400,7 @@ export default function TradingPage() {
                 <Bar dataKey="TotalExportValue" fill="#9994d8" />
   
         </BarChart>))}*/}
-     <div style={{ backgroundColor: '#D9D9D9' }}>
+     <div style={{ backgroundColor: '#F7E7CE' }}>
         <DataGrid
           rows={volume}
           columns={columnsVol}
@@ -350,9 +417,24 @@ export default function TradingPage() {
               quickFilterProps: { debounceMs: 250 },
             },}}
           autoHeight
+          sx={{
+            backgroundColor: '#F2ECE1',
+            '& .MuiDataGrid-cell': {
+                borderColor: '#F7E7CE',
+            },
+            '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#F2ECE1',
+            },
+            '& .MuiDataGrid-row': {
+                '&:nth-of-type(odd)': {
+                    backgroundColor: '#F8F7F1', // for zebra striping, if needed
+                },
+            },
+        }}
           /></div>
+        <br></br>
       <h3>Largest Trade Category for United States Trade Partners</h3>
-      <Grid item xs={2} >
+      <Grid item xs={2} style={{ marginLeft: '10px' }} >
         <InputLabel variant="standard" htmlFor="types">
           Select a Trade Type
         </InputLabel>
@@ -369,7 +451,7 @@ export default function TradingPage() {
           <MenuItem value="Re-Export">Re-Export</MenuItem>
         </Select></Grid>
 
-      <Grid item xs={2}>
+      <Grid item xs={2} style={{ marginLeft: '10px' }}>
         <InputLabel variant="standard" htmlFor="countries">
           Select a Country
         </InputLabel> {/*
@@ -392,9 +474,17 @@ export default function TradingPage() {
         </Select>
       </Grid>
 
-      <Button onClick={() => searchTraidP()} style={{ left: '10%', transform: 'translateX(-90%)' }}>
-        Search
-      </Button>
+      <Grid item xs={12}>
+    <Button 
+      onClick={() => searchTraidP()}
+      style={{ marginTop: '20px', left: '12%', transform: 'translateX(-90%)', backgroundColor: '#3C6E71', color: 'white'}} 
+      variant="contained" 
+    >
+      Search
+    </Button>
+    <br></br>
+    <br></br>
+  </Grid>
 
       <div style={{ backgroundColor: '#D9D9D9' }}>
         <DataGrid
@@ -410,10 +500,24 @@ export default function TradingPage() {
               quickFilterProps: { debounceMs: 250 },
             },}}
           autoHeight
+          sx={{
+            backgroundColor: '#F2ECE1',
+            '& .MuiDataGrid-cell': {
+                borderColor: '#F7E7CE',
+            },
+            '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#F2ECE1',
+            },
+            '& .MuiDataGrid-row': {
+                '&:nth-of-type(odd)': {
+                    backgroundColor: '#F8F7F1', // for zebra striping, if needed
+                },
+            },
+        }}
         /></div>
     </div>
 
-    </Container>
+    </Container></div>
   );
 }
 

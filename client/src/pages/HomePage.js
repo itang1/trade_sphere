@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  Container, MenuItem , Grid} from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
@@ -47,7 +47,7 @@ export default function TradingPage() {
 
        useEffect(() => {
        fetch(`http://${config.server_host}:${config.server_port}/populationwater`)
-          .then(data=> data.json())
+          .then(response=> response.json())
           .then((data) => {setWater(data) ;
           })
         
@@ -123,15 +123,15 @@ return (
 
       <Grid item xs={2} > 
       <h3>Unimproved Drinking Water by Continent</h3>
-            <BarChart width={730} height={250} data={water}>
-              <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="Continent" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="MaxUnimprovedWater" fill="#8884d8" />
-  
-              </BarChart> 
-              <h3>Total Export by Trade Category</h3>
+      <BarChart width={730} height={250} data={water}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="Continent" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="MaxUnimprovedWater" fill="#8884d8" />
+        </BarChart>
+              <h3>US Total Export by Trade Category</h3>
       <DataGrid
           rows={expor}
           columns={traidEColumns}

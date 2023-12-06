@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, InputLabel, Select, MenuItem, Grid } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 
 
 const config = require('../config.json');
@@ -11,10 +13,12 @@ export default function CountriesWagesPage() {
     const [pageSize, setPageSize] = useState(10);
     const [country1, setCountry1] = useState('')
     const [country2, setCountry2] = useState('')
-    const [year, setYear] = useState('')
+    // const [year, setYear] = useState('')
     const [data, setData] = useState([])
     const [possibleCountries, setPossibleCountries] = useState([])
-    const [possibleYears, setPossibleYears] = useState([])
+    // const [possibleYears, setPossibleYears] = useState([])
+    const [timeSeriesData, setTimeSeriesData] = useState([]);
+    
 
 
     useEffect(() => {
@@ -24,21 +28,70 @@ export default function CountriesWagesPage() {
             .catch(error => console.error(error));
     }, []);
 
-    useEffect(() => {
-        fetch(`http://${config.server_host}:${config.server_port}/distyears`)
-            .then(res => res.json())
-            .then(resJson => setPossibleYears(resJson))
-            .catch(error => console.error(error));
-    }, []);
+    // useEffect(() => {
+    //     fetch(`http://${config.server_host}:${config.server_port}/distyears`)
+    //         .then(res => res.json())
+    //         .then(resJson => setPossibleYears(resJson))
+    //         .catch(error => console.error(error));
+    // }, []);
 
-
-    const searchWages = () => {
-        fetch(`http://${config.server_host}:${config.server_port}/country/wages?country1=${country1}&country2=${country2}&year=${year}`)
-            .then(res => res.json())
-            .then(resJson => setData(resJson))
-            .catch(error => console.error(error));
-    }
-
+    const createTimeSeriesData = (data, country1, country2) => {
+        // Create a unique set of year-month strings from the data
+        let uniqueYearMonths = new Set(data.map(d => `${d.Year}-${String(d.Month).padStart(2, '0')}`));
+        uniqueYearMonths = Array.from(uniqueYearMonths).sort();
+      
+        // Create a map for quick access to the data
+        const dataMap = new Map(data.map(item => [`${item.Year}-${String(item.Month).padStart(2, '0')}-${item.Country}`, item.TotalWage]));
+      
+        // Initialize the time series data array
+        const timeSeriesData = uniqueYearMonths.map(yearMonth => {
+          const yearMonthCountry1 = `${yearMonth}-${country1}`;
+          const yearMonthCountry2 = `${yearMonth}-${country2}`;
+          return {
+            yearMonth: yearMonth,
+            [country1]: dataMap.get(yearMonthCountry1) || 0, // Replace null with 0 or carry forward the last known value
+            [country2]: dataMap.get(yearMonthCountry2) || 0, // Replace null with 0 or carry forward the last known value
+          };
+        });
+      
+        // Carry forward the last known value if the current value is 0 and there was a previous known value
+        let lastValueCountry1 = null;
+        let lastValueCountry2 = null;
+        for (const entry of timeSeriesData) {
+          if (entry[country1] !== 0) {
+            lastValueCountry1 = entry[country1];
+          } else if (lastValueCountry1 !== null) {
+            entry[country1] = lastValueCountry1;
+          }
+      
+          if (entry[country2] !== 0) {
+            lastValueCountry2 = entry[country2];
+          } else if (lastValueCountry2 !== null) {
+            entry[country2] = lastValueCountry2;
+          }
+        }
+      
+        return timeSeriesData;
+      };
+      
+      
+      const searchWages = () => {
+        fetch(`http://${config.server_host}:${config.server_port}/country/wages?country1=${country1}&country2=${country2}`)
+          .then(res => res.json())
+          .then(combinedData => {
+            // Set the DataGrid data
+            setData(combinedData);
+        
+            // Prepare the time series data for the LineChart
+            const timeSeries = createTimeSeriesData(combinedData, country1, country2);
+        
+            // Set the time series data for the LineChart
+            setTimeSeriesData(timeSeries);
+          })
+          .catch(error => console.error('Failed to fetch wage data:', error));
+      };
+      
+      
     // useEffect(() => {
     //     fetch(`http://${config.server_host}:${config.server_port}/country/wage_growth`)
     //         .then(res => res.json())
@@ -47,33 +100,35 @@ export default function CountriesWagesPage() {
     // }, []);
 
 
-    const columnsWages = [
-        { field: 'Country', headerName: 'Country', flex: 1 },
-        { field: 'Year', headerName: 'Year', flex: 1 },
-        { field: 'Month', headerName: 'Month', flex: 1 },
-        { field: 'B.Value * U.ConversionRate', headerName: 'Wage (USD/Year)', flex: 1 },
-    ]
 
+    const columnsWages = [
+        { field: 'Country', headerName: 'Country', width: 300 },
+        { field: 'Year', headerName: 'Year', width: 300 },
+        { field: 'Month', headerName: 'Month', width: 300 },
+        // Update the field to match the key provided by the server for wage values
+        { field: 'TotalWage', headerName: 'Wage (USD/ Year)', width: 700 },
+    ];
     const countryMenuItems = possibleCountries.map(item => (
         <MenuItem value={item.Country2}>{item.Country2}</MenuItem>
     ));
 
-    const yearMenuItems = possibleYears.map(item => (
-        <MenuItem value={item.Year}>{item.Year}</MenuItem>
-    ));
+    // const yearMenuItems = possibleYears.map(item => (
+    //     <MenuItem value={item.Year}>{item.Year}</MenuItem>
+    // ));
 
 
     return (
-
+        <div style={{ backgroundColor: '#F8F7F1', padding: '10px' }}>
         <Container><div style={{ padding: "10px" }} >
             <h1>Wages</h1>
 
 
-            <div style={{ padding: "10px", backgroundColor: '#F4ECE2' }} >
-                <p> This page provides an overview of wages and wage growth across countries.</p>
-            </div>
+            
+                <p style={{ marginTop: '10px', fontStyle: 'italic' }}>Unlock the fascinating world of wage comparison between two countries over time, a journey that not only reveals differences in pay scales but also mirrors the domestic economic environments within these nations. This exploration provides insights into how economic policies, market trends, and cultural factors influence wage structures. Witness how shifts in the global economy, technological advancements, and political changes impact earnings in different regions. Delving into this comparative analysis offers a deeper understanding of the interconnectedness of global economies and the unique challenges and opportunities each country faces.
+                </p>
+            
 
-<br></br>
+
 <hr></hr>
 <br></br>
 
@@ -112,27 +167,53 @@ export default function CountriesWagesPage() {
 
                 <br></br>
 
-                <InputLabel variant="standard" htmlFor="country1">
+                {/* <InputLabel variant="standard" htmlFor="country1">
                     Select Year
-                </InputLabel>
-                <Select id="year"
+                </InputLabel> */}
+                {/* <Select id="year"
                     sx={{
                         width: 200, height: 50, border: 1, borderColor: '#7E7E7E',
                     }} onChange=
                     {(event) => { setYear(event.target.value) }} value={year} >
                     <MenuItem disabled>Choose a year ...</MenuItem>
                     {yearMenuItems}
-                </Select>
+                </Select> */}
 
             </Grid>
             
-            <br></br>
-            <br></br>
+            
 
-            <Button onClick={() => searchWages()} style={{ left: '10%', transform: 'translateX(-90%)', variant:"contained", color:"primary" }}>
+            <Button onClick={() => searchWages()} style={{ marginTop: '20px', left: '12%', transform: 'translateX(-90%)', backgroundColor: '#3C6E71', color: 'white'}} 
+      variant="contained" >
                 Search
             </Button>
+            
+            <br></br>
+            <br></br>
+            <div style={{ height: '300px', marginTop: '20px' }}>
+  <h2>Wage Comparison Over Time ({country1} vs. {country2}) </h2>
+  <ResponsiveContainer width="100%" height="100%">
+  <LineChart data={timeSeriesData} margin={{ top: 5, right: 5, bottom: 5, left:20 }}>
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis dataKey="yearMonth" />
+    <YAxis />
+    <Tooltip />
+    <Legend />
+    <Line type="monotone" dataKey={country1} stroke="#8884d8"  activeDot={{ r: 8 }}/>
+    <Line type="monotone" dataKey={country2} stroke="#82ca9d" />
+  </LineChart>
+</ResponsiveContainer>
+{/* Comment about the data */}
+<p style={{ marginTop: '10px', fontStyle: 'italic' }}>
+                    Note: A value of 0 may indicate the absence of data for the respective year and month.
 
+
+                    
+                </p>
+</div>
+<br></br>
+            <br></br>
+            <br></br>
             <br></br>
             <br></br>
 
@@ -144,11 +225,35 @@ export default function CountriesWagesPage() {
                     pageSize={pageSize}
                     rowsPerPageOptions={[5, 10, 25]}
                     onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                    components={{ Toolbar: GridToolbar }}
+          componentsProps={{
+            toolbar: {
+              csvOptions: { disableToolbarButton: false},
+              printOptions: { disableToolbarButton: true },
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 250 },
+            },}}
                     autoHeight
+                    sx={{
+                        backgroundColor: '#F2ECE1',
+                        '& .MuiDataGrid-cell': {
+                            borderColor: '#F7E7CE',
+                        },
+                        '& .MuiDataGrid-columnHeaders': {
+                            backgroundColor: '#F2ECE1',
+                        },
+                        '& .MuiDataGrid-row': {
+                            '&:nth-of-type(odd)': {
+                                backgroundColor: '#F8F7F1', // for zebra striping, if needed
+                            },
+                        },
+                    }}
                 /></div>
+            
+
 
         </div>
-        </Container>
+        </Container></div>
     );
 }
 
