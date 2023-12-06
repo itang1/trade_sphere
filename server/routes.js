@@ -625,6 +625,20 @@ const distyears = async function (req, res) {
     });
 }
 
+// Route 16: 
+const distcountries2 = async function(req, res) {
+  connection.query(`SELECT DISTINCT Country
+  FROM Labour ORDER BY Country;`, 
+      (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 module.exports = {
   author,
   trading_data,
@@ -640,5 +654,6 @@ module.exports = {
   temperature,
   distcountries,
   distcategories,
-  distyears
+  distyears,
+  distcountries2,
 }
