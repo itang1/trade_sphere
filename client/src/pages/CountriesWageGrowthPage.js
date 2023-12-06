@@ -101,8 +101,12 @@ export default function CountriesWageGrowthPage() {
             />
             {/* Comment about the data */}
             <p style={{ marginTop: '10px', fontStyle: 'italic' }}>
-            Note: Financial instability, including inflation and other economic crises, can be a factor in significant wage increases.
-
+            Note: Financial instability, including inflation and other economic crises, can be a factor in significant wage increases.\
+            <br></br>
+            Argentina Inflation: <a href="https://www.inflationtool.com/rates/argentina/historical" target="_blank" rel="noopener noreferrer">
+            https://www.inflationtool.com/rates/argentina/historical
+            </a>
+            
 
                     
                 </p>

@@ -128,6 +128,17 @@ export default function CountriesTemperaturePage() {
                     },
                 }}
             />
+            <p style={{ marginTop: '10px', fontStyle: 'italic' }}>
+            <br></br>
+            Note: Countries experiencing drastic changes in temperature could be affected by a combination of natural climate variability and human-induced climate change factors.
+            <br></br>
+            Kuwait Extreme Climate: <a href="https://www.dw.com/en/kuwaits-climate-crisis-a-scorching-nation-in-denial/a-61261999#:~:text=,everyone%20to%20the%20brink" target="_blank" rel="noopener noreferrer">
+            https://www.dw.com/en/kuwaits-climate-crisis-a-scorching-nation-in-denial/
+            </a>
+            
+
+                    
+                </p>
 
             <br></br>
             <br></br>

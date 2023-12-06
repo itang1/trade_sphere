@@ -175,6 +175,7 @@ export default function CountriesLivingConditionsPage() {
                 }}
             />
             <div style={{ marginTop: '10px', fontStyle: 'italic' }}>
+            <br></br>Definition:
     <p>
         (1) Improved Drinking Water Access:
         This term signifies the availability of water sources that are adequately protected from external contaminants, particularly fecal matter, ensuring safe and clean water for consumption and use.

@@ -103,6 +103,10 @@ export default function CountriesLaborPage() {
             <br></br>
             <p style={{ marginTop: '10px', fontStyle: 'italic' }}>
             The peak year and month can shed light on significant real-world events, offering insights into underlying factors and circumstances.
+            <br></br>
+            South Africa Coverage(2021): <a href="https://www.reuters.com/world/africa/south-africas-unemployment-rate-hits-new-record-high-q4-2021-2022-03-29/" target="_blank" rel="noopener noreferrer">
+                https://www.reuters.com/world/africa/south-africas-unemployment-rate-hits-new-record-high-q4-2021-2022-03-29/
+            </a>
 
 
                     
