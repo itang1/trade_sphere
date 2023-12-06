@@ -93,14 +93,15 @@ export default function TradingPage() {
   ];
 
 return (
+  <div style={{ backgroundColor: '#F8F7F1', padding: '10px' }}>
     <Container>
     <h1>Trading Economics Web Application</h1>
-    <h3>Purpose and Usage</h3>
+        <hr></hr>
+        <br></br>
+    <h2>Purpose and Usage</h2>
       <p>This web application provides an interactive platform for visualizing statistics pertaining to
         the United States' trading patterns and 
         additional characteristics, such as demographics and social-economic indicators, on its trading partners.
-        <br></br>
-        <br></br>
         Users can explore detailed analytical findings on trade-related and country-specific indicators on the 
         Trades and Countries pages respectively.
         They can interactively customize their data exploration by selecting countries,
@@ -111,8 +112,11 @@ return (
         We anticipate that our web application appeals to researchers and business
         owners who are interested in import and export strategies, market selection,
         and supply chain optimization.</p>
+        <br></br>
+        <hr></hr>
+        <br></br>
       
-      <h3>Data Introduction and Preview </h3>
+      <h2>Data Introduction and Preview </h2>
       <p>The data used in this application stems from a SQL database which contains United States' trading information from 
         2005 to 2022 and country specific information. More information on the data sources used for the database can be found here
       <a href="https://tradingeconomics.com"> Trading Data</a> and here <a href="https://ourworldindata.org/hunger-and-undernourishment"> Country Data. </a> 
@@ -120,17 +124,18 @@ return (
        of exports conducted by the United States, as can be seen in this table, and the continents with the highest proportion of 
        unimproved drinking water.  
       </p>
-
+      <br></br>
       <Grid item xs={2} > 
       <h3>Unimproved Drinking Water by Continent</h3>
-      <BarChart width={730} height={250} data={water}>
+      <BarChart width={850} height={350} data={water}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="Continent" />
           <YAxis />
           <Tooltip />
-          <Legend />
-          <Bar dataKey="MaxUnimprovedWater" fill="#8884d8" />
+          <Legend  />
+          <Bar dataKey="MaxUnimprovedWater" fill="#3C6E71" />
         </BarChart>
+        <br></br>
               <h3>US Total Export by Trade Category</h3>
       <DataGrid
           rows={expor}
@@ -148,12 +153,26 @@ return (
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 250 },
             },}}
+            sx={{
+              backgroundColor: '#F2ECE1',
+              '& .MuiDataGrid-cell': {
+                  borderColor: '#F7E7CE',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: '#F2ECE1',
+              },
+              '& .MuiDataGrid-row': {
+                  '&:nth-of-type(odd)': {
+                      backgroundColor: '#F8F7F1', // for zebra striping, if needed
+                  },
+              },
+          }}
           
       /> </Grid>
       
       <p>{author}</p>
  
-    </Container>
+    </Container></div>
 );
 
 }

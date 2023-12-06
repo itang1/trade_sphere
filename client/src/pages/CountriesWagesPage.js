@@ -13,10 +13,10 @@ export default function CountriesWagesPage() {
     const [pageSize, setPageSize] = useState(10);
     const [country1, setCountry1] = useState('')
     const [country2, setCountry2] = useState('')
-    // const [year, setYear] = useState('')
+    const [year, setYear] = useState('')
     const [data, setData] = useState([])
     const [possibleCountries, setPossibleCountries] = useState([])
-    // const [possibleYears, setPossibleYears] = useState([])
+    const [possibleYears, setPossibleYears] = useState([])
     const [timeSeriesData, setTimeSeriesData] = useState([]);
     
 
@@ -28,12 +28,12 @@ export default function CountriesWagesPage() {
             .catch(error => console.error(error));
     }, []);
 
-    // useEffect(() => {
-    //     fetch(`http://${config.server_host}:${config.server_port}/distyears`)
-    //         .then(res => res.json())
-    //         .then(resJson => setPossibleYears(resJson))
-    //         .catch(error => console.error(error));
-    // }, []);
+    useEffect(() => {
+        fetch(`http://${config.server_host}:${config.server_port}/distyears`)
+            .then(res => res.json())
+            .then(resJson => setPossibleYears(resJson))
+            .catch(error => console.error(error));
+    }, []);
 
     const createTimeSeriesData = (data, country1, country2) => {
         // Create a unique set of year-month strings from the data
