@@ -25,7 +25,7 @@ const author = async function (req, res) {
 const trading_data = async function (req, res) {
   const type = req.query.type ?? '';
   const category = req.query.category ?? '';
-  connection.query(`SELECT Symbol, Country1, Country2, Type, Year, Category, FORMAT(Value,'NO') AS Value FROM USTradingData 
+  connection.query(`SELECT Symbol, Country1, Country2, Type, Year, Category, Value AS Value FROM USTradingData 
     WHERE Type = '${type}' AND Category = '${category}'`, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -141,11 +141,11 @@ const population = async function (req, res) {
         WITH PopulationCTE AS (
           SELECT Country,
             Region,
-            Urban_Population/Population*100 AS UrbanProportion,
-            Improved_Drinking_Water_Access As DrinkingWaterProportion,
-            Improved_Sanitation_Access AS SanitationProportion,
-            Population_under_1yo/Population*100 AS InfantProportion,
-            Population AS TotalPopulation
+            ROUND(Urban_Population/Population*100,2) AS UrbanProportion,
+            ROUND(Improved_Drinking_Water_Access,2) As DrinkingWaterProportion,
+            ROUND(Improved_Sanitation_Access,2) AS SanitationProportion,
+            ROUND(Population_under_1yo/Population*100,2) AS InfantProportion,
+            ROUND(Population,2) AS TotalPopulation
           FROM CountryDemographics
         )
         SELECT *
@@ -203,68 +203,17 @@ const population = async function (req, res) {
   }
 }
 
-  // Route 8: GET /country/populationwater
-  const populationwater = async function(req, res) {
-    const page = req.param.page;
-    const page_size = req.param.page_size ?? 10;
-    const offset = (page-1)*page_size;
-  
-    if (!page) {
-    connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) 
-    AS MaxUnimprovedWater FROM CountryDemographics H 
-    JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
-    GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
-    FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName 
-    JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater`,
-      (err, data) => {
-        if (err || data.length === 0) {
-          console.log(err);
-          res.json([]);
-          console.log(err);
-        } else {
-        res.json(data); 
-        }
-      }); 
-    } else {
-      connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) 
-      AS MaxUnimprovedWater FROM CountryDemographics H 
-      JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
-      GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
-      FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName 
-      JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater
-      LIMIT ${page_size} OFFSET ${offset}`,
-      (err, data) => {
-        if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-        console.log(err);
-        } else {
-        res.json(data); 
-        }
-    });
-  }
-  }
-
-// Route 9: GET /country/wages
-const wages = async function (req, res) {
-  const country1 = req.query.country1 ?? 'United States';
-  const country2 = req.query.country2 ?? 'Mexico';
-  const year = req.query.year ?? 2009;
+// Route 8: GET /country/populationwater
+const populationwater = async function (req, res) {
   const page = req.param.page;
   const page_size = req.param.page_size ?? 10;
   const offset = (page - 1) * page_size;
 
   if (!page) {
-    connection.query(`WITH WageTable AS(
-      SELECT B.Country, B.Year, B.Month, B.Value * U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
-      FROM Labour B
-        JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
-        JOIN UnitConversion U ON I.Unit = U.Unit
-      WHERE B.Category = 'Wages'
-    )
-    SELECT * FROM WageTable
-    WHERE Country = '${country1}' OR Country = '${country2}' AND Year = ${year}
-    ORDER BY Year, Month ASC`,
+    connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
+    FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
+    GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
+    FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
@@ -275,17 +224,11 @@ const wages = async function (req, res) {
         }
       });
   } else {
-    connection.query(`WITH WageTable AS (
-      SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
-      FROM Labour B
-        JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
-        JOIN UnitConversion U ON I.Unit = U.Unit
-      WHERE B.Category = 'Wages'
-    )
-    SELECT * FROM WageTable
-    WHERE Country = '${country1}' OR Country = '${country2}' AND Year = ${year}
-    ORDER BY Year, Month ASC
-    LIMIT ${page_size} OFFSET ${offset}`,
+    connection.query(`With MaxUM AS (SELECT C.Continent, MAX(H.Unimproved_Drinking_Water_Access) AS MaxUnimprovedWater
+      FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName where C.Continent IS NOT NULL
+      GROUP BY C.Continent) SELECT  C.Continent, H.Country, MUM.MaxUnimprovedWater
+      FROM CountryDemographics H JOIN CountryInfo C on H.Country = C.CountryName JOIN MaxUM MUM on C.Continent = MUM.Continent AND H.Unimproved_Drinking_Water_Access = MUM.MaxUnimprovedWater
+      LIMIT ${page_size} OFFSET ${offset}`,
       (err, data) => {
         if (err || data.length === 0) {
           console.log(err);
@@ -297,6 +240,90 @@ const wages = async function (req, res) {
       });
   }
 }
+
+// // Route 9: GET /country/wages
+// const wages = async function (req, res) {
+//   const country1 = req.query.country1 ?? 'United States';
+//   const country2 = req.query.country2 ?? 'Mexico';
+//   const year = req.query.year ?? 2009;
+//   const page = req.param.page;
+//   const page_size = req.param.page_size ?? 10;
+//   const offset = (page - 1) * page_size;
+
+//   if (!page) {
+//     connection.query(`WITH WageTable AS(
+//       SELECT B.Country, B.Year, B.Month, B.Value * U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
+//       FROM Labour B
+//         JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+//         JOIN UnitConversion U ON I.Unit = U.Unit
+//       WHERE B.Category = 'Wages'
+//     )
+//     SELECT * FROM WageTable
+//     WHERE Country = '${country1}' OR Country = '${country2}' AND Year = ${year}
+//     ORDER BY Year, Month ASC`,
+//       (err, data) => {
+//         if (err || data.length === 0) {
+//           console.log(err);
+//           res.json([]);
+//           console.log(err);
+//         } else {
+//           res.json(data);
+//         }
+//       });
+//   } else {
+//     connection.query(`WITH WageTable AS (
+//       SELECT B.Country, B.Year, B.Month, B.Value*U.ConversionRate, I.Unit, U.UnitGroup, U.ExchangeRate, U.FrequencyRate, U.ConversionRate
+//       FROM Labour B
+//         JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+//         JOIN UnitConversion U ON I.Unit = U.Unit
+//       WHERE B.Category = 'Wages'
+//     )
+//     SELECT * FROM WageTable
+//     WHERE Country = '${country1}' OR Country = '${country2}' AND Year = ${year}
+//     ORDER BY Year, Month ASC
+//     LIMIT ${page_size} OFFSET ${offset}`,
+//       (err, data) => {
+//         if (err || data.length === 0) {
+//           console.log(err);
+//           res.json([]);
+//           console.log(err);
+//         } else {
+//           res.json(data);
+//         }
+//       });
+//   }
+// }
+// Route 9: GET /country/wages
+// Route 9: GET /country/wages
+const wages = async function (req, res) {
+  const country1 = req.query.country1;
+  const country2 = req.query.country2;
+
+  if (!country1 || !country2) {
+    return res.status(400).json({ error: 'Please provide both country1 and country2 query parameters.' });
+  }
+
+  const query = `
+    WITH WageData AS (
+      SELECT B.Country, B.Year, B.Month, ROUND(B.Value * U.ConversionRate, 2) AS TotalWage
+      FROM Labour B
+      JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+      JOIN UnitConversion U ON I.Unit = U.Unit
+      WHERE B.Category = 'Wages' AND (B.Country = ? OR B.Country = ?)
+
+    )
+    SELECT Country, Year, Month, TotalWage FROM WageData
+    ORDER BY Year, Month, Country ASC`;
+
+  connection.query(query, [country1, country2], (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(data);
+  });
+};
+
 
 
 // Route 10: GET /country/wage_growth
