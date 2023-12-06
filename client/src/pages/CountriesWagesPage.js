@@ -22,7 +22,7 @@ export default function CountriesWagesPage() {
 
 
     useEffect(() => {
-        fetch(`http://${config.server_host}:${config.server_port}/distcountries`)
+        fetch(`http://${config.server_host}:${config.server_port}/distcountries2`)
             .then(res => res.json())
             .then(resJson => setPossibleCountries(resJson))
             .catch(error => console.error(error));
@@ -109,7 +109,7 @@ export default function CountriesWagesPage() {
         { field: 'TotalWage', headerName: 'Wage (USD/ Year)', width: 700 },
     ];
     const countryMenuItems = possibleCountries.map(item => (
-        <MenuItem value={item.Country2}>{item.Country2}</MenuItem>
+        <MenuItem value={item.Country}>{item.Country}</MenuItem>
     ));
 
     // const yearMenuItems = possibleYears.map(item => (
