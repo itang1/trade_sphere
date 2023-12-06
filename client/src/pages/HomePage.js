@@ -46,7 +46,7 @@ export default function TradingPage() {
        console.log(labour)  
 
        useEffect(() => {
-       fetch(`http://${config.server_host}:${config.server_port}/populationwater`)
+       fetch(`http://${config.server_host}:${config.server_port}/country/populationwater`)
           .then(response=> response.json())
           .then((data) => {setWater(data) ;
           })
