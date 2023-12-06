@@ -373,7 +373,7 @@ const wage_growth = async function (req, res) {
     PercIncrease AS (
       SELECT
         Country,
-        CASE WHEN YearDifference = 0 THEN NULL ELSE PropIncrease / YearDifference*100 END AS AvgYearlyIncrease_perc
+        CASE WHEN YearDifference = 0 THEN NULL ELSE ROUND(PropIncrease / YearDifference*100,2) END AS AvgYearlyIncrease_perc
       FROM ProportionalIncrease
       ORDER BY AvgYearlyIncrease_perc DESC
     )
