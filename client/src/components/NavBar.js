@@ -45,7 +45,7 @@ export default function NavBar() {
     <AppBar position='static' style={{ background: 'teal' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <NavText href='/' text='TRADING ECONOMICS WEBAPP' isMain />
+          <NavText href='/' text='TRADESPHERE' isMain />
           <Typography
             variant='h7'
             noWrap
