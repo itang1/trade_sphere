@@ -96,12 +96,8 @@ export default function CountriesWagesPage() {
       <Container><div style={{ padding: "10px" }} >
         <h1>Wages</h1>
 
-
-
         <p style={{ marginTop: '10px', fontStyle: 'italic' }}>Unlock the fascinating world of wage comparison between two countries over time, a journey that not only reveals differences in pay scales but also mirrors the domestic economic environments within these nations. This exploration provides insights into how economic policies, market trends, and cultural factors influence wage structures. Witness how shifts in the global economy, technological advancements, and political changes impact earnings in different regions. Delving into this comparative analysis offers a deeper understanding of the interconnectedness of global economies and the unique challenges and opportunities each country faces.
         </p>
-
-
 
         <hr></hr>
         <br></br>
@@ -153,6 +149,9 @@ export default function CountriesWagesPage() {
         <br></br>
         <div style={{ height: '300px', marginTop: '20px' }}>
           <h2>Wage Comparison Over Time ({country1} vs. {country2}) </h2>
+          <br></br>
+          <p>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</p>
+          <br></br>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={timeSeriesData} margin={{ top: 5, right: 5, bottom: 5, left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -210,4 +209,3 @@ export default function CountriesWagesPage() {
       </Container></div>
   );
 }
-
