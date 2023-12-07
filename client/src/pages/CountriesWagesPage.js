@@ -150,7 +150,7 @@ export default function CountriesWagesPage() {
         <div style={{ height: '300px', marginTop: '20px' }}>
           <h2>Wage Comparison Over Time ({country1} vs. {country2}) </h2>
           <br></br>
-          <p>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</p>
+        
           <br></br>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={timeSeriesData} margin={{ top: 5, right: 5, bottom: 5, left: 20 }}>
@@ -164,13 +164,15 @@ export default function CountriesWagesPage() {
               <Brush dataKey="yearMonth" height={30} stroke="green" />
             </LineChart>
           </ResponsiveContainer>
-          {/* Comment about the data */}
+           </div>
+       
+        <br></br>
+        <br></br>
+        <br></br>
+        
+   <div>
+          <p>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</p>
         </div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
 
         <div style={{ border: 1, backgroundColor: '#D9D9D9' }}>
           <DataGrid
