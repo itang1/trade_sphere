@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, InputLabel, Select, MenuItem, Grid } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Brush } from 'recharts';
 
 
 
@@ -49,8 +49,8 @@ export default function CountriesWagesPage() {
           const yearMonthCountry2 = `${yearMonth}-${country2}`;
           return {
             yearMonth: yearMonth,
-            [country1]: dataMap.get(yearMonthCountry1) || 0, // Replace null with 0 or carry forward the last known value
-            [country2]: dataMap.get(yearMonthCountry2) || 0, // Replace null with 0 or carry forward the last known value
+            [country1]: dataMap.get(yearMonthCountry1) || 'No Data', // Replace null with 0 or carry forward the last known value
+            [country2]: dataMap.get(yearMonthCountry2) || 'No Data', // Replace null with 0 or carry forward the last known value
           };
         });
       
@@ -140,7 +140,7 @@ export default function CountriesWagesPage() {
                 <InputLabel variant="standard" htmlFor="types">
                     Select Country #1
                 </InputLabel>
-                <Select id="country1"
+                <Select  id="country1"
                     sx={{
                         width: 200, height: 50, border: 1, borderColor: '#7E7E7E',
                     }} onChange=
@@ -195,21 +195,16 @@ export default function CountriesWagesPage() {
   <ResponsiveContainer width="100%" height="100%">
   <LineChart data={timeSeriesData} margin={{ top: 5, right: 5, bottom: 5, left:20 }}>
     <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey="yearMonth" />
+    <XAxis dataKey="yearMonth" angle={-10} />
     <YAxis />
     <Tooltip />
     <Legend />
     <Line type="monotone" dataKey={country1} stroke="#8884d8"  activeDot={{ r: 8 }}/>
     <Line type="monotone" dataKey={country2} stroke="#82ca9d" />
+    <Brush dataKey="yearMonth" height={30} stroke="green" />
   </LineChart>
 </ResponsiveContainer>
 {/* Comment about the data */}
-<p style={{ marginTop: '10px', fontStyle: 'italic' }}>
-                    Note: A value of 0 may indicate the absence of data for the respective year and month.
-
-
-                    
-                </p>
 </div>
 <br></br>
             <br></br>
@@ -249,9 +244,6 @@ export default function CountriesWagesPage() {
                         },
                     }}
                 /></div>
-            
-
-
         </div>
         </Container></div>
     );
