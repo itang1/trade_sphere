@@ -34,7 +34,7 @@ export default function CountriesWageGrowthPage() {
             Discover the dynamic landscape of global wage growth and unlock a wealth of opportunities. Delve into the intricacies of different countries' economies through their wage trends, providing a unique lens to gauge economic health and job market vitality. This knowledge not only guides astute investment decisions and business strategies but also opens doors to promising career paths and enlightens policy understanding. Stay ahead in the fast-paced world of economics by keeping a pulse on the ever-evolving patterns of wage growth across the globe.
 
 
-                    
+
             </p>
             <hr></hr>
             <br></br>
@@ -106,25 +106,11 @@ export default function CountriesWageGrowthPage() {
             Argentina Inflation: <a href="https://www.inflationtool.com/rates/argentina/historical" target="_blank" rel="noopener noreferrer">
             https://www.inflationtool.com/rates/argentina/historical
             </a>
-            
 
-                    
+
+
                 </p>
-                <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+
 
         </Container></div>
     );
