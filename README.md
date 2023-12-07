@@ -11,6 +11,8 @@ Installation Instructions
 -  deprecation warnings can be ignored
 
 Dependencies
+
+Client
 - "@emotion/react": "^11.10.5",
 - "@emotion/styled": "^11.10.5",
 - "@mui/material": "^5.11.1",
@@ -26,3 +28,10 @@ Dependencies
 - "react-router-dom": "^6.6.1",
 - "react-scripts": "5.0.1",
 - "recharts": "^2.2.0"
+
+Server
+- "cors": "^2.8.5",
+- "express": "^4.18.2",
+- "mysql": "^2.18.1",
+- "nodemon": "^3.0.2",
+- "supertest": "^6.3.3"
