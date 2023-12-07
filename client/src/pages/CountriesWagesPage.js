@@ -165,15 +165,14 @@ export default function CountriesWagesPage() {
             </LineChart>
           </ResponsiveContainer>
            </div>
-       
         <br></br>
         <br></br>
         <br></br>
-        
-   <div>
-          <p>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</p>
+        <br></br>
+        <br></br>
+        <div>
+        <p>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</p>
         </div>
-
         <div style={{ border: 1, backgroundColor: '#D9D9D9' }}>
           <DataGrid
             rows={data}
