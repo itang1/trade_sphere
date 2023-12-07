@@ -4,7 +4,6 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Brush } from 'recharts';
 
 
-
 const config = require('../config.json');
 
 
@@ -81,16 +80,6 @@ export default function CountriesWagesPage() {
       .catch(error => console.error('Failed to fetch wage data:', error));
   };
 
-
-  // useEffect(() => {
-  //     fetch(`http://${config.server_host}:${config.server_port}/country/wage_growth`)
-  //         .then(res => res.json())
-  //         .then(resJson => setData(resJson))
-  //         .catch(error => console.error(error));
-  // }, []);
-
-
-
   const columnsWages = [
     { field: 'Country', headerName: 'Country', width: 300 },
     { field: 'Year', headerName: 'Year', width: 300 },
@@ -101,11 +90,6 @@ export default function CountriesWagesPage() {
   const countryMenuItems = possibleCountries.map(item => (
     <MenuItem value={item.Country}>{item.Country}</MenuItem>
   ));
-
-  // const yearMenuItems = possibleYears.map(item => (
-  //     <MenuItem value={item.Year}>{item.Year}</MenuItem>
-  // ));
-
 
   return (
     <div style={{ backgroundColor: '#F8F7F1', padding: '10px' }}>
@@ -157,20 +141,7 @@ export default function CountriesWagesPage() {
 
           <br></br>
 
-          {/* <InputLabel variant="standard" htmlFor="country1">
-                    Select Year
-                </InputLabel> */}
-          {/* <Select id="year"
-                    sx={{
-                        width: 200, height: 50, border: 1, borderColor: '#7E7E7E',
-                    }} onChange=
-                    {(event) => { setYear(event.target.value) }} value={year} >
-                    <MenuItem disabled>Choose a year ...</MenuItem>
-                    {yearMenuItems}
-                </Select> */}
-
         </Grid>
-
 
 
         <Button onClick={() => searchWages()} style={{ marginTop: '20px', left: '12%', transform: 'translateX(-90%)', backgroundColor: '#3C6E71', color: 'white' }}
