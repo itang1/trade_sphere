@@ -182,14 +182,14 @@ export default function TradingPage() {
       }} >
           <p>International trade has been prominent throughout history. However, with social, political, and economic changes, such as increasing globalization, international trade has grown immensely both in value and diversity within the last century. The number and types of goods, as well as the pairings of trading partners convey a complex picture of the global economy and inform decision-making by global powers, such as the United States. Therefore, mapping those relationships and collecting trade information is of utmost importance to understand the state of the global economy and gain educated insights.
           </p>
-          <p>This page provides an overview of trading-related data, including the influence of different trading categories and types on trading patterns between the United States and other countries. The below displayed data should be viewed as an example of exploratory analysis that can be conducted with the abc database but it only displays a small selection of available variables.
+          <p>This page provides an overview of trading-related data, including the influence of different trading categories and types on trading patterns between the United States and other countries. The below displayed data should be viewed as an example of exploratory analysis that can be conducted with the data but it only displays a small selection of available variables.
           </p>
       </div>
       <div >
         <h2>(I) Trading by Trade Category </h2>
 
         <p>
-          Trading category is the most diverse part of trading data as it describes what goods were exchanged between the trading partners. The abc database reports on over 1000 categories that range from food, agriculture, clothing to raw materials, tools and more. </p>
+          Trading category is the most diverse part of trading data as it describes what goods were exchanged between the trading partners. The data reports on over 1000 categories that range from food, agriculture, clothing to raw materials, tools and more. </p>
       </div>
       <h3>Top 5 Largest Trading Partners with the United States </h3>
       <Grid item xs={2} style={{ marginLeft: '10px' }}>
@@ -356,7 +356,7 @@ export default function TradingPage() {
 
 
       <h2>(II) Regional Trading Differences</h2>
-      <p> The two below displayed tables showcase the changes of total trade volume by the trade type for the different continents and the largest trading category a country has with the United States. The abc database reports on close to 200 different trading partners with the United States. </p>
+      <p> The two below displayed tables showcase the changes of total trade volume by the trade type for the different continents and the largest trading category a country has with the United States. The data reports on close to 200 different trading partners with the United States. </p>
       <h3>Total Trading Volume by Continent</h3>
       <Grid container spacing={2}>
 
