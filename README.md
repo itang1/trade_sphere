@@ -1,5 +1,4 @@
-# trading_econ_project
-DB class project
+# TradeSphere
 
 Installation Instructions 
 - download code as zip file and extraxt files
