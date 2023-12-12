@@ -1,6 +1,6 @@
 # TradeSphere
 
-Server- and client-side code for a web application showcasing the prettified output of complex and dynamically-generated SQL queries that pull international trade data from multiple sources.
+Server- and client-side code for a web application showcasing the prettified output of complex and dynamically-generated SQL queries that pull international trade data from [TradingEconomics.com](https://www.TradingEconomics.com), among other sources.
 
 The application runs locally on your machine. Follow the installation instructions below.
 
