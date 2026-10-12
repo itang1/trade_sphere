@@ -1,0 +1,34 @@
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Slider, Stack, Typography } from '@mui/material';
+
+export const TRADE_TYPES = ['Export', 'Import', 'Re-Export'];
+
+export function Filters({ onSearch, children }) {
+  return (
+    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ sm: 'flex-end' }} useFlexGap flexWrap='wrap' sx={{ mb: 3 }}>
+      {children}
+      <Button variant='contained' size='large' onClick={onSearch}>Search</Button>
+    </Stack>
+  );
+}
+
+export function Picker({ label, value, onChange, options }) {
+  return (
+    <FormControl size='small' sx={{ minWidth: 220 }}>
+      <InputLabel>{label}</InputLabel>
+      <Select label={label} value={value} onChange={e => onChange(e.target.value)} MenuProps={{ PaperProps: { sx: { maxHeight: 360 } } }}>
+        {options.map(option => <MenuItem key={option} value={option}>{option}</MenuItem>)}
+      </Select>
+    </FormControl>
+  );
+}
+
+export function RangeSlider({ label, value, onChange, min, max, step }) {
+  return (
+    <Box sx={{ flex: 1, minWidth: 200, px: 1 }}>
+      <Typography variant='body2' fontWeight={600} noWrap>
+        {label}: {value[0]} to {value[1]}
+      </Typography>
+      <Slider value={value} min={min} max={max} step={step} onChange={(_, newValue) => onChange(newValue)} valueLabelDisplay='auto' />
+    </Box>
+  );
+}

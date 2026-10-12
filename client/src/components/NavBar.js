@@ -1,85 +1,49 @@
-import { AppBar, Container, Toolbar, Typography, Menu, MenuItem } from '@mui/material'
-import { NavLink } from 'react-router-dom';
+import { AppBar, Button, Container, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
+import { NavLink, useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
 
+const COUNTRY_PAGES = [
+  { to: '/countries-living-conditions', label: 'Living Conditions' },
+  { to: '/countries-temperature', label: 'Temperature' },
+  { to: '/countries-labor', label: 'Labor' },
+  { to: '/countries-wages', label: 'Wages' },
+  { to: '/countries-wage-growth', label: 'Wage Growth' },
+];
 
-// The hyperlinks in the NavBar contain a lot of repeated formatting code so a
-// helper component NavText local to the file is defined to prevent repeated code.
-function NavText({ href, text, isMain }) {
-  return (
-    <Typography
-      variant={isMain ? 'h5' : 'h7'}
-      noWrap
-      style={{
-        marginRight: '30px',
-        fontFamily: 'monospace',
-        fontWeight: 700,
-        letterSpacing: '.3rem',
-      }}
-    >
-      <NavLink
-        to={href}
-        style={{
-          color: 'inherit',
-          textDecoration: 'none',
-        }}
-      >
-        {text}
-      </NavLink>
-    </Typography>
-  )
-}
+const linkStyle = { color: 'inherit', fontSize: '1rem', opacity: 0.85, '&.active, &[aria-current]': { opacity: 1 } };
 
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const { pathname } = useLocation();
+  const onCountryPage = pathname.startsWith('/countries');
 
   return (
-    <AppBar position='static' style={{ background: 'teal' }}>
-      <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          <NavText href='/' text='TRADESPHERE' isMain />
+    <AppBar position='sticky' color='primary'>
+      <Container maxWidth='lg'>
+        <Toolbar disableGutters sx={{ gap: 1 }}>
           <Typography
-            variant='h7'
-            noWrap
-            style={{
-              marginRight: '30px',
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              cursor: 'pointer',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-            onClick={handleMenuClick}
+            component={NavLink}
+            to='/'
+            variant='h6'
+            sx={{ color: 'inherit', textDecoration: 'none', fontWeight: 800, letterSpacing: '.05rem', mr: 'auto' }}
           >
-            COUNTRIES
+            TradeSphere
           </Typography>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            getContentAnchorEl={null}
+          <Button component={NavLink} to='/trades' sx={linkStyle}>Trades</Button>
+          <Button
+            onClick={e => setAnchorEl(e.currentTarget)}
+            sx={{ ...linkStyle, opacity: onCountryPage ? 1 : 0.85 }}
+            endIcon={<span style={{ fontSize: '0.7rem' }}>▼</span>}
           >
-            <MenuItem component={NavLink} to='/countries-living-conditions' onClick={handleMenuClose}>Living Conditions</MenuItem>
-            <MenuItem component={NavLink} to='/countries-temperature' onClick={handleMenuClose}>Temperature</MenuItem>
-            <MenuItem component={NavLink} to='/countries-labor' onClick={handleMenuClose}>Labor</MenuItem>
-            <MenuItem component={NavLink} to='/countries-wages' onClick={handleMenuClose}>Wages</MenuItem>
-            <MenuItem component={NavLink} to='/countries-wage-growth' onClick={handleMenuClose}>Wage Growth</MenuItem>
-            {/* Add more MenuItems as needed */}
+            Countries
+          </Button>
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+            {COUNTRY_PAGES.map(page => (
+              <MenuItem key={page.to} component={NavLink} to={page.to} selected={pathname === page.to} onClick={() => setAnchorEl(null)}>
+                {page.label}
+              </MenuItem>
+            ))}
           </Menu>
-          <NavText href='/trades' text='TRADES' />
         </Toolbar>
       </Container>
     </AppBar>

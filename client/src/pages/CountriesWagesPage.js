@@ -1,212 +1,96 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, InputLabel, Select, MenuItem, Grid } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { Box, Typography } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Brush } from 'recharts';
 
+import { getJson } from '../api';
+import { colors } from '../theme';
+import Page, { Note, Section } from '../components/Page';
+import DataTable from '../components/DataTable';
+import { Filters, Picker } from '../components/Controls';
 
-const config = require('../config.json');
+const columns = [
+  { field: 'Country', headerName: 'Country', flex: 1 },
+  { field: 'Year', headerName: 'Year', flex: 1 },
+  { field: 'Month', headerName: 'Month', flex: 1 },
+  { field: 'TotalWage', headerName: 'Wage (USD/Year)', flex: 1, valueFormatter: ({ value }) => value?.toLocaleString() },
+];
 
+// One point per year-month, with a key for each selected country
+function toTimeSeries(rows, countries) {
+  const byMonth = new Map();
+  for (const row of rows) {
+    const yearMonth = `${row.Year}-${String(row.Month).padStart(2, '0')}`;
+    if (!byMonth.has(yearMonth)) {
+      byMonth.set(yearMonth, Object.fromEntries([['yearMonth', yearMonth], ...countries.map(c => [c, null])]));
+    }
+    byMonth.get(yearMonth)[row.Country] = row.TotalWage;
+  }
+  return [...byMonth.values()].sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));
+}
 
 export default function CountriesWagesPage() {
-
-  const [pageSize, setPageSize] = useState(10);
-  const [country1, setCountry1] = useState('')
-  const [country2, setCountry2] = useState('')
-  const [data, setData] = useState([])
-  const [possibleCountries, setPossibleCountries] = useState([])
-  const [timeSeriesData, setTimeSeriesData] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [country1, setCountry1] = useState('');
+  const [country2, setCountry2] = useState('');
+  const [selected, setSelected] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://${config.server_host}:${config.server_port}/distcountries2`)
-      .then(res => res.json())
-      .then(resJson => setPossibleCountries(resJson))
-      .catch(error => console.error(error));
+    getJson('/distcountries2')
+      .then(rows => setCountries([...new Set(['United States', ...rows.map(row => row.Country)])]))
+      .catch(console.error);
   }, []);
 
-
-  const createTimeSeriesData = (data, country1, country2) => {
-    // Create a unique set of year-month strings from the data
-    let uniqueYearMonths = new Set(data.map(d => `${d.Year}-${String(d.Month).padStart(2, '0')}`));
-    uniqueYearMonths = Array.from(uniqueYearMonths).sort();
-
-    // Create a map for quick access to the data
-    const dataMap = new Map(data.map(item => [`${item.Year}-${String(item.Month).padStart(2, '0')}-${item.Country}`, item.TotalWage]));
-
-    // Initialize the time series data array
-    const timeSeriesData = uniqueYearMonths.map(yearMonth => {
-      const yearMonthCountry1 = `${yearMonth}-${country1}`;
-      const yearMonthCountry2 = `${yearMonth}-${country2}`;
-      return {
-        yearMonth: yearMonth,
-        [country1]: dataMap.get(yearMonthCountry1) || 'No Data', // Replace null with 0 or carry forward the last known value
-        [country2]: dataMap.get(yearMonthCountry2) || 'No Data', // Replace null with 0 or carry forward the last known value
-      };
-    });
-
-    // Carry forward the last known value if the current value is 0 and there was a previous known value
-    let lastValueCountry1 = null;
-    let lastValueCountry2 = null;
-    for (const entry of timeSeriesData) {
-      if (entry[country1] !== 0) {
-        lastValueCountry1 = entry[country1];
-      } else if (lastValueCountry1 !== null) {
-        entry[country1] = lastValueCountry1;
-      }
-
-      if (entry[country2] !== 0) {
-        lastValueCountry2 = entry[country2];
-      } else if (lastValueCountry2 !== null) {
-        entry[country2] = lastValueCountry2;
-      }
-    }
-
-    return timeSeriesData;
-  };
-
-
   const searchWages = () => {
-    fetch(`http://${config.server_host}:${config.server_port}/country/wages?country1=${country1}&country2=${country2}`)
-      .then(res => res.json())
-      .then(combinedData => {
-        // Set the DataGrid data
-        setData(combinedData);
-
-        // Prepare the time series data for the LineChart
-        const timeSeries = createTimeSeriesData(combinedData, country1, country2);
-
-        // Set the time series data for the LineChart
-        setTimeSeriesData(timeSeries);
+    getJson('/country/wages', { country1, country2 })
+      .then(rows => {
+        setData(rows);
+        setSelected([country1, country2].filter(Boolean));
       })
-      .catch(error => console.error('Failed to fetch wage data:', error));
+      .catch(console.error);
   };
 
-  const columnsWages = [
-    { field: 'Country', headerName: 'Country', width: 300 },
-    { field: 'Year', headerName: 'Year', width: 300 },
-    { field: 'Month', headerName: 'Month', width: 300 },
-    // Update the field to match the key provided by the server for wage values
-    { field: 'TotalWage', headerName: 'Wage (USD/ Year)', width: 700 },
-  ];
-  const countryMenuItems = possibleCountries.map(item => (
-    <MenuItem value={item.Country}>{item.Country}</MenuItem>
-  ));
+  const timeSeries = toTimeSeries(data, selected);
 
   return (
-    <div style={{ backgroundColor: '#F8F7F1', padding: '10px' }}>
-      <Container><div style={{ padding: "10px" }} >
-        <h1>Wages</h1>
+    <Page
+      title='Wages'
+      intro={<p>Unlock the fascinating world of wage comparison between two countries over time, a journey that not only reveals differences in pay scales but also mirrors the domestic economic environments within these nations. This exploration provides insights into how economic policies, market trends, and cultural factors influence wage structures. Witness how shifts in the global economy, technological advancements, and political changes impact earnings in different regions. Delving into this comparative analysis offers a deeper understanding of the interconnectedness of global economies and the unique challenges and opportunities each country faces.</p>}
+    >
+      <Section title='Comparison of Wages'>
+        <Filters onSearch={searchWages}>
+          <Picker label='Country #1' value={country1} onChange={setCountry1} options={countries} />
+          <Picker label='Country #2' value={country2} onChange={setCountry2} options={countries} />
+        </Filters>
 
-        <p style={{ marginTop: '10px', fontStyle: 'italic' }}>Unlock the fascinating world of wage comparison between two countries over time, a journey that not only reveals differences in pay scales but also mirrors the domestic economic environments within these nations. This exploration provides insights into how economic policies, market trends, and cultural factors influence wage structures. Witness how shifts in the global economy, technological advancements, and political changes impact earnings in different regions. Delving into this comparative analysis offers a deeper understanding of the interconnectedness of global economies and the unique challenges and opportunities each country faces.
-        </p>
+        {selected.length > 0 && (
+          <Typography variant='h3' gutterBottom>Wage Comparison Over Time ({selected.join(' vs. ')})</Typography>
+        )}
+        {timeSeries.length === 0 ? (
+          <Typography color='text.secondary' sx={{ py: 6, textAlign: 'center' }}>Pick two countries and press Search to compare their wages.</Typography>
+        ) : (
+          <Box sx={{ height: 360, mb: 3 }}>
+            <ResponsiveContainer width='100%' height='100%'>
+              <LineChart data={timeSeries} margin={{ top: 5, right: 10, bottom: 5, left: 20 }}>
+                <CartesianGrid strokeDasharray='3 3' vertical={false} />
+                <XAxis dataKey='yearMonth' tick={{ fontSize: 12 }} />
+                <YAxis tickFormatter={value => value.toLocaleString()} />
+                <Tooltip formatter={value => value?.toLocaleString()} />
+                <Legend />
+                {selected.map((country, i) => (
+                  <Line key={country} type='monotone' dataKey={country} stroke={i === 0 ? colors.teal : colors.accent} strokeWidth={2} dot={false} connectNulls />
+                ))}
+                <Brush dataKey='yearMonth' height={24} stroke={colors.teal} />
+              </LineChart>
+            </ResponsiveContainer>
+          </Box>
+        )}
+        <Note>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</Note>
+      </Section>
 
-        <hr></hr>
-        <br></br>
-
-        <div >
-          <h2>Comparison of Wages</h2>
-        </div>
-
-        <Grid item xs={2} >
-          <InputLabel variant="standard" htmlFor="types">
-            Select Country #1
-          </InputLabel>
-          <Select id="country1"
-            sx={{
-              width: 200, height: 50, border: 1, borderColor: '#7E7E7E',
-            }} onChange=
-            {(event) => { setCountry1(event.target.value) }} value={country1} >
-            <MenuItem disabled>Choose a country ...</MenuItem>
-            <MenuItem value="United States">United States</MenuItem>,
-            {countryMenuItems}
-          </Select>
-
-          <br></br>
-
-          <InputLabel variant="standard" htmlFor="country1">
-            Select Country #2
-          </InputLabel>
-          <Select id="country2"
-            sx={{
-              width: 200, height: 50, border: 1, borderColor: '#7E7E7E',
-            }} onChange=
-            {(event) => { setCountry2(event.target.value) }} value={country2} >
-            <MenuItem disabled>Choose a country ...</MenuItem>
-            <MenuItem value="United States">United States</MenuItem>,
-            {countryMenuItems}
-          </Select>
-
-          <br></br>
-
-        </Grid>
-
-
-        <Button onClick={() => searchWages()} style={{ marginTop: '20px', left: '12%', transform: 'translateX(-90%)', backgroundColor: '#3C6E71', color: 'white' }}
-          variant="contained" >
-          Search
-        </Button>
-
-        <br></br>
-        <br></br>
-        <div style={{ height: '300px', marginTop: '20px' }}>
-          <h2>Wage Comparison Over Time ({country1} vs. {country2}) </h2>
-          <br></br>
-        
-          <br></br>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={timeSeriesData} margin={{ top: 5, right: 5, bottom: 5, left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="yearMonth" angle={-10} />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey={country1} stroke="#8884d8" activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey={country2} stroke="#82ca9d" />
-              <Brush dataKey="yearMonth" height={30} stroke="green" />
-            </LineChart>
-          </ResponsiveContainer>
-           </div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <div>
-        <p>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</p>
-        </div>
-        <div style={{ border: 1, backgroundColor: '#D9D9D9' }}>
-          <DataGrid
-            rows={data}
-            columns={columnsWages}
-            getRowId={(row) => row.Country + row.Year + row.Month}
-            pageSize={pageSize}
-            rowsPerPageOptions={[5, 10, 25]}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            components={{ Toolbar: GridToolbar }}
-            componentsProps={{
-              toolbar: {
-                csvOptions: { disableToolbarButton: false },
-                printOptions: { disableToolbarButton: true },
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 250 },
-              },
-            }}
-            autoHeight
-            sx={{
-              backgroundColor: '#F2ECE1',
-              '& .MuiDataGrid-cell': {
-                borderColor: '#F7E7CE',
-              },
-              '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: '#F2ECE1',
-              },
-              '& .MuiDataGrid-row': {
-                '&:nth-of-type(odd)': {
-                  backgroundColor: '#F8F7F1', // for zebra striping, if needed
-                },
-              },
-            }}
-          /></div>
-      </div>
-      </Container></div>
+      <Section>
+        <DataTable rows={data} columns={columns} getRowId={row => row.Country + row.Year + row.Month} />
+      </Section>
+    </Page>
   );
 }
