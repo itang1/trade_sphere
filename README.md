@@ -2,7 +2,7 @@
 
 Server- and client-side code for a web application showcasing the prettified output of complex and dynamically-generated SQL queries that pull international trade data from [TradingEconomics.com](https://www.TradingEconomics.com), among other sources.
 
-TradeSphere lets you explore US trade with about 200 partner countries from 2005 to 2022, alongside country-level indicators such as wages, unemployment, living conditions and temperature change. It was built in fall 2023 as a group final project for a databases course.
+TradeSphere lets you explore US trade with about 200 partner countries from 2005 to 2022, alongside country-level indicators such as wages, unemployment, living conditions and temperature change. It was built in fall 2023 as the group final project for CIS 5500: Databases & Information Systems at the University of Pennsylvania, taught by Professor Susan B. Davidson.
 
 View the [Final Report](Final_Report.pdf) for details about the database architecture, table normalization practices, API specification, query performance and evaluation, and Entity-Relation (ER) diagram.
 
@@ -41,6 +41,28 @@ Our World in Data ────┘   (clean, merge,      (17 tables,          (16
 ## Team
 
 Built by Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang.
+
+## Project history
+
+### December 2023: the original project
+
+Four of us built TradeSphere over the semester for CIS 5500. Along the way I learned to:
+
+- **Design a relational schema:** normalize tables to BCNF or 3NF, draw the ER diagram, and break 3NF on purpose when it made queries simpler (`UnitConversion`).
+- **Write and tune complex SQL:** CTEs, window functions and multi-table joins. Rewriting one query with subqueries instead of window functions cut it from 146 ms to 114 ms.
+- **Keep data consistent across sources:** clean and merge datasets, and fix the country names that broke foreign key constraints.
+- **Wire up a full stack:** connect a React client to an Express API and a MySQL database on AWS, while the API contract kept changing.
+
+### October 2026: the revamp
+
+Coming back almost three years later, I worked through the project with an AI coding assistant ([Claude Code](https://claude.com/claude-code)). I decided what to change and what to keep; the assistant read the code and history, wrote most of the changes and tested them.
+
+- **Security:** removed database credentials that had been committed in 2023 from the entire git history, after confirming the old AWS database no longer existed.
+- **UI:** one shared theme and set of components across all pages, charts that resize with the window, a map that zooms to fit its markers, and clearer empty states.
+- **Bugs:** the wages chart had been plotting the text "No Data" as a value, and query strings weren't URL-encoded.
+- **Docs:** this README, rewritten with features, architecture and setup.
+
+What changed with AI: the 2023 project took four people a semester. The revamp, including reading old code I barely remembered and tracing who wrote what from git history, took about a day. The assistant made it cheap to fix things a class project usually leaves behind, like the leaked credentials. What it didn't change: I still had to decide what mattered, check the results, and catch its mistakes.
 
 ## Running it locally
 
