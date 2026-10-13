@@ -101,9 +101,10 @@ export default function HomePage() {
             Your coffee, car, and phone likely crossed a border to reach you.
           </Typography>
           <p>
-            TradeSphere follows those goods, showing what the United States buys from and sells to {partners ? partners.toLocaleString() : '…'} countries
-            across {categories ? categories.toLocaleString() : '…'} kinds of goods, and what life is like in those countries, from wages and jobs to clean
-            water and climate.
+            TradeSphere is a tool the team built to follow those goods, showing what the United States buys from and sells to{' '}
+            {partners ? partners.toLocaleString() : '…'} countries across {categories ? categories.toLocaleString() : '…'} kinds of goods, and what life is
+            like in those countries, from wages and jobs to clean water and climate. The data comes from{' '}
+            <a href='https://tradingeconomics.com'>TradingEconomics</a> and <a href='https://ourworldindata.org'>Our World in Data</a>.
           </p>
           <Typography variant='body2' sx={{ mb: 3 }}>
             By Lisa Garcia, Zung-Ru Lin, Hanling Su, and Irene Tang for CIS 5500: Databases & Information Systems at the University of Pennsylvania, Fall 2023.
