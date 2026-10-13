@@ -155,11 +155,11 @@ export default function AboutPage() {
 
       <Section title='October 2026: the revamp with AI tools'>
         <p>
-          By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene revived the project so that
+          By 2026, the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene revived the project so that
           anyone can try it, at no hosting cost.
         </p>
 
-        <Typography variant='h3' gutterBottom>How Irene used AI</Typography>
+        <Typography variant='h3' gutterBottom>How AI was used</Typography>
         <p>
           Irene did the revamp with <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that works inside a code project: it
           can read and edit files and run commands such as tests. She described each change in plain English, such as "make it clearer which tab you're
