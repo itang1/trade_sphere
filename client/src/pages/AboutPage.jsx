@@ -184,7 +184,7 @@ export default function AboutPage() {
         <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
         <p>
           SQLite is a database that lives in a single file instead of on a server. A server database like our MySQL runs as a program that apps
-          connect to, and it costs money for as long as it runs. SQLite has no server: a program opens the file and runs SQL on it directly. It is built
+          connect to, and it costs money for as long as it runs. SQLite has no server; a program opens the file and runs SQL on it directly, and it is built
           into every iPhone, Android phone, and web browser.
         </p>
         <p>
