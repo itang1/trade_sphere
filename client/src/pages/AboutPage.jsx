@@ -163,7 +163,7 @@ export default function AboutPage() {
 
         <Typography variant='h3' gutterBottom>How AI was used</Typography>
         <p>
-          I used AI to save time and money, and because I was curious what it could do on a real project. I did the revamp with help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that can read and edit a project's files. I described each desired change in plain English, such as "get the live demo website running
+          I did the revamp with help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that can read and edit a project's files. I described each desired change in plain English, such as "get the live demo website running
           without a paid server," "let visitors see the SQL code that we wrote for every chart," and "make the pages give context instead of just displaying tables." Claude read the 2023 code, its git history, and our team's documents, then wrote the changes, ran the
           tests, and checked each page in a browser. I then reviewed its work for errors in the calculations, wording, and clarity.
         </p>
