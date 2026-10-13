@@ -60,13 +60,15 @@ The four of them built TradeSphere over the semester for CIS 5500. Along the way
 - **Design a relational schema:** normalize tables to BCNF or 3NF, draw the ER diagram, and break 3NF on purpose when it made queries simpler (`UnitConversion`).
 - **Write and tune complex SQL:** CTEs, window functions, and multi-table joins. Rewriting one query with subqueries instead of window functions cut it from 146 ms to 114 ms.
 - **Keep data consistent across sources:** clean and merge datasets, and fix the country names that broke foreign key constraints.
+- **Run a database in the cloud:** host MySQL on Amazon RDS and create and load the tables there, which the final report names as one of the project's hardest parts.
 - **Wire up a full stack:** connect a React client to an Express API and a MySQL database on AWS, while the API contract kept changing.
 
-### October 2026: the revamp and what Irene learned
+### October 2026: the revamp with AI tools
 
-By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene Tang revived the project with help from [Claude Code](https://claude.com/claude-code), an AI coding assistant. She decided what to change and reviewed every result; Claude read the old code and history, wrote most of the changes, and tested them. The original took four people a semester, and the revamp took about a day.
+By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene Tang revived it with [Claude Code](https://claude.com/claude-code), an AI coding assistant that can read and edit a project's files and run commands. She described each change in plain English; Claude read the 2023 code, its git history, and the team's documents, wrote the changes, ran the tests, and checked each page in a browser. Irene reviewed every change before it was published, made the decisions about structure, wording, and which data to fix, and caught the assistant's mistakes. The original took four people a semester, and the revamp took a couple of days.
 
-- **Live demo:** the database now runs as SQLite inside the browser, so there is no server to pay for.
+**From MySQL on AWS to SQLite in the browser.** SQLite is a database that lives in a single file instead of on a server. [`scripts/build_sqlite.py`](scripts/build_sqlite.py) rebuilds the team's tables from the same CSVs they loaded into MySQL in 2023, with the same names, columns, and keys, and the site runs the original queries on that file in the browser with sql.js. The data is read-only, so no server is needed, and GitHub Pages hosts it for free.
+
 - **SQL on display:** a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.
 - **Design:** a shared theme, a tabbed Country Profiles page, a new home page, and an About page with this history.
 - **Fixes:** the wages chart had plotted the text "No Data" as a value, query strings weren't URL-encoded, continent totals counted some products twice, and hourly and daily wages were converted as if people worked around the clock, every day of the year.
@@ -76,7 +78,7 @@ By 2026 the site no longer worked because the paid AWS database behind it had be
 What Irene learned:
 
 - **Check the data against reality.** The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.
-- **Hosting decides how long a project lives.** The app died with its paid server; a free static site can stay up indefinitely.
+- **Choose the database for how the data is used.** A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.
 - **AI shifts the work from writing code to judging it.** The hard parts were deciding what mattered, checking that the results were right, and catching the assistant's mistakes.
 
 ## Running it locally

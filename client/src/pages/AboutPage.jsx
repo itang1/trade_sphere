@@ -102,13 +102,38 @@ export default function AboutPage() {
       </Section>
 
       <Section title='December 2023: what the team learned'>
-        <ul>
-          <li><strong>Building a React app from scratch:</strong> starting a project with Create React App, then building it out with pages and routing (React Router), components with state and hooks, and libraries for tables, charts, and maps.</li>
-          <li><strong>Designing a relational schema:</strong> normalizing tables to BCNF or 3NF, drawing the ER diagram, and breaking 3NF on purpose when it made queries simpler (<code>UnitConversion</code>).</li>
-          <li><strong>Writing and tuning complex SQL:</strong> using CTEs, window functions, and multi-table joins, and rewriting slow queries to run faster. Most charts and tables on this site run the team's original queries; press Show SQL under any of them to read the exact query, or see the example below.</li>
-          <li><strong>Keeping data consistent across sources:</strong> merging two sources with different country names, currencies, units, and reporting frequencies into one schema, and fixing the country names that broke foreign key constraints.</li>
-          <li><strong>Wiring up a full stack:</strong> connecting a React client to an Express API and a MySQL database on AWS, so that every filter, toggle, and slider becomes a query parameter and every result becomes a table, chart, or map, while the API contract kept changing.</li>
-        </ul>
+        <p>
+          TradeSphere was the final project for a course that covered SQL, ER design, relational design theory, transactions, indexing, query optimization,
+          and NoSQL databases such as MongoDB and Neo4j. The project put the relational half of that into practice.
+        </p>
+        <p>
+          <strong>Designing a schema before writing code.</strong> The team drew the ER diagram first, then turned it into 17 tables normalized to BCNF or
+          3NF. Normalizing stores each fact once, such as a country's continent, so it can't fall out of sync. The team also broke 3NF on purpose in{' '}
+          <code>UnitConversion</code>, storing a conversion rate that could be computed from two other columns, because every wage query needed it.
+        </p>
+        <p>
+          <strong>Writing and tuning complex SQL.</strong> The queries use CTEs, window functions, and multi-table joins, and the team rewrote slow ones to
+          run faster. Most charts and tables on this site run the team's original queries; press Show SQL under any of them to read the exact query, or see
+          the example below.
+        </p>
+        <p>
+          <strong>Keeping data consistent across sources.</strong> The two sources spelled country names differently and reported values in different
+          currencies, units, and reporting frequencies. Making country names foreign keys exposed every mismatch, because the database refused rows that
+          didn't match a known country, and the team fixed them one by one.
+        </p>
+        <p>
+          <strong>Running a database in the cloud.</strong> The team hosted the MySQL database on Amazon RDS, a managed database service from Amazon Web
+          Services (AWS), and created and loaded the tables there. The final report names deploying the tables on AWS as one of the project's hardest parts.
+        </p>
+        <p>
+          <strong>Building a React app from scratch.</strong> The team started the client with Create React App, then built it out with pages and routing
+          (React Router), components with state and hooks, and libraries for tables, charts, and maps.
+        </p>
+        <p>
+          <strong>Wiring up a full stack.</strong> An Express API connected the React client to the database, so that every filter, toggle, and slider
+          became a query parameter and every result became a table, chart, or map. The request and response formats kept changing as the pages evolved,
+          so both sides had to adapt.
+        </p>
 
         <Typography variant='h3' gutterBottom>Example: making a query faster</Typography>
         <p>
@@ -128,27 +153,54 @@ export default function AboutPage() {
         </Grid>
       </Section>
 
-      <Section title='October 2026: the revamp and what Irene learned'>
+      <Section title='October 2026: the revamp with AI tools'>
         <p>
-          By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene revived the project with
-          help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant.
+          By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene revived the project so that
+          anyone can try it, at no hosting cost.
         </p>
+
+        <Typography variant='h3' gutterBottom>How Irene used AI</Typography>
+        <p>
+          Irene did the revamp with <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that works inside a code project: it
+          can read and edit files and run commands such as tests. She described each change in plain English, such as "make it clearer which tab you're
+          on" or "fix the hourly wage conversion." Claude read the 2023 code, its git history, and the team's documents, then wrote the changes, ran the
+          tests, and checked each page in a browser.
+        </p>
+        <p>
+          Irene reviewed every change in a private preview before anything was published. She made the decisions about structure, wording, and which data
+          to fix, and she caught the assistant's mistakes, such as a claim that the 2023 React code was unchanged. The original project took four people a
+          semester; the revamp took a couple of days.
+        </p>
+
+        <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
+        <p>
+          SQLite is a database that lives in a single file instead of on a server. A server database like the team's MySQL runs as a program that apps
+          connect to, and it costs money for as long as it runs. SQLite has no server: a program opens the file and runs SQL on it directly. It is built
+          into every iPhone, Android phone, and web browser.
+        </p>
+        <p>
+          The revamp rebuilt the database from the same cleaned CSV files that the team loaded into MySQL on AWS in 2023. A Python script creates the
+          tables with the same names, columns, and keys as the original schema, loads each CSV into its table, and compresses the result into one 10 MB
+          file. The site uses sql.js, a version of SQLite that runs in the browser, so your browser downloads that file and runs the team's queries on
+          your own computer. Whenever the code changes, GitHub Actions rebuilds the database, runs the tests, and publishes the site for free.
+        </p>
+        <p>
+          SQLite fits because TradeSphere's data never changes and only needs to be read. An app where many people save data at the same time would still
+          need a server database like MySQL.
+        </p>
+
+        <Typography variant='h3' gutterBottom>What else changed</Typography>
         <ul>
-          <li><strong>Live demo:</strong> the database now runs as SQLite inside your browser, so there is no server to pay for.</li>
           <li><strong>SQL on display:</strong> a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.</li>
           <li><strong>Fixes:</strong> continent totals that counted some products twice, and hourly and daily wages converted as if people worked around the clock, every day of the year.</li>
           <li><strong>Design:</strong> a shared theme, a tabbed Country Profiles page, a new home page, and this About page.</li>
           <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
         </ul>
-        <p>
-          Irene decided what to change and reviewed every result; Claude read the old code, wrote most of the changes, and tested them. The original took
-          four people a semester, and the revamp took about a day.
-        </p>
 
         <Typography variant='h3' gutterBottom>What Irene learned</Typography>
         <ul>
           <li><strong>Check the data against reality.</strong> The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.</li>
-          <li><strong>Hosting decides how long a project lives.</strong> The app died with its paid server; a free static site can stay up indefinitely.</li>
+          <li><strong>Choose the database for how the data is used.</strong> A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.</li>
           <li><strong>AI shifts the work from writing code to judging it.</strong> The hard parts were deciding what mattered, checking that the results were right, and catching the assistant's mistakes.</li>
         </ul>
       </Section>
