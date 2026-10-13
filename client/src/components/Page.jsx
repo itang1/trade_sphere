@@ -31,6 +31,14 @@ export function Section({ title, description, query, children }) {
   );
 }
 
+export function Insight({ children }) {
+  return (
+    <Typography sx={{ mb: 2, pl: 1.5, borderLeft: 4, borderColor: 'secondary.main', fontWeight: 600 }}>
+      {children}
+    </Typography>
+  );
+}
+
 export function Note({ children }) {
   return (
     <Typography component='div' variant='body2' color='text.secondary' sx={{ mt: 2, fontStyle: 'italic', lineHeight: 1.7 }}>

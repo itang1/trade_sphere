@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 import { getJson } from '../api';
 import { colors } from '../theme';
-import { Note, Section } from '../components/Page';
+import { Insight, Note, Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 import { Filters, RangeSlider } from '../components/Controls';
 
@@ -27,6 +27,7 @@ export default function CountriesLivingConditionsPage() {
 
   useEffect(() => {
     getJson('/country/populationwater').then(setWater).catch(console.error);
+    search();
   }, []);
 
   const params = {
@@ -42,6 +43,8 @@ export default function CountriesLivingConditionsPage() {
       .catch(console.error);
   };
 
+  const leastWater = data.reduce((worst, row) => (!worst || row.DrinkingWaterProportion < worst.DrinkingWaterProportion ? row : worst), null);
+
   return (
     <>
       <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Filter countries by how urban they are, how many people have clean drinking water and sanitation, and the share of infants in the population.</Typography>
@@ -52,6 +55,11 @@ export default function CountriesLivingConditionsPage() {
           <RangeSlider label='Sanitation (%)' value={sanitationProportion} onChange={setSanitationProportion} min={0} max={100} step={5} />
           <RangeSlider label='Infants (%)' value={infantProportion} onChange={setInfantProportion} min={0} max={5} step={1} />
         </Filters>
+        {leastWater && (
+          <Insight>
+            {data.length} countries match. The lowest drinking water access among them is in {leastWater.Country}: {leastWater.DrinkingWaterProportion}% of people.
+          </Insight>
+        )}
         <DataTable rows={data} columns={columns} getRowId={row => row.Country} />
         <Note>
           <p>

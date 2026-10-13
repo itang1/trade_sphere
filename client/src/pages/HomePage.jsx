@@ -8,10 +8,10 @@ import { colors } from '../theme';
 import Page, { Section } from '../components/Page';
 
 const QUESTIONS = [
-  { question: 'Who buys the most US aircraft?', hint: 'Choose Export and "Aircraft, spacecraft"', page: 'Trades', to: '/trades' },
+  { question: 'Who buys the most US aircraft?', hint: 'The map opens on aircraft exports', page: 'Trades', to: '/trades' },
   { question: 'Which countries have the least clean drinking water?', hint: 'Set the drinking water range to 0 to 50', page: 'Living Conditions', to: '/countries-living-conditions' },
-  { question: 'How do US and Mexican wages compare?', hint: 'Pick United States and Mexico', page: 'Wages', to: '/countries-wages' },
-  { question: 'Where did wages grow fastest?', hint: 'Press Search under Average Yearly Wage Growth', page: 'Wages', to: '/countries-wage-growth' },
+  { question: 'How do US and Mexican wages compare?', hint: 'The chart opens on the US and Mexico', page: 'Wages', to: '/countries-wages' },
+  { question: 'Where did wages grow fastest?', hint: 'Scroll down to Average Yearly Wage Growth', page: 'Wages', to: '/countries-wage-growth' },
 ];
 
 const TRADE_COUNTRIES = [
@@ -106,7 +106,7 @@ export default function HomePage() {
             water and climate.
           </p>
           <Typography variant='body2' sx={{ mb: 3 }}>
-            By Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang for CIS 5500 at the University of Pennsylvania, Fall 2023.
+            By Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang for CIS 5500: Databases & Information Systems at the University of Pennsylvania, Fall 2023.
             Revamped by Irene Tang in October 2026. <Link to='/about'>About the project</Link>
           </Typography>
         </>
@@ -115,7 +115,7 @@ export default function HomePage() {
       <TopTraded />
 
       <Typography variant='h3'>Not sure where to start?</Typography>
-      <Typography color='text.secondary' sx={{ mb: 1.5 }}>Pick a question to open the page that answers it. Each card says what to select once you're there.</Typography>
+      <Typography color='text.secondary' sx={{ mb: 1.5 }}>Pick a question to open the page that answers it. Each card says where to look once you're there.</Typography>
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {QUESTIONS.map(item => (
           <Grid item xs={12} sm={6} md={3} key={item.to}>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { colors } from '../theme';
 
-export default function DataTable({ rows, columns, getRowId, defaultPageSize = 10 }) {
+export default function DataTable({ rows, columns, getRowId, defaultPageSize = 10, sortBy }) {
   const [pageSize, setPageSize] = useState(defaultPageSize);
 
   return (
@@ -13,6 +13,7 @@ export default function DataTable({ rows, columns, getRowId, defaultPageSize = 1
       pageSize={pageSize}
       rowsPerPageOptions={[5, 10, 25]}
       onPageSizeChange={setPageSize}
+      initialState={sortBy && { sorting: { sortModel: [{ field: sortBy, sort: 'desc' }] } }}
       autoHeight
       disableSelectionOnClick
       components={{ Toolbar: GridToolbar }}

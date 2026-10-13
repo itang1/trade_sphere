@@ -12,11 +12,13 @@ export function Filters({ onSearch, children }) {
 }
 
 export function Picker({ label, value, onChange, options }) {
+  // Keep a default selection valid while the options are still loading
+  const choices = value && !options.includes(value) ? [value, ...options] : options;
   return (
     <FormControl size='small' sx={{ minWidth: 220 }}>
       <InputLabel>{label}</InputLabel>
       <Select label={label} value={value} onChange={e => onChange(e.target.value)} MenuProps={{ PaperProps: { sx: { maxHeight: 360 } } }}>
-        {options.map(option => <MenuItem key={option} value={option}>{option}</MenuItem>)}
+        {choices.map(option => <MenuItem key={option} value={option}>{option}</MenuItem>)}
       </Select>
     </FormControl>
   );

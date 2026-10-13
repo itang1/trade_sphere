@@ -30,8 +30,8 @@ function toTimeSeries(rows, countries) {
 
 export default function CountriesWagesPage() {
   const [countries, setCountries] = useState([]);
-  const [country1, setCountry1] = useState('');
-  const [country2, setCountry2] = useState('');
+  const [country1, setCountry1] = useState('United States');
+  const [country2, setCountry2] = useState('Mexico');
   const [selected, setSelected] = useState([]);
   const [data, setData] = useState([]);
 
@@ -39,6 +39,7 @@ export default function CountriesWagesPage() {
     getJson('/distcountries2')
       .then(rows => setCountries([...new Set(['United States', ...rows.map(row => row.Country)])]))
       .catch(console.error);
+    searchWages();
   }, []);
 
   const searchWages = () => {

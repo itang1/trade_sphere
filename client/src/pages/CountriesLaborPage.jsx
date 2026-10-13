@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 
 import { getJson } from '../api';
-import { Note, Section } from '../components/Page';
+import { Insight, Note, Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 import { Filters, RangeSlider } from '../components/Controls';
 
@@ -23,6 +23,11 @@ export default function CountriesLaborPage() {
             .catch(console.error);
     };
 
+    useEffect(search, []);
+
+    const highest = data.reduce((best, row) => (!best || row.HighestUnemploymentRate > best.HighestUnemploymentRate ? row : best), null);
+    const monthName = month => new Date(2000, month - 1).toLocaleString('en-US', { month: 'long' });
+
     return (
         <>
             <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Each country's highest monthly unemployment rate since 2005, and when it happened.</Typography>
@@ -30,6 +35,11 @@ export default function CountriesLaborPage() {
                 <Filters onSearch={search}>
                     <RangeSlider label='Highest unemployment rate (%)' value={unemployment} onChange={setUnemployment} min={0} max={100} step={10} />
                 </Filters>
+                {highest && (
+                    <Insight>
+                        The highest peak is {highest.Country}: {highest.HighestUnemploymentRate}% in {monthName(highest.Month)} {highest.Year}.
+                    </Insight>
+                )}
                 <DataTable rows={data} columns={columns} getRowId={row => row.Country} />
                 <Note>
                     The peak year and month can shed light on significant real-world events, offering insights into underlying factors and circumstances.

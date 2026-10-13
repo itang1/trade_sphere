@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getJson } from '../api';
-import { Note, Section } from '../components/Page';
+import { Insight, Note, Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 import { Filters, RangeSlider } from '../components/Controls';
 
@@ -19,12 +19,21 @@ export default function CountriesWageGrowthPage() {
             .catch(console.error);
     };
 
+    useEffect(search, []);
+
+    const [fastest] = data;
+
     return (
         <>
             <Section title='Average Yearly Wage Growth, 2005 to 2023' query={['/country/wage_growth', { growth_low: growth[0], growth_high: growth[1] }]}>
                 <Filters onSearch={search}>
                     <RangeSlider label='Average yearly increase (%)' value={growth} onChange={setGrowth} min={-5} max={1200} step={5} />
                 </Filters>
+                {fastest && (
+                    <Insight>
+                        Fastest growth: {fastest.Country}, {fastest.AvgYearlyIncrease_perc}% a year on average. Very high rates usually reflect inflation rather than richer workers.
+                    </Insight>
+                )}
                 <DataTable rows={data} columns={columns} getRowId={row => row.Country} />
                 <Note>
                     Note: Financial instability, including inflation and other economic crises, can be a factor in significant wage increases.
