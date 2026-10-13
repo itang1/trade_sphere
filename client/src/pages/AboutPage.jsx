@@ -205,34 +205,13 @@ export default function AboutPage() {
           <li><strong>Default results:</strong> pages that open with results and a one-line takeaway.</li>
           <li><strong>Design:</strong> small edits to the color scheme and font, a cleaner layout built from one shared set of components, a tabbed Country Profiles page, and a reorganized and decluttered home page.</li>
           <li><strong>History:</strong> this write-up of the project's history.</li>
+          <li><strong>Fixes:</strong> corrected problems in the 2023 data and code, such as wages converted as if people worked around the clock and continent totals that counted some products twice.</li>
           <li><strong>Tooling:</strong> Vite in place of Create React App, updated dependencies, and tests that run every query against the real data. React itself is still in use; only Create React App was retired. Its maintainers deprecated it in 2025 because it was no longer actively maintained and was slower than newer tools like Vite, which do the same job. Only the build tool changed, so the React skills from 2023 still apply.</li>
-        </ul>
-
-        <Typography id='problems' variant='h3' gutterBottom sx={{ scrollMarginTop: 80 }}>Problems found in the 2023 version</Typography>
-        <p>Checking the site's output against the real world turned up these problems, all fixed or disclosed in the revamp.</p>
-        <p><strong>Data</strong></p>
-        <ul>
-          <li><strong>Wages:</strong> the unit conversion multiplied hourly wages by 8,760 (every hour of the year) and daily wages by 365, so the average US wage showed as $254,040 a year. They now use a full-time year of 2,080 hours or 260 working days, which brings it to about $58,800.</li>
-          <li><strong>Double counting:</strong> the continent totals added whole product groups and the individual products inside them, so many values were counted twice.</li>
-          <li><strong>Missing countries:</strong> China and Germany have far fewer trade records than other major partners and no product-group totals, so they drop out of rankings. Vietnam, for example, appears as the top source of US toys and phones.</li>
-          <li><strong>Incomplete totals:</strong> the source's World figure is larger than the sum of its countries ($103 billion vs. $71 billion for aircraft exports), so country-level trade data doesn't cover everything.</li>
-          <li><strong>Wrong year ranges:</strong> the trade data is a snapshot, mostly from 2022, but the site described it as 2005 to 2022, and two page titles gave the wrong years for temperature and wage growth.</li>
-          <li><strong>Inconsistent labels:</strong> the data mixed "Re-export" with "Re-Export," "Bosnia And Herzegovina" with "Bosnia and Herzegovina," and "AUD/Week" with "AUD/week," and it listed "Other Asia" as a country. MySQL ignored capitalization, which hid most of these.</li>
-          <li><strong>Lost coordinates:</strong> the map's country coordinates existed only in the AWS database, so they disappeared with it and had to be rebuilt.</li>
-          <li><strong>Unclear wording:</strong> trade values were labeled "Volume" without saying they were US dollars, and the Living Conditions intro mentioned infant mortality, but the data is the share of infants in the population.</li>
-        </ul>
-        <p><strong>Code</strong></p>
-        <ul>
-          <li>The wages chart plotted the text "No Data" as if it were a number.</li>
-          <li>Search values weren't URL-encoded, so names containing characters such as "&" could break a search.</li>
-          <li>Five routes read their page settings from <code>req.param</code> instead of <code>req.query</code>, so pagination was silently ignored.</li>
-          <li>The map didn't zoom to its markers, and the wages chart showed empty axes before a search.</li>
-          <li>Leftovers from the course's starter template, including an unused table component, and a dependency with no version limit that would break fresh installs.</li>
         </ul>
 
         <Typography variant='h3' gutterBottom>Lessons learned</Typography>
         <ul>
-          <li><strong>Check the data against reality.</strong> Most of the problems above went unnoticed in 2023 because nobody compared the output with the real world. A US average wage of $254,000 a year should have been a red flag.</li>
+          <li><strong>Check the data against reality.</strong> Some problems went unnoticed in 2023 because nobody compared the output with the real world. A US average wage of $254,000 a year should have been a red flag.</li>
           <li><strong>Choose the database for how the data is used.</strong> A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.</li>
           <li><strong>AI speeds up the work but doesn't replace judgment.</strong> Claude made changes far faster than I could by hand, but deciding which changes mattered and noticing when a result looked wrong were still up to me.</li>
         </ul>
