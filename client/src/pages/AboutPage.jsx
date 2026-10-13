@@ -46,6 +46,15 @@ FROM FirstYearValue f
   INNER JOIN LastYearValue l ON f.Country = l.Country
 ORDER BY TemperatureChange DESC`;
 
+const CONTENTS = [
+  ['how-it-works', 'How TradeSphere works'],
+  ['what-we-learned', 'What we learned'],
+  ['query-example', 'Making a query faster'],
+  ['revamp', 'The 2026 revamp'],
+  ['ai', 'How AI was used'],
+  ['problems', 'Problems found'],
+];
+
 const diagramUrl = `${import.meta.env.BASE_URL}er-diagram.png`;
 
 export default function AboutPage() {
@@ -64,10 +73,16 @@ export default function AboutPage() {
             <a href={REPO_URL}>Code on GitHub</a> · <a href={`${REPO_URL}/blob/main/Final_Report.pdf`}>Final report</a> ·{' '}
             <a href='https://drive.google.com/file/d/1Nybc92zDlOBBINsfdfigPUxMy5g0cNJv/view?usp=sharing'>Original video demo</a>
           </p>
+          <p>
+            <strong>On this page:</strong>{' '}
+            {CONTENTS.map(([id, label], i) => (
+              <React.Fragment key={id}>{i > 0 && ' · '}<a href={`#${id}`}>{label}</a></React.Fragment>
+            ))}
+          </p>
         </>
       }
     >
-      <Section title='How TradeSphere works'>
+      <Section id='how-it-works' title='How TradeSphere works'>
         <Typography variant='h3' gutterBottom>Pipeline</Typography>
         <ol>
           <li><strong>Collect:</strong> Python notebooks pulled economic indicators for 196 countries from the TradingEconomics API, and country statistics from Our World in Data, in November 2023.</li>
@@ -103,7 +118,7 @@ export default function AboutPage() {
         <p>Some countries are incomplete. China has only 402 trade records, none after 2021, and Germany has 780, while other major partners have 3,000 or more. Neither has totals for whole product groups.</p>
       </Section>
 
-      <Section title='December 2023: what we learned'>
+      <Section id='what-we-learned' title='December 2023: what we learned'>
         <p>
           TradeSphere was the final project for a course that covered SQL, ER design, relational design theory, transactions, indexing, query optimization,
           and NoSQL databases such as MongoDB and Neo4j. The project put the relational half of that into practice.
@@ -137,7 +152,7 @@ export default function AboutPage() {
           so both sides had to adapt.
         </p>
 
-        <Typography variant='h3' gutterBottom>Example: making a query faster</Typography>
+        <Typography id='query-example' variant='h3' gutterBottom sx={{ scrollMarginTop: 80 }}>Example: making a query faster</Typography>
         <p>
           The <Link to='/countries-temperature'>Temperature</Link> tab finds how much each country's temperature changed between its first and last year of data.
           The first version used window functions, which compute a value for every row of every country. The rewrite finds each country's first and last year once,
@@ -155,13 +170,13 @@ export default function AboutPage() {
         </Grid>
       </Section>
 
-      <Section title='October 2026: the revamp with AI tools'>
+      <Section id='revamp' title='October 2026: the revamp with AI tools'>
         <p>
           By 2026, our site no longer worked because the paid AWS database behind it had been shut down after the course. I (Irene) revived the project so that
           anyone can try it at no hosting cost, by moving the database to SQLite, which runs inside each visitor's web browser instead of on a paid server.
         </p>
 
-        <Typography variant='h3' gutterBottom>How AI was used</Typography>
+        <Typography id='ai' variant='h3' gutterBottom sx={{ scrollMarginTop: 80 }}>How AI was used</Typography>
         <p>
           I did the revamp with help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that can read and edit a project's files. I described each desired change in plain English, such as "get the live demo website running
           without a paid server," "let visitors see the SQL code that we wrote for every chart," and "make the pages give context instead of just displaying tables." Claude read the 2023 code, its git history, and our team's documents, then wrote the changes, ran the
@@ -192,7 +207,7 @@ export default function AboutPage() {
           <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
         </ul>
 
-        <Typography variant='h3' gutterBottom>Problems found in the 2023 version</Typography>
+        <Typography id='problems' variant='h3' gutterBottom sx={{ scrollMarginTop: 80 }}>Problems found in the 2023 version</Typography>
         <p>Checking the site's output against the real world turned up these problems, all fixed or disclosed in the revamp.</p>
         <p><strong>Data</strong></p>
         <ul>
