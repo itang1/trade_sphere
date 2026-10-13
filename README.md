@@ -60,7 +60,7 @@ The four of them built TradeSphere over the semester for CIS 5500. Along the way
 - **Design a relational schema:** normalize tables to BCNF or 3NF, draw the ER diagram, and break 3NF on purpose when it made queries simpler (`UnitConversion`).
 - **Write and tune complex SQL:** CTEs, window functions, and multi-table joins. Rewriting one query with subqueries instead of window functions cut it from 146 ms to 114 ms.
 - **Keep data consistent across sources:** clean and merge datasets, and fix the country names that broke foreign key constraints.
-- **Run a database in the cloud:** host MySQL on Amazon RDS and create and load the tables there, which the final report names as one of the project's hardest parts.
+- **Run a database in the cloud:** host MySQL on Amazon RDS and create and load the tables there.
 - **Wire up a full stack:** connect a React client to an Express API and a MySQL database on AWS, while the API contract kept changing.
 
 ### October 2026: the revamp with AI tools
@@ -75,7 +75,7 @@ By 2026, the site no longer worked because the paid AWS database behind it had b
 - **Tooling:** Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.
 - **Docs:** this README, rewritten with features, architecture, and setup.
 
-What Irene learned:
+Lessons learned:
 
 - **Check the data against reality.** The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.
 - **Choose the database for how the data is used.** A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.

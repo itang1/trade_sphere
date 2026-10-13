@@ -123,7 +123,7 @@ export default function AboutPage() {
         </p>
         <p>
           <strong>Running a database in the cloud.</strong> We hosted the MySQL database on Amazon RDS, a managed database service from Amazon Web
-          Services (AWS), and created and loaded the tables there. The final report names deploying the tables on AWS as one of the project's hardest parts.
+          Services (AWS), and created and loaded the tables there.
         </p>
         <p>
           <strong>Building a React app from scratch.</strong> We started the client with Create React App, then built it out with pages and routing
@@ -163,7 +163,7 @@ export default function AboutPage() {
         <p>
           Irene did the revamp with <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that works inside a code project: it
           can read and edit files and run commands such as tests. She described each change in plain English, such as "make it clearer which tab you're
-          on" or "fix the hourly wage conversion." Claude read the 2023 code, its git history, and our documents, then wrote the changes, ran the
+          on" or "fix the hourly wage conversion." Claude read the 2023 code, its git history, and the team's documents, then wrote the changes, ran the
           tests, and checked each page in a browser.
         </p>
         <p>
@@ -174,14 +174,14 @@ export default function AboutPage() {
 
         <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
         <p>
-          SQLite is a database that lives in a single file instead of on a server. A server database like our MySQL runs as a program that apps
+          SQLite is a database that lives in a single file instead of on a server. A server database like the team's MySQL runs as a program that apps
           connect to, and it costs money for as long as it runs. SQLite has no server: a program opens the file and runs SQL on it directly. It is built
           into every iPhone, Android phone, and web browser.
         </p>
         <p>
-          The revamp rebuilt the database from the same cleaned CSV files that we loaded into MySQL on AWS in 2023. A Python script creates the
+          The revamp rebuilt the database from the same cleaned CSV files that the team loaded into MySQL on AWS in 2023. A Python script creates the
           tables with the same names, columns, and keys as the original schema, loads each CSV into its table, and compresses the result into one 10 MB
-          file. The site uses sql.js, a version of SQLite that runs in the browser, so your browser downloads that file and runs our queries on
+          file. The site uses sql.js, a version of SQLite that runs in the browser, so your browser downloads that file and runs the team's queries on
           your own computer. Whenever the code changes, GitHub Actions rebuilds the database, runs the tests, and publishes the site for free.
         </p>
         <p>
@@ -197,7 +197,7 @@ export default function AboutPage() {
           <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
         </ul>
 
-        <Typography variant='h3' gutterBottom>What Irene learned</Typography>
+        <Typography variant='h3' gutterBottom>Lessons learned</Typography>
         <ul>
           <li><strong>Check the data against reality.</strong> The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.</li>
           <li><strong>Choose the database for how the data is used.</strong> A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.</li>
