@@ -95,12 +95,14 @@ export default function AboutPage() {
           describes, such as a country or a trade record). Ovals are their attributes, and underlined attributes form each entity's key. Diamonds are
           relationships between entities, and labels such as 1..1 and 0..* say how many of one entity can relate to another: each trade record belongs to
           exactly one country, while a country can have any number of trade records. The ISA triangle marks Labour, GDP, Climate, and the other indicator
-          tables as kinds of one historical data entity, since they all share the same columns. We drew it in draw.io (diagrams.net).
+          tables as kinds of one historical data entity, since they all share the same columns.
         </p>
         <Box component='a' href={diagramUrl} sx={{ display: 'block', maxWidth: 720 }}>
           <Box component='img' src={diagramUrl} alt='Entity-relationship diagram of the TradeSphere database' sx={{ width: '100%', border: 1, borderColor: 'divider', borderRadius: 1 }} />
         </Box>
-        <Typography variant='body2' color='text.secondary' sx={{ mb: 3 }}>Click the diagram to open it full size.</Typography>
+        <Typography variant='body2' color='text.secondary' sx={{ mb: 3 }}>
+          Entity-relationship diagram of the TradeSphere database, designed by our team in draw.io, Fall 2023. Click the diagram to open it full size.
+        </Typography>
 
         <Typography variant='h3' gutterBottom>Data</Typography>
         <p>
