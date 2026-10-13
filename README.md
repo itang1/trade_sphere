@@ -2,7 +2,7 @@
 
 Server- and client-side code for a web application showcasing the prettified output of complex and dynamically-generated SQL queries that pull international trade data from [TradingEconomics.com](https://www.TradingEconomics.com), among other sources.
 
-TradeSphere lets you explore US trade with about 200 partner countries from 2005 to 2022, alongside country-level indicators such as wages, unemployment, living conditions and temperature change. It was built in fall 2023 as the group final project for CIS 5500: Databases & Information Systems at the University of Pennsylvania, taught by Professor Susan B. Davidson.
+TradeSphere lets you explore US trade with about 200 partner countries from 2010 to 2022, alongside country-level indicators from 2005 to 2023 such as wages, unemployment, living conditions and temperature change. It was built in Fall 2023 as the group final project for CIS 5500: Databases & Information Systems at the University of Pennsylvania, taught by Professor Susan B. Davidson.
 
 **[Try the live demo](https://itang1.github.io/trade_sphere/).** It runs the project's SQL queries on a copy of the database inside your browser, so there is no server to keep paying for.
 
@@ -68,6 +68,7 @@ Coming back almost three years later, I worked through the project with an AI co
 - **UI:** one shared theme and set of components across all pages, charts that resize with the window, a map that zooms to fit its markers, and clearer empty states.
 - **Bugs:** the wages chart had been plotting the text "No Data" as a value, and query strings weren't URL-encoded.
 - **Live demo:** the app ran only while the paid AWS database did. It now runs entirely in the browser on SQLite, with tests that run every query against the real data.
+- **SQL on display:** every chart and table has a Show SQL button with the query behind it, and the home page opens with the top US imports and exports by country.
 - **Dependencies:** replaced the unmaintained Create React App with Vite, updated the rest and removed unused packages.
 - **Docs:** this README, rewritten with features, architecture and setup, plus an About page on the site with this history.
 

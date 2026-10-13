@@ -11,7 +11,7 @@ export default function AboutPage() {
       title='About'
       intro={
         <>
-          <p>TradeSphere was my group final project for CIS 5500: Databases & Information Systems at the University of Pennsylvania, taught by Professor Susan B. Davidson in fall 2023. It was built by Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang.</p>
+          <p>TradeSphere was my group final project for CIS 5500: Databases & Information Systems at the University of Pennsylvania, taught by Professor Susan B. Davidson in Fall 2023. It was built by Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang.</p>
           <p>
             See the <a href={REPO_URL}>code on GitHub</a>, the <a href={`${REPO_URL}/blob/main/Final_Report.pdf`}>final report</a> and
             the <a href='https://drive.google.com/file/d/1Nybc92zDlOBBINsfdfigPUxMy5g0cNJv/view?usp=sharing'>original video demo</a>.
@@ -36,6 +36,7 @@ export default function AboutPage() {
         <Typography variant='h3' gutterBottom>What changed</Typography>
         <ul>
           <li><strong>Live demo:</strong> the database now runs inside your browser. A script rebuilds it from the project's CSV files as SQLite, and the app runs the same SQL queries the Express server ran, so there is no server to pay for.</li>
+          <li><strong>SQL on display:</strong> every chart and table has a Show SQL button with the query behind it, and the home page opens with the top US imports and exports by country.</li>
           <li><strong>UI:</strong> one shared theme and set of components across all pages, charts that resize with the window, a map that zooms to fit its markers, and clearer empty states.</li>
           <li><strong>Tooling:</strong> moved from Create React App to Vite, updated the dependencies, and added tests that run every query against the real data.</li>
         </ul>
