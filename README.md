@@ -12,8 +12,11 @@ View the [Video Demo](https://drive.google.com/file/d/1Nybc92zDlOBBINsfdfigPUxMy
 
 ## Features
 
+- **Home:** the top five US imports or exports by dollar value, for the world or one of five countries, and starter questions that link into the rest of the site.
 - **Trades:** a map of the top 5 US trading partners for any trade type and product category, plus tables of every partner, trade volume by continent and each partner's largest trade category.
-- **Countries:** five pages that filter countries with sliders and drop-downs: living conditions, temperature change, highest unemployment rate, wages over time (two-country line chart) and average yearly wage growth.
+- **Countries:** one page with four tabs that filter countries with sliders and drop-downs: living conditions, temperature change, highest unemployment rate, and wages (a two-country line chart plus average yearly wage growth).
+- **About:** what the project shows, the pipeline, the ER diagram, a query optimization with both versions of the SQL, and the project history.
+- **Show SQL** under every chart and table, with the query and its current parameters.
 - **Tables** with search, column filters and CSV export.
 
 ## How it works
