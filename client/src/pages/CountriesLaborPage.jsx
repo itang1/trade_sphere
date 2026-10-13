@@ -27,7 +27,7 @@ export default function CountriesLaborPage() {
             title='Highest Unemployment Rate by Country'
             intro={<p>Dive into the revealing world of global unemployment rates, where numbers tell stories of socio-economic landscapes and pivotal events shaping nations. Discovering countries with the highest unemployment rates opens a window into complex issues like political unrest, economic downturns, or transformative industrial shifts. This knowledge not only illuminates the challenges faced by these countries but also offers a deeper understanding of global economic interconnections. By exploring these unemployment statistics, you become a witness to the evolving narratives of nations and the resilience of their people in the face of adversity.</p>}
         >
-            <Section>
+            <Section query={['/home/labour', { unemp_low: unemployment[0], unemp_high: unemployment[1] }]}>
                 <Filters onSearch={search}>
                     <RangeSlider label='Highest unemployment rate (%)' value={unemployment} onChange={setUnemployment} min={0} max={100} step={10} />
                 </Filters>

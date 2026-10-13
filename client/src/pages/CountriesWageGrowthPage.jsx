@@ -22,10 +22,10 @@ export default function CountriesWageGrowthPage() {
 
     return (
         <Page
-            title='Average Yearly Wage Increase 2006-2022'
+            title='Average Yearly Wage Increase, 2005 to 2023'
             intro={<p>Discover the dynamic landscape of global wage growth and unlock a wealth of opportunities. Delve into the intricacies of different countries' economies through their wage trends, providing a unique lens to gauge economic health and job market vitality. This knowledge not only guides astute investment decisions and business strategies but also opens doors to promising career paths and enlightens policy understanding. Stay ahead in the fast-paced world of economics by keeping a pulse on the ever-evolving patterns of wage growth across the globe.</p>}
         >
-            <Section>
+            <Section query={['/country/wage_growth', { growth_low: growth[0], growth_high: growth[1] }]}>
                 <Filters onSearch={search}>
                     <RangeSlider label='Average yearly increase (%)' value={growth} onChange={setGrowth} min={-5} max={1200} step={5} />
                 </Filters>

@@ -639,6 +639,25 @@ const distcountries2 = async function(req, res) {
   });
 }
 
+// Route 17: GET /top_traded
+const top_traded = async function (req, res) {
+  const type = req.query.type ?? 'Import';
+  const country = req.query.country ?? 'World';
+  connection.query(`WITH Chapters AS (
+      SELECT Category, Value FROM USTradingData
+      WHERE Type = ? AND Country2 = ? AND Year = 2022 AND Symbol LIKE 'USA___XX%'
+    )
+    SELECT Category, Value, ROUND(100.0 * Value / SUM(Value) OVER (), 1) AS SharePercent
+    FROM Chapters ORDER BY Value DESC LIMIT 5`, [type, country], (err, data) => {
+    if (err) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 module.exports = {
   author,
   trading_data,
@@ -646,6 +665,7 @@ module.exports = {
   trading_partner_catg,
   trading_volume,
   trading_export,
+  top_traded,
   population,
   populationwater,
   wages,

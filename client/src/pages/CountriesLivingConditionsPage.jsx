@@ -21,13 +21,15 @@ export default function CountriesLivingConditionsPage() {
   const [sanitationProportion, setSanitationProportion] = useState([0, 100]);
   const [infantProportion, setInfantProportion] = useState([0, 5]);
 
+  const params = {
+    urban_low: urbanProportion[0], urban_high: urbanProportion[1],
+    drinking_water_low: drinkingWaterProportion[0], drinking_water_high: drinkingWaterProportion[1],
+    sanitation_low: sanitationProportion[0], sanitation_high: sanitationProportion[1],
+    infant_low: infantProportion[0], infant_high: infantProportion[1],
+  };
+
   const search = () => {
-    getJson('/country/population', {
-      urban_low: urbanProportion[0], urban_high: urbanProportion[1],
-      drinking_water_low: drinkingWaterProportion[0], drinking_water_high: drinkingWaterProportion[1],
-      sanitation_low: sanitationProportion[0], sanitation_high: sanitationProportion[1],
-      infant_low: infantProportion[0], infant_high: infantProportion[1],
-    })
+    getJson('/country/population', params)
       .then(setData)
       .catch(console.error);
   };
@@ -35,9 +37,9 @@ export default function CountriesLivingConditionsPage() {
   return (
     <Page
       title='Living Conditions'
-      intro={<p>Uncover the realities of living conditions around the world, a journey that reveals the contrasts and similarities between nations. From the bustling urban landscapes to the availability of essential services like clean drinking water and sanitation, each country tells a unique story. Understanding these conditions, including the critical aspect of infant mortality rates, offers invaluable insights into the challenges and progress of different societies. This knowledge not only enriches your global perspective but also empowers you to engage with international issues more meaningfully. Dive into this exploration to grasp the diverse tapestry of life across our planet.</p>}
+      intro={<p>Uncover the realities of living conditions around the world, a journey that reveals the contrasts and similarities between nations. From the bustling urban landscapes to the availability of essential services like clean drinking water and sanitation, each country tells a unique story. Understanding these conditions, including the share of infants in each population, offers invaluable insights into the challenges and progress of different societies. This knowledge not only enriches your global perspective but also empowers you to engage with international issues more meaningfully. Dive into this exploration to grasp the diverse tapestry of life across our planet.</p>}
     >
-      <Section>
+      <Section query={['/country/population', params]}>
         <Filters onSearch={search}>
           <RangeSlider label='Urban areas (%)' value={urbanProportion} onChange={setUrbanProportion} min={0} max={100} step={5} />
           <RangeSlider label='Drinking water (%)' value={drinkingWaterProportion} onChange={setDrinkingWaterProportion} min={0} max={100} step={5} />
@@ -52,7 +54,7 @@ export default function CountriesLivingConditionsPage() {
           </p>
           <p>
             (2) Improved Sanitation Access:
-            Refers to facilities that effectively separate human excreta from human contact, thus reducing health risks and enhancing hygiene, essential for preventing the spread of diseases.
+            This term refers to facilities that effectively separate human excreta from human contact, thus reducing health risks and enhancing hygiene, essential for preventing the spread of diseases.
           </p>
           <p>
             (3) Infant:

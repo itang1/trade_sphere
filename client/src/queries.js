@@ -3,12 +3,13 @@
 
 const number = (value, fallback) => (value === undefined || value === '' ? fallback : Number(value));
 
+// Indented to sit inside the WITH clauses below, so Show SQL lays it out cleanly
 const wageTable = `
-  SELECT B.Country, B.Year, B.Month, B.Value * U.ConversionRate AS ConvertedValue
-  FROM Labour B
-    JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
-    JOIN UnitConversion U ON I.Unit = U.Unit
-  WHERE B.Category = 'Wages'`;
+      SELECT B.Country, B.Year, B.Month, B.Value * U.ConversionRate AS ConvertedValue
+      FROM Labour B
+        JOIN IndexTable I ON B.Category = I.Category AND B.Country = I.Country
+        JOIN UnitConversion U ON I.Unit = U.Unit
+      WHERE B.Category = 'Wages'`;
 
 const queries = {
   '/trading_data': ({ type = '', category = '' }) => [`
@@ -41,6 +42,19 @@ const queries = {
     GROUP BY C.Continent
     ORDER BY SUM(U.Value) DESC`,
     [type]],
+
+  '/top_traded': ({ type = 'Import', country = 'World' }) => [`
+    -- Symbols like USAMEXXX871 are whole product chapters rather than single products
+    WITH Chapters AS (
+      SELECT Category, Value
+      FROM USTradingData
+      WHERE Type = ? AND Country2 = ? AND Year = 2022 AND Symbol LIKE 'USA___XX%'
+    )
+    SELECT Category, Value, ROUND(100.0 * Value / SUM(Value) OVER (), 1) AS SharePercent
+    FROM Chapters
+    ORDER BY Value DESC
+    LIMIT 5`,
+    [type, country]],
 
   '/trading_export': () => [`
     SELECT Category, format_number(SUM(Value)) AS TotalExportValue
@@ -88,7 +102,8 @@ const queries = {
     []],
 
   '/country/wages': ({ country1 = '', country2 = '' }) => [`
-    WITH WageData AS (${wageTable} AND (B.Country = ? OR B.Country = ?))
+    WITH WageData AS (${wageTable} AND (B.Country = ? OR B.Country = ?)
+    )
     SELECT Country, Year, Month, ROUND(ConvertedValue, 2) AS TotalWage
     FROM WageData
     ORDER BY Year, Month, Country`,

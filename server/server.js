@@ -16,6 +16,7 @@ app.get('/trading_partner', routes.trading_partner);
 app.get('/trading_partner_catg', routes.trading_partner_catg);
 app.get('/trading_volume', routes.trading_volume);
 app.get('/trading_export', routes.trading_export);
+app.get('/top_traded', routes.top_traded);
 app.get('/country/population', routes.population);
 app.get('/country/populationwater', routes.populationwater);
 app.get('/country/wages', routes.wages);

@@ -30,6 +30,9 @@ export const theme = createTheme({
       defaultProps: { disableElevation: true },
       styleOverrides: { root: { textTransform: 'none', fontWeight: 600 } },
     },
+    MuiToggleButton: {
+      styleOverrides: { root: { textTransform: 'none', fontWeight: 600, paddingInline: 12 } },
+    },
     MuiPaper: {
       defaultProps: { elevation: 0 },
       styleOverrides: { root: { border: `1px solid ${colors.border}` } },

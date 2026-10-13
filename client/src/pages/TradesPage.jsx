@@ -79,8 +79,8 @@ export default function TradesPage() {
       title='International Trade'
       intro={
         <>
-          <p>International trade has been prominent throughout history. However, with social, political, and economic changes, such as increasing globalization, international trade has grown immensely both in value and diversity within the last century. The number and types of goods, as well as the pairings of trading partners convey a complex picture of the global economy and inform decision-making by global powers, such as the United States. Therefore, mapping those relationships and collecting trade information is of utmost importance to understand the state of the global economy and gain educated insights.</p>
-          <p>This page provides an overview of trading-related data, including the influence of different trading categories and types on trading patterns between the United States and other countries. The below displayed data should be viewed as an example of exploratory analysis that can be conducted with the data but it only displays a small selection of available variables.</p>
+          <p>International trade has been prominent throughout history. However, with social, political, and economic changes, such as increasing globalization, international trade has grown immensely both in value and diversity within the last century. The number and types of goods, as well as the pairings of trading partners, convey a complex picture of the global economy and inform decision-making by global powers, such as the United States. Therefore, mapping those relationships and collecting trade information is of utmost importance to understand the state of the global economy and gain educated insights.</p>
+          <p>This page provides an overview of trading-related data, including the influence of different trading categories and types on trading patterns between the United States and other countries. The data displayed below should be viewed as an example of the exploratory analysis that can be conducted with the data, but it only displays a small selection of the available variables.</p>
         </>
       }
     >
@@ -91,6 +91,7 @@ export default function TradesPage() {
 
       <Section
         title='Top 5 Largest Trading Partners with the United States'
+        query={['/trading_partner', { type: topPartnersType, category: topPartnersCategory }]}
         description="Experience a customized view of global trade on our interactive map. As you select your trade type and product category, the map dynamically updates to showcase the United States' five largest trading partners in this sector. This tailored visualization brings to life the vibrant trade networks and volumes based on your specific interests, offering a unique perspective on international commerce."
       >
         <Filters onSearch={searchTopPartners}>
@@ -126,7 +127,7 @@ export default function TradesPage() {
         </Grid>
       </Section>
 
-      <Section title='All Trading Partners with the United States'>
+      <Section title='All Trading Partners with the United States' query={['/trading_data', { type: partnersType, category: partnersCategory }]}>
         <Filters onSearch={searchPartners}>
           <Picker label='Trade type' value={partnersType} onChange={setPartnersType} options={TRADE_TYPES} />
           <Picker label='Category' value={partnersCategory} onChange={setPartnersCategory} options={categories} />
@@ -139,14 +140,14 @@ export default function TradesPage() {
         The two below displayed tables showcase the changes of total trade volume by the trade type for the different continents and the largest trading category a country has with the United States. The data reports on close to 200 different trading partners with the United States.
       </Typography>
 
-      <Section title='Total Trading Volume by Continent'>
+      <Section title='Total Trading Volume by Continent' query={['/trading_volume', { type: volumeType }]}>
         <Filters onSearch={searchVolume}>
           <Picker label='Trade type' value={volumeType} onChange={setVolumeType} options={TRADE_TYPES} />
         </Filters>
         <DataTable rows={volume} columns={volumeColumns} getRowId={row => row.Continent} />
       </Section>
 
-      <Section title='Largest Trade Category for United States Trade Partners'>
+      <Section title='Largest Trade Category for United States Trade Partners' query={['/trading_partner_catg', { type: topCategoryType, country2: topCategoryCountry }]}>
         <Filters onSearch={searchTopCategory}>
           <Picker label='Trade type' value={topCategoryType} onChange={setTopCategoryType} options={TRADE_TYPES} />
           <Picker label='Country' value={topCategoryCountry} onChange={setTopCategoryCountry} options={countries} />

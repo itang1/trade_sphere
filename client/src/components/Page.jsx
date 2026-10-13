@@ -1,5 +1,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 
+import ShowSql from './ShowSql';
+
 export default function Page({ title, intro, children }) {
   return (
     <Container maxWidth='lg' sx={{ py: 5 }}>
@@ -14,7 +16,7 @@ export default function Page({ title, intro, children }) {
   );
 }
 
-export function Section({ title, description, children }) {
+export function Section({ title, description, query, children }) {
   return (
     <Paper sx={{ p: { xs: 2, md: 3 }, mb: 4 }}>
       {title && <Typography variant='h2' gutterBottom>{title}</Typography>}
@@ -24,6 +26,7 @@ export function Section({ title, description, children }) {
         </Typography>
       )}
       {children}
+      {query && <ShowSql route={query[0]} params={query[1]} />}
     </Paper>
   );
 }

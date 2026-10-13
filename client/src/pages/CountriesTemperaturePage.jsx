@@ -22,10 +22,10 @@ export default function CountriesTemperaturePage() {
 
     return (
         <Page
-            title='Temperature Change 2006-2022'
+            title='Temperature Change, 2005 to 2021'
             intro={<p>Embark on a journey to understand how countries around the world are tackling the pressing challenge of global warming. Discover the innovative strategies and measures being implemented to combat climate change, from cutting-edge green technologies to bold policy initiatives. This exploration not only highlights the urgency of the issue but also celebrates the collective efforts to protect our planet. Gain insights into the global temperature trends and become part of a growing community that's raising environmental awareness. Your awareness and actions can make a significant difference in shaping a sustainable future.</p>}
         >
-            <Section>
+            <Section query={['/country/temperature', { delta_low: temperatureChange[0], delta_high: temperatureChange[1] }]}>
                 <Filters onSearch={search}>
                     <RangeSlider label='Temperature change (°C)' value={temperatureChange} onChange={setTemperatureChange} min={-2} max={2} step={0.5} />
                 </Filters>

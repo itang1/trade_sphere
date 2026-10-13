@@ -57,7 +57,7 @@ export default function CountriesWagesPage() {
       title='Wages'
       intro={<p>Unlock the fascinating world of wage comparison between two countries over time, a journey that not only reveals differences in pay scales but also mirrors the domestic economic environments within these nations. This exploration provides insights into how economic policies, market trends, and cultural factors influence wage structures. Witness how shifts in the global economy, technological advancements, and political changes impact earnings in different regions. Delving into this comparative analysis offers a deeper understanding of the interconnectedness of global economies and the unique challenges and opportunities each country faces.</p>}
     >
-      <Section title='Comparison of Wages'>
+      <Section title='Comparison of Wages' query={['/country/wages', { country1, country2 }]}>
         <Filters onSearch={searchWages}>
           <Picker label='Country #1' value={country1} onChange={setCountry1} options={countries} />
           <Picker label='Country #2' value={country2} onChange={setCountry2} options={countries} />
@@ -85,7 +85,7 @@ export default function CountriesWagesPage() {
             </ResponsiveContainer>
           </Box>
         )}
-        <Note>* Note that if a line is not drawn for a selected country, it means that no data pertaining to that country's wages is available in our dataset.</Note>
+        <Note>Note: If no line is drawn for a selected country, our dataset has no wage data for that country.</Note>
       </Section>
 
       <Section>
