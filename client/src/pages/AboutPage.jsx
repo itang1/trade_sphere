@@ -155,7 +155,7 @@ export default function AboutPage() {
 
       <Section title='October 2026: the revamp with AI tools'>
         <p>
-          By 2026, the site no longer worked because the paid AWS database behind it had been shut down after the course. I revived the project so that
+          By 2026, the site no longer worked because the paid AWS database behind it had been shut down after the course. I (Irene) revived the project so that
           anyone can try it, at no hosting cost.
         </p>
 
