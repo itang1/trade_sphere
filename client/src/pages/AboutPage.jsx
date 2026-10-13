@@ -76,8 +76,8 @@ export default function AboutPage() {
 
         <Typography variant='h3' gutterBottom>Schema</Typography>
         <p>
-          An entity-relationship (ER) diagram is the blueprint of a database, drawn before any tables exist. Rectangles are entities, the things the data
-          describes, such as a country or a trade record. Ovals are their attributes, and underlined attributes form each entity's key. Diamonds are
+          An entity-relationship (ER) diagram is the blueprint of a database, drawn before any tables exist. Rectangles are entities (the things that the data
+          describes, such as a country or a trade record). Ovals are their attributes, and underlined attributes form each entity's key. Diamonds are
           relationships between entities, and labels such as 1..1 and 0..* say how many of one entity can relate to another: each trade record belongs to
           exactly one country, while a country can have any number of trade records. The ISA triangle marks Labour, GDP, Climate, and the other indicator
           tables as kinds of one historical data entity, since they all share the same columns. The team drew it in draw.io (diagrams.net).
