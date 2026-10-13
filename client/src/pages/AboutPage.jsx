@@ -80,7 +80,7 @@ export default function AboutPage() {
           describes, such as a country or a trade record). Ovals are their attributes, and underlined attributes form each entity's key. Diamonds are
           relationships between entities, and labels such as 1..1 and 0..* say how many of one entity can relate to another: each trade record belongs to
           exactly one country, while a country can have any number of trade records. The ISA triangle marks Labour, GDP, Climate, and the other indicator
-          tables as kinds of one historical data entity, since they all share the same columns. The team drew it in draw.io (diagrams.net).
+          tables as kinds of one historical data entity, since they all share the same columns. We drew it in draw.io (diagrams.net).
         </p>
         <Box component='a' href={diagramUrl} sx={{ display: 'block', maxWidth: 720 }}>
           <Box component='img' src={diagramUrl} alt='Entity-relationship diagram of the TradeSphere database' sx={{ width: '100%', border: 1, borderColor: 'divider', borderRadius: 1 }} />
@@ -101,32 +101,32 @@ export default function AboutPage() {
         <p>Some countries are incomplete. China and Germany, for example, have no product-level trade figures.</p>
       </Section>
 
-      <Section title='December 2023: what the team learned'>
+      <Section title='December 2023: what we learned'>
         <p>
           TradeSphere was the final project for a course that covered SQL, ER design, relational design theory, transactions, indexing, query optimization,
           and NoSQL databases such as MongoDB and Neo4j. The project put the relational half of that into practice.
         </p>
         <p>
-          <strong>Designing a schema before writing code.</strong> The team drew the ER diagram first, then turned it into 17 tables normalized to BCNF or
-          3NF. Normalizing stores each fact once, such as a country's continent, so it can't fall out of sync. The team also broke 3NF on purpose in{' '}
+          <strong>Designing a schema before writing code.</strong> We drew the ER diagram first, then turned it into 17 tables normalized to BCNF or
+          3NF. Normalizing stores each fact once, such as a country's continent, so it can't fall out of sync. We also broke 3NF on purpose in{' '}
           <code>UnitConversion</code>, storing a conversion rate that could be computed from two other columns, because every wage query needed it.
         </p>
         <p>
-          <strong>Writing and tuning complex SQL.</strong> The queries use CTEs, window functions, and multi-table joins, and the team rewrote slow ones to
-          run faster. The charts and tables on this site run the team's original queries, except the home page's top imports and exports chart; press Show SQL
+          <strong>Writing and tuning complex SQL.</strong> The queries use CTEs, window functions, and multi-table joins, and we rewrote slow ones to
+          run faster. The charts and tables on this site run our original queries, except the home page's top imports and exports chart; press Show SQL
           under any of them to read the exact query, or see the example below.
         </p>
         <p>
           <strong>Keeping data consistent across sources.</strong> The two sources spelled country names differently and reported values in different
           currencies, units, and reporting frequencies. Making country names foreign keys exposed every mismatch, because the database refused rows that
-          didn't match a known country, and the team fixed them one by one.
+          didn't match a known country, and we fixed them one by one.
         </p>
         <p>
-          <strong>Running a database in the cloud.</strong> The team hosted the MySQL database on Amazon RDS, a managed database service from Amazon Web
+          <strong>Running a database in the cloud.</strong> We hosted the MySQL database on Amazon RDS, a managed database service from Amazon Web
           Services (AWS), and created and loaded the tables there. The final report names deploying the tables on AWS as one of the project's hardest parts.
         </p>
         <p>
-          <strong>Building a React app from scratch.</strong> The team started the client with Create React App, then built it out with pages and routing
+          <strong>Building a React app from scratch.</strong> We started the client with Create React App, then built it out with pages and routing
           (React Router), components with state and hooks, and libraries for tables, charts, and maps.
         </p>
         <p>
@@ -163,7 +163,7 @@ export default function AboutPage() {
         <p>
           Irene did the revamp with <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that works inside a code project: it
           can read and edit files and run commands such as tests. She described each change in plain English, such as "make it clearer which tab you're
-          on" or "fix the hourly wage conversion." Claude read the 2023 code, its git history, and the team's documents, then wrote the changes, ran the
+          on" or "fix the hourly wage conversion." Claude read the 2023 code, its git history, and our documents, then wrote the changes, ran the
           tests, and checked each page in a browser.
         </p>
         <p>
@@ -174,14 +174,14 @@ export default function AboutPage() {
 
         <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
         <p>
-          SQLite is a database that lives in a single file instead of on a server. A server database like the team's MySQL runs as a program that apps
+          SQLite is a database that lives in a single file instead of on a server. A server database like our MySQL runs as a program that apps
           connect to, and it costs money for as long as it runs. SQLite has no server: a program opens the file and runs SQL on it directly. It is built
           into every iPhone, Android phone, and web browser.
         </p>
         <p>
-          The revamp rebuilt the database from the same cleaned CSV files that the team loaded into MySQL on AWS in 2023. A Python script creates the
+          The revamp rebuilt the database from the same cleaned CSV files that we loaded into MySQL on AWS in 2023. A Python script creates the
           tables with the same names, columns, and keys as the original schema, loads each CSV into its table, and compresses the result into one 10 MB
-          file. The site uses sql.js, a version of SQLite that runs in the browser, so your browser downloads that file and runs the team's queries on
+          file. The site uses sql.js, a version of SQLite that runs in the browser, so your browser downloads that file and runs our queries on
           your own computer. Whenever the code changes, GitHub Actions rebuilds the database, runs the tests, and publishes the site for free.
         </p>
         <p>
