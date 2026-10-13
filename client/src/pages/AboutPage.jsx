@@ -51,8 +51,6 @@ const CONTENTS = [
   ['what-we-learned', 'What we learned'],
   ['query-example', 'Making a query faster'],
   ['revamp', 'The 2026 revamp'],
-  ['ai', 'How AI was used'],
-  ['problems', 'Problems found'],
 ];
 
 const diagramUrl = `${import.meta.env.BASE_URL}er-diagram.png`;
