@@ -10,7 +10,13 @@ const COUNTRY_PAGES = [
   { to: '/countries-wage-growth', label: 'Wage Growth' },
 ];
 
-const linkStyle = { color: 'inherit', fontSize: '1rem', opacity: 0.85, '&.active, &[aria-current]': { opacity: 1 } };
+const activeStyle = { opacity: 1, bgcolor: 'rgba(255, 255, 255, 0.18)', boxShadow: 'inset 0 -3px 0 #fff' };
+
+const linkStyle = {
+  color: 'inherit', fontSize: '1rem', opacity: 0.8, px: 1.5, borderRadius: 1,
+  '&:hover': { opacity: 1, bgcolor: 'rgba(255, 255, 255, 0.1)' },
+  '&.active': activeStyle,
+};
 
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,10 +35,11 @@ export default function NavBar() {
           >
             TradeSphere
           </Typography>
+          <Button component={NavLink} to='/' end sx={linkStyle}>Home</Button>
           <Button component={NavLink} to='/trades' sx={linkStyle}>Trades</Button>
           <Button
             onClick={e => setAnchorEl(e.currentTarget)}
-            sx={{ ...linkStyle, opacity: onCountryPage ? 1 : 0.85 }}
+            sx={{ ...linkStyle, ...(onCountryPage && activeStyle) }}
             endIcon={<span style={{ fontSize: '0.7rem' }}>▼</span>}
           >
             Countries
