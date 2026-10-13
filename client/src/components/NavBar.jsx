@@ -44,6 +44,7 @@ export default function NavBar() {
               </MenuItem>
             ))}
           </Menu>
+          <Button component={NavLink} to='/about' sx={linkStyle}>About</Button>
         </Toolbar>
       </Container>
     </AppBar>

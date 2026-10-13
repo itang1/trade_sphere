@@ -11,6 +11,7 @@ import CountriesTemperaturePage from "./pages/CountriesTemperaturePage";
 import CountriesWagesPage from "./pages/CountriesWagesPage";
 import CountriesWageGrowthPage from "./pages/CountriesWageGrowthPage";
 import CountriesLaborPage from "./pages/CountriesLaborPage";
+import AboutPage from "./pages/AboutPage";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/countries-wages" element={<CountriesWagesPage />} />
           <Route path="/countries-wage-growth" element={<CountriesWageGrowthPage />} />
           <Route path="/trades" element={<TradesPage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
