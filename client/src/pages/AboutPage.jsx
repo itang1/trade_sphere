@@ -162,12 +162,13 @@ export default function AboutPage() {
         <Typography variant='h3' gutterBottom>How AI was used</Typography>
         <p>
           I did the revamp with <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that works inside a code project: it
-          can read and edit files and run commands such as tests. I described each change in plain English, such as "get the live demo running without
-          a paid server" or "let visitors see the SQL behind every chart." Claude read the 2023 code, its git history, and our team's documents, then wrote the changes, ran the
+          can read and edit files and run commands such as tests. I described each change in plain English, such as "get the live demo website running
+          without a paid server," "let visitors see the SQL code that we wrote for every chart," "check whether the numbers and calculations still make
+          sense," and "make the pages give context instead of just displaying tables." Claude read the 2023 code, its git history, and our team's documents, then wrote the changes, ran the
           tests, and checked each page in a browser.
         </p>
         <p>
-          I reviewed every change in a private preview before anything was published. I made the decisions about structure, wording, and which data
+          I made the decisions about structure, wording, and which data
           to fix, and I caught the assistant's mistakes, such as a claim that the 2023 React code was unchanged. The original project took four people a
           semester; the revamp took a couple of days.
         </p>
