@@ -169,7 +169,8 @@ export default function AboutPage() {
         </p>
         <p>
           I made the decisions about structure, wording, and which data
-          to fix, and I caught the assistant's mistakes, such as a claim that the 2023 React code was unchanged. The original project took four people a
+          to fix, and I caught the assistant's mistakes, such as pushing changes to the main branch before I had reviewed them and filling the home page with
+          jargon like "trading partners." The original project took four people a
           semester; the revamp took a couple of days.
         </p>
 
@@ -194,7 +195,7 @@ export default function AboutPage() {
         <ul>
           <li><strong>SQL on display:</strong> a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.</li>
           <li><strong>Fixes:</strong> continent totals that counted some products twice, and hourly and daily wages converted as if people worked around the clock, every day of the year.</li>
-          <li><strong>Design:</strong> a shared theme, a tabbed Country Profiles page, a new home page, and this About page.</li>
+          <li><strong>Design:</strong> a new color scheme and font, a cleaner layout built from one shared set of components, a tabbed Country Profiles page, a new home page, and this About page.</li>
           <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
         </ul>
 
