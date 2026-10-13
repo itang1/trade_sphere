@@ -53,12 +53,15 @@ Built by Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang.
 
 Four of us built TradeSphere over the semester for CIS 5500. Along the way I learned to:
 
+- **Build a React app from scratch:** start a project with Create React App, then build it out with pages and routing (React Router), components with state and hooks, and libraries for tables, charts and maps.
 - **Design a relational schema:** normalize tables to BCNF or 3NF, draw the ER diagram, and break 3NF on purpose when it made queries simpler (`UnitConversion`).
 - **Write and tune complex SQL:** CTEs, window functions and multi-table joins. Rewriting one query with subqueries instead of window functions cut it from 146 ms to 114 ms.
 - **Keep data consistent across sources:** clean and merge datasets, and fix the country names that broke foreign key constraints.
 - **Wire up a full stack:** connect a React client to an Express API and a MySQL database on AWS, while the API contract kept changing.
 
 ### October 2026: the revamp
+
+By 2026 the site no longer worked: the app depended on a paid AWS database that was shut down after the course, and the repository had a database password in its git history and over 160 security alerts. I wanted it to work again as a portfolio piece that anyone can try.
 
 Coming back almost three years later, I worked through the project with an AI coding assistant ([Claude Code](https://claude.com/claude-code)). I decided what to change and what to keep; the assistant read the code and history, wrote most of the changes and tested them.
 
@@ -67,7 +70,9 @@ Coming back almost three years later, I worked through the project with an AI co
 - **Bugs:** the wages chart had been plotting the text "No Data" as a value, and query strings weren't URL-encoded.
 - **Live demo:** the app ran only while the paid AWS database did. It now runs entirely in the browser on SQLite, with tests that run every query against the real data.
 - **Dependencies:** replaced the unmaintained Create React App with Vite and removed unused packages, clearing all 163 Dependabot security alerts.
-- **Docs:** this README, rewritten with features, architecture and setup.
+- **Docs:** this README, rewritten with features, architecture and setup, plus an About page on the site with this history.
+
+Moving to Vite doesn't undo what I learned with Create React App. React deprecated Create React App in favor of tools like Vite, and only the build tool changed: the components, state, routing and data flow are the same code.
 
 What changed with AI: the 2023 project took four people a semester. The revamp, including reading old code I barely remembered and tracing who wrote what from git history, took about a day. The assistant made it cheap to fix things a class project usually leaves behind, like the leaked credentials. What it didn't change: I still had to decide what mattered, check the results, and catch its mistakes.
 
