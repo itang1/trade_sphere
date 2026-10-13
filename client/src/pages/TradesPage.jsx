@@ -90,7 +90,7 @@ export default function TradesPage() {
 
   return (
     <Page
-      title='International Trade'
+      title='US Trade'
       intro={
         <>
           <p>Where US exports go and where US imports come from. Every section starts with an example; change the filters and press Search to explore.</p>

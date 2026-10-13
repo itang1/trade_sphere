@@ -65,7 +65,7 @@ export default function AboutPage() {
         </>
       }
     >
-      <Section title='From raw data to the app'>
+      <Section title='How TradeSphere works'>
         <Typography variant='h3' gutterBottom>Pipeline</Typography>
         <ol>
           <li><strong>Collect:</strong> Python notebooks pulled economic indicators for 196 countries from the TradingEconomics API, and country statistics from Our World in Data, in November 2023.</li>
@@ -131,7 +131,7 @@ export default function AboutPage() {
           <li><strong>Live demo:</strong> the database now runs as SQLite inside your browser, so there is no server to pay for.</li>
           <li><strong>SQL on display:</strong> a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.</li>
           <li><strong>Fixes:</strong> continent totals that counted some products twice, and hourly and daily wages converted as if people worked around the clock, every day of the year.</li>
-          <li><strong>Design:</strong> a shared theme, a tabbed Countries page, a new home page and this About page.</li>
+          <li><strong>Design:</strong> a shared theme, a tabbed Country Profiles page, a new home page and this About page.</li>
           <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
         </ul>
         <p>

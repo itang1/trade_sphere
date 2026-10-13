@@ -27,7 +27,7 @@ export default function CountriesPage() {
 
   return (
     <Page
-      title='Countries'
+      title='Country Profiles'
       intro={<p>How people live and work in the countries the US trades with: living conditions, climate, jobs and wages.</p>}
     >
       <Tabs value={tab.to} onChange={(e, to) => navigate(to)} variant='scrollable' sx={{ mb: 3, borderBottom: 1, borderColor: 'divider' }}>

@@ -27,8 +27,8 @@ export default function NavBar() {
             TradeSphere
           </Typography>
           <Button component={NavLink} to='/' end sx={linkStyle}>Home</Button>
-          <Button component={NavLink} to='/trades' sx={linkStyle}>Trades</Button>
-          <Button component={NavLink} to='/countries-living-conditions' sx={{ ...linkStyle, ...(onCountryPage && activeStyle) }}>Countries</Button>
+          <Button component={NavLink} to='/trades' sx={linkStyle}>US Trade</Button>
+          <Button component={NavLink} to='/countries-living-conditions' sx={{ ...linkStyle, ...(onCountryPage && activeStyle) }}>Country Profiles</Button>
           <Button component={NavLink} to='/about' sx={linkStyle}>About</Button>
         </Toolbar>
       </Container>

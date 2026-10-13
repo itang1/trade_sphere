@@ -8,7 +8,7 @@ import { colors } from '../theme';
 import Page, { Section } from '../components/Page';
 
 const QUESTIONS = [
-  { question: 'Who buys the most US aircraft?', hint: 'The map opens on aircraft exports', page: 'Trades', to: '/trades' },
+  { question: 'Who buys the most US aircraft?', hint: 'The map opens on aircraft exports', page: 'US Trade', to: '/trades' },
   { question: 'Which countries have the least clean drinking water?', hint: 'Set the drinking water range to 0 to 50', page: 'Living Conditions', to: '/countries-living-conditions' },
   { question: 'How do US and Mexican wages compare?', hint: 'The chart opens on the US and Mexico', page: 'Wages', to: '/countries-wages' },
   { question: 'Where did wages grow fastest?', hint: 'Scroll down to Average Yearly Wage Growth', page: 'Wages', to: '/countries-wage-growth' },

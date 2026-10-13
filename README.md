@@ -13,8 +13,8 @@ View the [Video Demo](https://drive.google.com/file/d/1Nybc92zDlOBBINsfdfigPUxMy
 ## Features
 
 - **Home:** the top five US imports or exports by dollar value, for the world or one of five countries, and starter questions that link into the rest of the site.
-- **Trades:** a map of the top 5 US trading partners for any trade type and product category, plus tables of every partner, trade volume by continent and each partner's largest trade category.
-- **Countries:** one page with four tabs that filter countries with sliders and drop-downs: living conditions, temperature change, highest unemployment rate, and wages (a two-country line chart plus average yearly wage growth).
+- **US Trade:** a map of the top 5 US trading partners for any trade type and product category, plus tables of every partner, trade volume by continent and each partner's largest trade category.
+- **Country Profiles:** one page with four tabs that filter countries with sliders and drop-downs: living conditions, temperature change, highest unemployment rate, and wages (a two-country line chart plus average yearly wage growth).
 - **About:** what the project shows, the pipeline, the ER diagram, a query optimization with both versions of the SQL, and the project history.
 - **Show SQL** under every chart and table, with the query and its current parameters.
 - **Tables** with search, column filters and CSV export.
@@ -68,7 +68,7 @@ By 2026 the site no longer worked because the paid AWS database behind it had be
 
 - **Live demo:** the database now runs as SQLite inside the browser, so there is no server to pay for.
 - **SQL on display:** a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.
-- **Design:** a shared theme, a tabbed Countries page, a new home page and an About page with this history.
+- **Design:** a shared theme, a tabbed Country Profiles page, a new home page and an About page with this history.
 - **Fixes:** the wages chart had plotted the text "No Data" as a value, query strings weren't URL-encoded, continent totals counted some products twice, and hourly and daily wages were converted as if people worked around the clock, every day of the year.
 - **Tooling:** Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.
 - **Docs:** this README, rewritten with features, architecture and setup.
