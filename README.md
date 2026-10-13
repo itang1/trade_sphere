@@ -61,20 +61,19 @@ Four of us built TradeSphere over the semester for CIS 5500. Along the way I lea
 
 ### October 2026: the revamp
 
-By 2026 the site no longer worked: the app depended on a paid AWS database that was shut down after the course, and the repository had a database password in its git history and over 160 security alerts. I wanted it to work again as a portfolio piece that anyone can try.
+By 2026 the site no longer worked: the app depended on a paid AWS database that was shut down after the course. I wanted it to work again as a portfolio piece that anyone can try.
 
 Coming back almost three years later, I worked through the project with an AI coding assistant ([Claude Code](https://claude.com/claude-code)). I decided what to change and what to keep; the assistant read the code and history, wrote most of the changes and tested them.
 
-- **Security:** removed database credentials that had been committed in 2023 from the entire git history, after confirming the old AWS database no longer existed.
 - **UI:** one shared theme and set of components across all pages, charts that resize with the window, a map that zooms to fit its markers, and clearer empty states.
 - **Bugs:** the wages chart had been plotting the text "No Data" as a value, and query strings weren't URL-encoded.
 - **Live demo:** the app ran only while the paid AWS database did. It now runs entirely in the browser on SQLite, with tests that run every query against the real data.
-- **Dependencies:** replaced the unmaintained Create React App with Vite and removed unused packages, clearing all 163 Dependabot security alerts.
+- **Dependencies:** replaced the unmaintained Create React App with Vite, updated the rest and removed unused packages.
 - **Docs:** this README, rewritten with features, architecture and setup, plus an About page on the site with this history.
 
 Moving to Vite doesn't undo what I learned with Create React App. React deprecated Create React App in favor of tools like Vite, and only the build tool changed: the components, state, routing and data flow are the same code.
 
-What changed with AI: the 2023 project took four people a semester. The revamp, including reading old code I barely remembered and tracing who wrote what from git history, took about a day. The assistant made it cheap to fix things a class project usually leaves behind, like the leaked credentials. What it didn't change: I still had to decide what mattered, check the results, and catch its mistakes.
+What changed with AI: the 2023 project took four people a semester. The revamp, including reading old code I barely remembered and tracing who wrote what from git history, took about a day. The assistant made it cheap to fix things a class project usually leaves behind. What it didn't change: I still had to decide what mattered, check the results, and catch its mistakes.
 
 ## Running it locally
 

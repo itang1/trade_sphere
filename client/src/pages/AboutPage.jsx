@@ -31,14 +31,13 @@ export default function AboutPage() {
 
       <Section title='October 2026: the revamp'>
         <Typography variant='h3' gutterBottom>Why</Typography>
-        <p>By 2026 the site no longer worked. The app depended on a paid AWS database that was shut down after the course, so the website only showed the README. The repository also had a database password in its git history and over 160 security alerts on outdated packages. I wanted the project to work again as a portfolio piece that anyone can try.</p>
+        <p>By 2026 the site no longer worked. The app depended on a paid AWS database that was shut down after the course, so the website only showed the README. I wanted the project to work again as a portfolio piece that anyone can try.</p>
 
         <Typography variant='h3' gutterBottom>What changed</Typography>
         <ul>
           <li><strong>Live demo:</strong> the database now runs inside your browser. A script rebuilds it from the project's CSV files as SQLite, and the app runs the same SQL queries the Express server ran, so there is no server to pay for.</li>
-          <li><strong>Security:</strong> removed the committed database password from the entire git history, and cleared all of the security alerts.</li>
           <li><strong>UI:</strong> one shared theme and set of components across all pages, charts that resize with the window, a map that zooms to fit its markers, and clearer empty states.</li>
-          <li><strong>Tooling:</strong> moved from Create React App to Vite, and added tests that run every query against the real data.</li>
+          <li><strong>Tooling:</strong> moved from Create React App to Vite, updated the dependencies, and added tests that run every query against the real data.</li>
         </ul>
 
         <Typography variant='h3' gutterBottom>Does Vite replace what I learned?</Typography>
