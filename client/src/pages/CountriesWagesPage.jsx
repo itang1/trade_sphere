@@ -55,7 +55,7 @@ export default function CountriesWagesPage() {
 
   return (
     <>
-      <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Compare average yearly wages in two countries over time, converted to US dollars, and see which countries' wages grew fastest.</Typography>
+      <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Compare average yearly wages in two countries over time, and see which countries' wages grew fastest. Wages are in US dollars for a full-time year: hourly wages are multiplied by 2,080 hours (40 hours a week for 52 weeks), and daily wages by 260 working days.</Typography>
       <Section title='Comparison of Wages' query={['/country/wages', { country1, country2 }]}>
         <Filters onSearch={searchWages}>
           <Picker label='Country #1' value={country1} onChange={setCountry1} options={countries} />
