@@ -113,8 +113,8 @@ export default function AboutPage() {
         </p>
         <p>
           <strong>Writing and tuning complex SQL.</strong> The queries use CTEs, window functions, and multi-table joins, and the team rewrote slow ones to
-          run faster. Most charts and tables on this site run the team's original queries; press Show SQL under any of them to read the exact query, or see
-          the example below.
+          run faster. The charts and tables on this site run the team's original queries, except the home page's top imports and exports chart; press Show SQL
+          under any of them to read the exact query, or see the example below.
         </p>
         <p>
           <strong>Keeping data consistent across sources.</strong> The two sources spelled country names differently and reported values in different
