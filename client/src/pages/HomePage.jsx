@@ -1,26 +1,62 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
-import { getJson, getText } from '../api';
+import { getJson } from '../api';
 import { colors } from '../theme';
 import Page, { Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 
 const QUESTIONS = [
-  { text: 'Who buys the most US aircraft?', to: '/trades' },
-  { text: 'Which countries have the least access to clean drinking water?', to: '/countries-living-conditions' },
-  { text: 'How do wages in the US and Mexico compare over time?', to: '/countries-wages' },
-  { text: 'Where did wages grow fastest?', to: '/countries-wage-growth' },
+  { question: 'Who buys the most US aircraft?', hint: 'Choose Export and "Aircraft, spacecraft"', page: 'Trades', to: '/trades' },
+  { question: 'Which countries have the least clean drinking water?', hint: 'Set the drinking water range to 0 to 50', page: 'Living Conditions', to: '/countries-living-conditions' },
+  { question: 'How do US and Mexican wages compare?', hint: 'Pick United States and Mexico', page: 'Wages', to: '/countries-wages' },
+  { question: 'Where did wages grow fastest?', hint: 'Press Search to rank every country', page: 'Wage Growth', to: '/countries-wage-growth' },
 ];
 
-function Stat({ value, label }) {
+const FACTS = [
+  { label: 'Coffee', category: 'Coffee, coffee husks, substitutes with coffee' },
+  { label: 'Cars', category: 'Motor cars and vehicles for transporting persons' },
+  { label: 'Wine', category: 'Wine, Grape Must (Excluding Grape Juice)' },
+];
+
+function billions(value) {
+  return `$${(Number(String(value).replaceAll(',', '')) / 1e9).toFixed(1)} billion`;
+}
+
+// Shows the country the US imports the most of a product from, using the Trades page's top partners query
+function Fact({ label, category }) {
+  const [top, setTop] = useState(null);
+
+  useEffect(() => {
+    getJson('/trading_partner', { type: 'Import', category }).then(rows => setTop(rows[0])).catch(console.error);
+  }, [category]);
+
   return (
-    <Box>
-      <Typography variant='h4' component='p' color='primary' fontWeight={800}>{value.toLocaleString()}</Typography>
-      <Typography variant='body2'>{label}</Typography>
-    </Box>
+    <Paper sx={{ p: 2, height: '100%' }}>
+      <Typography variant='body2' color='text.secondary'>{label}</Typography>
+      <Typography variant='h4' component='p' color='primary' fontWeight={800}>{top ? top.Country2 : '…'}</Typography>
+      <Typography variant='body2'>{top ? `${billions(top.Value)} of imports in 2022` : ' '}</Typography>
+    </Paper>
+  );
+}
+
+function QuestionCard({ question, hint, page, to }) {
+  return (
+    <Paper
+      component={Link}
+      to={to}
+      sx={{
+        display: 'block', height: '100%', p: 2, textDecoration: 'none', color: 'text.primary',
+        transition: 'border-color .15s, box-shadow .15s',
+        '&:hover': { borderColor: 'primary.main', boxShadow: 2 },
+      }}
+    >
+      <Typography fontWeight={700} gutterBottom>{question}</Typography>
+      <Typography variant='body2' color='text.secondary' gutterBottom>{hint}</Typography>
+      <Typography variant='body2' color='primary' fontWeight={600}>Open {page} →</Typography>
+    </Paper>
   );
 }
 
@@ -30,14 +66,12 @@ const exportColumns = [
 ];
 
 export default function HomePage() {
-  const [author, setAuthor] = useState('');
   const [exports, setExports] = useState([]);
   const [water, setWater] = useState([]);
   const [partners, setPartners] = useState(0);
   const [categories, setCategories] = useState(0);
 
   useEffect(() => {
-    getText('/author/name').then(setAuthor).catch(console.error);
     getJson('/trading_export').then(setExports).catch(console.error);
     getJson('/country/populationwater').then(setWater).catch(console.error);
     getJson('/distcountries').then(rows => setPartners(rows.filter(row => row.Country2 !== 'World').length)).catch(console.error);
@@ -49,30 +83,42 @@ export default function HomePage() {
       title='TradeSphere'
       intro={
         <>
-          <Typography variant='h5' component='p' color='text.primary' sx={{ mb: 2, maxWidth: 700 }}>
-            Explore what the United States trades, with whom, and how those countries live.
+          <Typography variant='h5' component='p' color='text.primary' sx={{ mb: 1, maxWidth: 760 }}>
+            Your coffee, your car, your wine: chances are it crossed a border to reach you.
           </Typography>
-          <Stack direction='row' spacing={2} sx={{ mb: 3 }}>
-            <Stat value={partners || '…'} label='trading partners' />
-            <Stat value={categories || '…'} label='product categories' />
-            <Stat value='18' label='years of data, 2005 to 2022' />
-          </Stack>
-          <Typography color='text.primary' fontWeight={600} gutterBottom>Start with a question</Typography>
-          <Box component='ul' sx={{ mt: 0, pl: 2.5, '& li': { mb: 0.5 } }}>
-            {QUESTIONS.map(({ text, to }) => (
-              <li key={to}><Link to={to}>{text}</Link></li>
-            ))}
-          </Box>
           <p>
-            Every number on this site comes from a SQL query running in your browser on a copy of the project's database.
-            Trade data runs through 2022 and country indicators through 2023, as collected in November 2023.
+            TradeSphere shows what the United States buys from and sells to {partners ? partners.toLocaleString() : '…'} countries,
+            across {categories ? categories.toLocaleString() : '…'} kinds of goods, and what life is like in those countries:
+            wages, jobs, clean water and climate.
           </p>
-          <p>
-            A group project for CIS 5500 at the University of Pennsylvania, fall 2023, revamped in 2026. <Link to='/about'>About the project</Link>
-          </p>
+          <Typography variant='body2' sx={{ mb: 3 }}>
+            By Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang for CIS 5500 at the University of Pennsylvania, fall 2023. Revamped in 2026.
+            {' '}<Link to='/about'>About the project</Link>
+          </Typography>
         </>
       }
     >
+      <Typography variant='h3' gutterBottom>Where the US buys the most of it</Typography>
+      <Grid container spacing={2} sx={{ mb: 4 }}>
+        {FACTS.map(fact => (
+          <Grid item xs={12} sm={4} key={fact.label}>
+            <Fact {...fact} />
+          </Grid>
+        ))}
+      </Grid>
+      <Typography variant='h3'>Not sure where to start?</Typography>
+      <Typography color='text.secondary' sx={{ mb: 1.5 }}>Pick a question to open the page that answers it. Each card says what to select once you're there.</Typography>
+      <Grid container spacing={2} sx={{ mb: 3 }}>
+        {QUESTIONS.map(item => (
+          <Grid item xs={12} sm={6} md={3} key={item.to}>
+            <QuestionCard {...item} />
+          </Grid>
+        ))}
+      </Grid>
+      <Typography variant='body2' color='text.secondary' sx={{ mb: 4 }}>
+        Every chart and table runs a SQL query in your browser. The data was collected in November 2023: trade figures run through 2022 and country indicators through 2023.
+      </Typography>
+
       <Section
         title='Data Introduction and Preview'
         description={
@@ -106,7 +152,6 @@ export default function HomePage() {
         </Grid>
       </Section>
 
-      <Typography variant='body2' color='text.secondary' align='center'>{author}</Typography>
     </Page>
   );
 }
