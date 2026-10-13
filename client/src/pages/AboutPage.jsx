@@ -157,7 +157,7 @@ export default function AboutPage() {
 
       <Section title='October 2026: the revamp with AI tools'>
         <p>
-          By 2026, the site no longer worked because the paid AWS database behind it had been shut down after the course. I (Irene) revived the project so that
+          By 2026, our site no longer worked because the paid AWS database behind it had been shut down after the course. I (Irene) revived the project so that
           anyone can try it at no hosting cost, by moving the database to SQLite, which runs inside each visitor's web browser instead of on a paid server.
         </p>
 
@@ -165,7 +165,7 @@ export default function AboutPage() {
         <p>
           I did the revamp with help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that can read and edit a project's files. I described each desired change in plain English, such as "get the live demo website running
           without a paid server," "let visitors see the SQL code that we wrote for every chart," and "make the pages give context instead of just displaying tables." Claude read the 2023 code, its git history, and our team's documents, then wrote the changes, ran the
-          tests, and checked each page in a browser. I then reviewed its work for errors in the calculations, wording, and clarity.
+          tests, and checked each page in a browser. I reviewed its work for errors in the calculations, wording, and clarity, asked for revisions until each page was right, and edited much of the final wording myself.
         </p>
 
         <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
