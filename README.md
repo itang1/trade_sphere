@@ -15,7 +15,7 @@ View the [Video Demo](https://drive.google.com/file/d/1Nybc92zDlOBBINsfdfigPUxMy
 - **Home:** the top five US imports or exports by dollar value, for the world or one of five countries, and starter questions that link into the rest of the site.
 - **US Trade:** a map of the top 5 US trading partners for any trade type and product category, plus tables of every partner, trade volume by continent, and each partner's largest trade category.
 - **Country Profiles:** one page with four tabs that filter countries with sliders and drop-downs: living conditions, temperature change, highest unemployment rate, and wages (a two-country line chart plus average yearly wage growth).
-- **About:** what the project shows, the pipeline, the ER diagram, a query optimization with both versions of the SQL, and the project history.
+- **About:** the pipeline, the ER diagram, what the team learned (including a query optimization with both versions of the SQL), and the 2026 revamp.
 - **Show SQL** under every chart and table, with the query and its current parameters.
 - **Tables** with search, column filters, and CSV export.
 
@@ -48,38 +48,7 @@ The live demo skips the server. [`scripts/build_sqlite.py`](scripts/build_sqlite
 
 ## Team
 
-Built by Lisa Garcia, Zung-Ru Lin, Hanling Su, and Irene Tang.
-
-## Project history
-
-### December 2023: the original project
-
-The four of them built TradeSphere over the semester for CIS 5500. Along the way, the team learned to:
-
-- **Build a React app from scratch:** start a project with Create React App, then build it out with pages and routing (React Router), components with state and hooks, and libraries for tables, charts, and maps.
-- **Design a relational schema:** normalize tables to BCNF or 3NF, draw the ER diagram, and break 3NF on purpose when it made queries simpler (`UnitConversion`).
-- **Write and tune complex SQL:** CTEs, window functions, and multi-table joins. Rewriting one query with subqueries instead of window functions cut it from 146 ms to 114 ms.
-- **Keep data consistent across sources:** clean and merge datasets, and fix the country names that broke foreign key constraints.
-- **Run a database in the cloud:** host MySQL on Amazon RDS and create and load the tables there.
-- **Wire up a full stack:** connect a React client to an Express API and a MySQL database on AWS, while the API contract kept changing.
-
-### October 2026: the revamp with AI tools
-
-By 2026, the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene Tang revived it with [Claude Code](https://claude.com/claude-code), an AI coding assistant that can read and edit a project's files and run commands. She described each change in plain English; Claude read the 2023 code, its git history, and the team's documents, wrote the changes, ran the tests, and checked each page in a browser. Irene reviewed every change before it was published, made the decisions about structure, wording, and which data to fix, and caught the assistant's mistakes. The original took four people a semester, and the revamp took a couple of days.
-
-**From MySQL on AWS to SQLite in the browser.** SQLite is a database that lives in a single file instead of on a server. [`scripts/build_sqlite.py`](scripts/build_sqlite.py) rebuilds the team's tables from the same CSVs they loaded into MySQL in 2023, with the same names, columns, and keys, and the site runs the original queries on that file in the browser with sql.js. The data is read-only, so no server is needed, and GitHub Pages hosts it for free.
-
-- **SQL on display:** a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.
-- **Design:** a shared theme, a tabbed Country Profiles page, a new home page, and an About page with this history.
-- **Fixes:** the wages chart had plotted the text "No Data" as a value, query strings weren't URL-encoded, continent totals counted some products twice, and hourly and daily wages were converted as if people worked around the clock, every day of the year.
-- **Tooling:** Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.
-- **Docs:** this README, rewritten with features, architecture, and setup.
-
-Lessons learned:
-
-- **Check the data against reality.** The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.
-- **Choose the database for how the data is used.** A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.
-- **AI shifts the work from writing code to judging it.** The hard parts were deciding what mattered, checking that the results were right, and catching the assistant's mistakes.
+Built by Lisa Garcia, Zung-Ru Lin, Hanling Su, and Irene Tang in Fall 2023. Revamped by Irene Tang in October 2026 with help from [Claude Code](https://claude.com/claude-code), an AI coding assistant. The site's [About page](https://itang1.github.io/trade_sphere/about) covers what the team learned and how the revamp was done.
 
 ## Running it locally
 
