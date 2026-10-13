@@ -1,0 +1,50 @@
+import initSqlJs from 'sql.js';
+import wasmUrl from 'sql.js/dist/sql-wasm-browser.wasm';
+
+const DB_URL = `${process.env.PUBLIC_URL}/tradesphere.sqlite.gz`;
+
+// Stands in for MySQL's FORMAT(value, 0): thousands separators, no decimals
+function formatNumber(value) {
+  return value == null ? null : Math.round(value).toLocaleString('en-US');
+}
+
+async function gunzip(response) {
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  // Some servers already decode .gz files, so only decompress if the gzip header is still there
+  if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) {
+    return bytes;
+  }
+  const stream = new Blob([bytes]).stream().pipeThrough(new window.DecompressionStream('gzip'));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+export function openDatabase(SQL, bytes) {
+  const db = new SQL.Database(bytes);
+  db.create_function('format_number', formatNumber);
+  return db;
+}
+
+let database;
+
+function getDatabase() {
+  database ??= Promise.all([
+    initSqlJs({ locateFile: () => wasmUrl }),
+    fetch(DB_URL).then(gunzip),
+  ]).then(([SQL, bytes]) => openDatabase(SQL, bytes));
+  return database;
+}
+
+export function rowsOf(db, sql, params = []) {
+  const statement = db.prepare(sql);
+  statement.bind(params);
+  const rows = [];
+  while (statement.step()) {
+    rows.push(statement.getAsObject());
+  }
+  statement.free();
+  return rows;
+}
+
+export async function query(sql, params) {
+  return rowsOf(await getDatabase(), sql, params);
+}
