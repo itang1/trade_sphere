@@ -1,16 +1,13 @@
-/**
- * @jest-environment node
- */
 import fs from 'fs';
-import path from 'path';
 import zlib from 'zlib';
 import initSqlJs from 'sql.js';
+import { afterAll, beforeAll, expect, test } from 'vitest';
 
 import { openDatabase, rowsOf } from './db';
 import queries from './queries';
 
 // Built by scripts/build_sqlite.py
-const DB_PATH = path.join(__dirname, '..', 'public', 'tradesphere.sqlite.gz');
+const DB_PATH = new URL('../public/tradesphere.sqlite.gz', import.meta.url);
 
 let db;
 

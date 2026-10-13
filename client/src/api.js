@@ -1,8 +1,8 @@
 import { query } from './db';
 import queries from './queries';
 
-// Set REACT_APP_API_URL to use the Express server instead of the in-browser database
-const API_URL = process.env.REACT_APP_API_URL;
+// Set VITE_API_URL to use the Express server instead of the in-browser database
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AUTHORS = 'Created by Lisa Garcia, Zung-Ru Lin, Hanling Su, Irene Tang';
 

@@ -1,7 +1,7 @@
 import initSqlJs from 'sql.js';
-import wasmUrl from 'sql.js/dist/sql-wasm-browser.wasm';
+import wasmUrl from 'sql.js/dist/sql-wasm-browser.wasm?url';
 
-const DB_URL = `${process.env.PUBLIC_URL}/tradesphere.sqlite.gz`;
+const DB_URL = `${import.meta.env.BASE_URL}tradesphere.sqlite.gz`;
 
 // Stands in for MySQL's FORMAT(value, 0): thousands separators, no decimals
 function formatNumber(value) {
@@ -14,7 +14,7 @@ async function gunzip(response) {
   if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) {
     return bytes;
   }
-  const stream = new Blob([bytes]).stream().pipeThrough(new window.DecompressionStream('gzip'));
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
   return new Uint8Array(await new Response(stream).arrayBuffer());
 }
 

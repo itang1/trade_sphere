@@ -27,17 +27,15 @@ jobs:
           python-version: '3.12'
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: client/package-lock.json
       - run: python ../scripts/build_sqlite.py
       - run: npm ci
-      - run: npm test -- --watchAll=false
-        env:
-          CI: true
+      - run: npm test
       - run: npm run build
         env:
-          PUBLIC_URL: /${{ github.event.repository.name }}
+          BASE_PATH: /${{ github.event.repository.name }}/
       # GitHub Pages has no SPA routing, so serve the app for unknown paths too
       - run: cp build/index.html build/404.html
       - uses: actions/upload-pages-artifact@v3
