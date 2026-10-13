@@ -6,14 +6,12 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { getJson } from '../api';
 import { colors } from '../theme';
 import Page, { Section } from '../components/Page';
-import DataTable from '../components/DataTable';
-import ShowSql from '../components/ShowSql';
 
 const QUESTIONS = [
   { question: 'Who buys the most US aircraft?', hint: 'Choose Export and "Aircraft, spacecraft"', page: 'Trades', to: '/trades' },
   { question: 'Which countries have the least clean drinking water?', hint: 'Set the drinking water range to 0 to 50', page: 'Living Conditions', to: '/countries-living-conditions' },
   { question: 'How do US and Mexican wages compare?', hint: 'Pick United States and Mexico', page: 'Wages', to: '/countries-wages' },
-  { question: 'Where did wages grow fastest?', hint: 'Press Search to rank every country', page: 'Wage Growth', to: '/countries-wage-growth' },
+  { question: 'Where did wages grow fastest?', hint: 'Press Search under Average Yearly Wage Growth', page: 'Wages', to: '/countries-wage-growth' },
 ];
 
 const TRADE_COUNTRIES = [
@@ -85,20 +83,11 @@ function QuestionCard({ question, hint, page, to }) {
   );
 }
 
-const exportColumns = [
-  { field: 'Category', headerName: 'Category', flex: 2 },
-  { field: 'TotalExportValue', headerName: 'Total Export Value', flex: 1 },
-];
-
 export default function HomePage() {
-  const [exports, setExports] = useState([]);
-  const [water, setWater] = useState([]);
   const [partners, setPartners] = useState(0);
   const [categories, setCategories] = useState(0);
 
   useEffect(() => {
-    getJson('/trading_export').then(setExports).catch(console.error);
-    getJson('/country/populationwater').then(setWater).catch(console.error);
     getJson('/distcountries').then(rows => setPartners(rows.filter(row => row.Country2 !== 'World').length)).catch(console.error);
     getJson('/distcategories').then(rows => setCategories(rows.filter(row => row.Category).length)).catch(console.error);
   }, []);
@@ -112,7 +101,7 @@ export default function HomePage() {
             Your coffee, car, and phone likely crossed a border to reach you.
           </Typography>
           <p>
-            TradeSphere follows those goods. It shows what the United States buys from and sells to {partners ? partners.toLocaleString() : '…'} countries
+            TradeSphere follows those goods, showing what the United States buys from and sells to {partners ? partners.toLocaleString() : '…'} countries
             across {categories ? categories.toLocaleString() : '…'} kinds of goods, and what life is like in those countries, from wages and jobs to clean
             water and climate.
           </p>
@@ -137,42 +126,6 @@ export default function HomePage() {
       <Typography variant='body2' color='text.secondary' sx={{ mb: 4 }}>
         Every chart and table runs a SQL query in your browser; press Show SQL under any of them to read it. The data was collected in November 2023: trade figures run through 2022 and country indicators through 2023.
       </Typography>
-
-      <Section
-        title='Data Introduction and Preview'
-        description={
-          <>
-            The data used in this application stems from a SQL database that contains the United States' trading information from
-            2010 to 2022 and country-specific information. More information on the data sources used for the database can be found here:
-            {' '}<a href='https://tradingeconomics.com'>Trading Data</a> and <a href='https://ourworldindata.org/hunger-and-undernourishment'>Country Data</a>.
-            Due to the vast amount of trading information, only some aspects were chosen to be showcased on this website, such as the total
-            exports of the United States, as can be seen in this table, and the continents with the highest proportion of unimproved
-            drinking water.
-          </>
-        }
-      >
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
-            <Typography variant='h3' gutterBottom>Unimproved Drinking Water by Continent</Typography>
-            <ResponsiveContainer width='100%' height={360}>
-              <BarChart data={water} margin={{ top: 10, right: 10, bottom: 30, left: 0 }}>
-                <CartesianGrid strokeDasharray='3 3' vertical={false} />
-                <XAxis dataKey='Continent' interval={0} angle={-25} textAnchor='end' tick={{ fontSize: 12 }} />
-                <YAxis unit='%' />
-                <Tooltip formatter={value => [`${value}%`, 'Max unimproved water access']} />
-                <Bar dataKey='MaxUnimprovedWater' fill={colors.teal} radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-            <ShowSql route='/country/populationwater' />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant='h3' gutterBottom>US Total Exports by Trade Category</Typography>
-            <DataTable rows={exports} columns={exportColumns} getRowId={row => row.Category} defaultPageSize={5} />
-            <ShowSql route='/trading_export' />
-          </Grid>
-        </Grid>
-      </Section>
-
     </Page>
   );
 }
