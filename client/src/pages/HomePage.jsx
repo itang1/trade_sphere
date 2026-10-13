@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Grid, Paper, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
@@ -7,6 +7,7 @@ import { getJson } from '../api';
 import { colors } from '../theme';
 import Page, { Section } from '../components/Page';
 import DataTable from '../components/DataTable';
+import ShowSql from '../components/ShowSql';
 
 const QUESTIONS = [
   { question: 'Who buys the most US aircraft?', hint: 'Choose Export and "Aircraft, spacecraft"', page: 'Trades', to: '/trades' },
@@ -15,30 +16,54 @@ const QUESTIONS = [
   { question: 'Where did wages grow fastest?', hint: 'Press Search to rank every country', page: 'Wage Growth', to: '/countries-wage-growth' },
 ];
 
-const FACTS = [
-  { label: 'Coffee', category: 'Coffee, coffee husks, substitutes with coffee' },
-  { label: 'Cars', category: 'Motor cars and vehicles for transporting persons' },
-  { label: 'Wine', category: 'Wine, Grape Must (Excluding Grape Juice)' },
+const TRADE_COUNTRIES = [
+  { label: 'All countries', value: 'World' },
+  { label: 'Canada', value: 'Canada' },
+  { label: 'Mexico', value: 'Mexico' },
+  { label: 'Japan', value: 'Japan' },
+  { label: 'South Korea', value: 'South Korea' },
+  { label: 'United Kingdom', value: 'United Kingdom' },
 ];
 
-function billions(value) {
-  return `$${(Number(String(value).replaceAll(',', '')) / 1e9).toFixed(1)} billion`;
-}
+const billions = value => `$${(value / 1e9).toFixed(1)}B`;
 
-// Shows the country the US imports the most of a product from, using the Trades page's top partners query
-function Fact({ label, category }) {
-  const [top, setTop] = useState(null);
+function TopTraded() {
+  const [type, setType] = useState('Import');
+  const [country, setCountry] = useState('World');
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    getJson('/trading_partner', { type: 'Import', category }).then(rows => setTop(rows[0])).catch(console.error);
-  }, [category]);
+    getJson('/top_traded', { type, country }).then(setRows).catch(console.error);
+  }, [type, country]);
+
+  const direction = type === 'Import' ? 'imports from' : 'exports to';
+  const place = country === 'World' ? 'the world' : country;
 
   return (
-    <Paper sx={{ p: 2, height: '100%' }}>
-      <Typography variant='body2' color='text.secondary'>{label}</Typography>
-      <Typography variant='h4' component='p' color='primary' fontWeight={800}>{top ? top.Country2 : '…'}</Typography>
-      <Typography variant='body2'>{top ? `${billions(top.Value)} of imports in 2022` : ' '}</Typography>
-    </Paper>
+    <Section
+      title={`Top US ${direction} ${place}, 2022`}
+      description="The five largest product groups by dollar value, with each one's share of the total."
+      query={['/top_traded', { type, country }]}
+    >
+      <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ mb: 2 }}>
+        <ToggleButtonGroup size='small' color='primary' exclusive value={type} onChange={(e, value) => value && setType(value)}>
+          <ToggleButton value='Import'>Imports</ToggleButton>
+          <ToggleButton value='Export'>Exports</ToggleButton>
+        </ToggleButtonGroup>
+        <ToggleButtonGroup size='small' color='primary' exclusive value={country} onChange={(e, value) => value && setCountry(value)} sx={{ flexWrap: 'wrap' }}>
+          {TRADE_COUNTRIES.map(option => <ToggleButton key={option.value} value={option.value}>{option.label}</ToggleButton>)}
+        </ToggleButtonGroup>
+      </Stack>
+      <ResponsiveContainer width='100%' height={280}>
+        <BarChart data={rows} layout='vertical' margin={{ top: 0, right: 30, bottom: 0, left: 0 }}>
+          <CartesianGrid strokeDasharray='3 3' horizontal={false} />
+          <XAxis type='number' tickFormatter={billions} />
+          <YAxis type='category' dataKey='Category' width={260} tick={{ fontSize: 12 }} />
+          <Tooltip formatter={(value, name, { payload }) => [`${billions(value)} (${payload.SharePercent}% of the total)`, 'Value']} />
+          <Bar dataKey='Value' fill={colors.teal} radius={[0, 4, 4, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </Section>
   );
 }
 
@@ -84,28 +109,22 @@ export default function HomePage() {
       intro={
         <>
           <Typography variant='h5' component='p' color='text.primary' sx={{ mb: 1, maxWidth: 760 }}>
-            Your coffee, your car, your wine: chances are it crossed a border to reach you.
+            Your coffee, car, and phone likely crossed a border to reach you.
           </Typography>
           <p>
-            TradeSphere shows what the United States buys from and sells to {partners ? partners.toLocaleString() : '…'} countries,
-            across {categories ? categories.toLocaleString() : '…'} kinds of goods, and what life is like in those countries:
-            wages, jobs, clean water and climate.
+            TradeSphere follows those goods. It shows what the United States buys from and sells to {partners ? partners.toLocaleString() : '…'} countries
+            across {categories ? categories.toLocaleString() : '…'} kinds of goods, and what life is like in those countries, from wages and jobs to clean
+            water and climate.
           </p>
           <Typography variant='body2' sx={{ mb: 3 }}>
-            By Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang for CIS 5500 at the University of Pennsylvania, fall 2023. Revamped in 2026.
-            {' '}<Link to='/about'>About the project</Link>
+            By Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang for CIS 5500 at the University of Pennsylvania, Fall 2023.
+            Revamped by Irene Tang in October 2026. <Link to='/about'>About the project</Link>
           </Typography>
         </>
       }
     >
-      <Typography variant='h3' gutterBottom>Where the US buys the most of it</Typography>
-      <Grid container spacing={2} sx={{ mb: 4 }}>
-        {FACTS.map(fact => (
-          <Grid item xs={12} sm={4} key={fact.label}>
-            <Fact {...fact} />
-          </Grid>
-        ))}
-      </Grid>
+      <TopTraded />
+
       <Typography variant='h3'>Not sure where to start?</Typography>
       <Typography color='text.secondary' sx={{ mb: 1.5 }}>Pick a question to open the page that answers it. Each card says what to select once you're there.</Typography>
       <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -116,19 +135,19 @@ export default function HomePage() {
         ))}
       </Grid>
       <Typography variant='body2' color='text.secondary' sx={{ mb: 4 }}>
-        Every chart and table runs a SQL query in your browser. The data was collected in November 2023: trade figures run through 2022 and country indicators through 2023.
+        Every chart and table runs a SQL query in your browser; press Show SQL under any of them to read it. The data was collected in November 2023: trade figures run through 2022 and country indicators through 2023.
       </Typography>
 
       <Section
         title='Data Introduction and Preview'
         description={
           <>
-            The data used in this application stems from a SQL database which contains United States' trading information from
-            2005 to 2022 and country specific information. More information on the data sources used for the database can be found here:
+            The data used in this application stems from a SQL database that contains the United States' trading information from
+            2010 to 2022 and country-specific information. More information on the data sources used for the database can be found here:
             {' '}<a href='https://tradingeconomics.com'>Trading Data</a> and <a href='https://ourworldindata.org/hunger-and-undernourishment'>Country Data</a>.
-            Due to the vast number of trading information only some aspects were chosen to be showcased on this website, such as the total number
-            of exports conducted by the United States, as can be seen in this table, and the continents with the highest proportion of
-            unimproved drinking water.
+            Due to the vast amount of trading information, only some aspects were chosen to be showcased on this website, such as the total
+            exports of the United States, as can be seen in this table, and the continents with the highest proportion of unimproved
+            drinking water.
           </>
         }
       >
@@ -144,10 +163,12 @@ export default function HomePage() {
                 <Bar dataKey='MaxUnimprovedWater' fill={colors.teal} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
+            <ShowSql route='/country/populationwater' />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Typography variant='h3' gutterBottom>US Total Export by Trade Category</Typography>
+            <Typography variant='h3' gutterBottom>US Total Exports by Trade Category</Typography>
             <DataTable rows={exports} columns={exportColumns} getRowId={row => row.Category} defaultPageSize={5} />
+            <ShowSql route='/trading_export' />
           </Grid>
         </Grid>
       </Section>
