@@ -167,8 +167,8 @@ export default function AboutPage() {
           tests, and checked each page in a browser.
         </p>
         <p>
-          I made the decisions about structure, wording, and which data
-          to fix, and I reviewed the assistant's work for mistakes in calculations, wording, and clarity.
+          I decided what to change and checked the assistant's work for errors in the
+          calculations, wording, and clarity.
         </p>
 
         <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
