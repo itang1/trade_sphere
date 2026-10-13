@@ -68,7 +68,7 @@ export default function AboutPage() {
             Revamped by Irene Tang in October 2026.
           </p>
           <p>
-            <a href={REPO_URL}>Code on GitHub</a> · <a href={`${REPO_URL}/blob/main/Final_Report.pdf`}>Final report</a> ·{' '}
+            <strong>Relevant links:</strong> <a href={REPO_URL}>Code on GitHub</a> · <a href={`${REPO_URL}/blob/main/Final_Report.pdf`}>Final report</a> ·{' '}
             <a href='https://drive.google.com/file/d/1Nybc92zDlOBBINsfdfigPUxMy5g0cNJv/view?usp=sharing'>Original video demo</a>
           </p>
           <p>
