@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
@@ -7,6 +7,22 @@ import { getJson, getText } from '../api';
 import { colors } from '../theme';
 import Page, { Section } from '../components/Page';
 import DataTable from '../components/DataTable';
+
+const QUESTIONS = [
+  { text: 'Who buys the most US aircraft?', to: '/trades' },
+  { text: 'Which countries have the least access to clean drinking water?', to: '/countries-living-conditions' },
+  { text: 'How do wages in the US and Mexico compare over time?', to: '/countries-wages' },
+  { text: 'Where did wages grow fastest?', to: '/countries-wage-growth' },
+];
+
+function Stat({ value, label }) {
+  return (
+    <Box>
+      <Typography variant='h4' component='p' color='primary' fontWeight={800}>{value.toLocaleString()}</Typography>
+      <Typography variant='body2'>{label}</Typography>
+    </Box>
+  );
+}
 
 const exportColumns = [
   { field: 'Category', headerName: 'Category', flex: 2 },
@@ -17,11 +33,15 @@ export default function HomePage() {
   const [author, setAuthor] = useState('');
   const [exports, setExports] = useState([]);
   const [water, setWater] = useState([]);
+  const [partners, setPartners] = useState(0);
+  const [categories, setCategories] = useState(0);
 
   useEffect(() => {
     getText('/author/name').then(setAuthor).catch(console.error);
     getJson('/trading_export').then(setExports).catch(console.error);
     getJson('/country/populationwater').then(setWater).catch(console.error);
+    getJson('/distcountries').then(rows => setPartners(rows.filter(row => row.Country2 !== 'World').length)).catch(console.error);
+    getJson('/distcategories').then(rows => setCategories(rows.filter(row => row.Category).length)).catch(console.error);
   }, []);
 
   return (
@@ -29,21 +49,27 @@ export default function HomePage() {
       title='TradeSphere'
       intro={
         <>
-          <p>This web application provides an interactive platform for visualizing statistics pertaining to
-            the United States' trading patterns and
-            additional characteristics, such as demographics and social-economic indicators, on its trading partners.
-            Users can explore detailed analytical findings on trade-related and country-specific indicators on the
-            Trades and Countries pages respectively.
-            They can interactively customize their data exploration by selecting countries,
-            specific time intervals, and the type of exchanged goods by using our
-            user-friendly tools (including sliders, drop-down menus, and pagination).</p>
-          <p>We anticipate that our web application appeals to researchers and business
-            owners who are interested in import and export strategies, market selection,
-            and supply chain optimization.</p>
-          <Stack direction='row' spacing={2}>
-            <Button variant='contained' component={Link} to='/trades'>Explore trades</Button>
-            <Button variant='outlined' component={Link} to='/countries-living-conditions'>Explore countries</Button>
+          <Typography variant='h5' component='p' color='text.primary' sx={{ mb: 2, maxWidth: 700 }}>
+            Explore what the United States trades, with whom, and how those countries live.
+          </Typography>
+          <Stack direction='row' spacing={2} sx={{ mb: 3 }}>
+            <Stat value={partners || '…'} label='trading partners' />
+            <Stat value={categories || '…'} label='product categories' />
+            <Stat value='18' label='years of data, 2005 to 2022' />
           </Stack>
+          <Typography color='text.primary' fontWeight={600} gutterBottom>Start with a question</Typography>
+          <Box component='ul' sx={{ mt: 0, pl: 2.5, '& li': { mb: 0.5 } }}>
+            {QUESTIONS.map(({ text, to }) => (
+              <li key={to}><Link to={to}>{text}</Link></li>
+            ))}
+          </Box>
+          <p>
+            Every number on this site comes from a SQL query running in your browser on a copy of the project's database.
+            Trade data runs through 2022 and country indicators through 2023, as collected in November 2023.
+          </p>
+          <p>
+            A group project for CIS 5500 at the University of Pennsylvania, fall 2023, revamped in 2026. <Link to='/about'>About the project</Link>
+          </p>
         </>
       }
     >
