@@ -143,7 +143,7 @@ export default function AboutPage() {
           Services (AWS), and created and loaded the tables there.
         </p>
         <p>
-          <strong>Building a React app from scratch.</strong> React is a JavaScript library for building interactive web pages out of reusable pieces
+          <strong>Building a React app.</strong> React is a JavaScript library for building interactive web pages out of reusable pieces
           called components. We started the client with Create React App, a tool that set up a new React project and everything needed to build it, then built it out with pages and routing
           (React Router), components with state and hooks, and libraries for tables, charts, and maps.
         </p>
@@ -201,14 +201,32 @@ export default function AboutPage() {
           need a server database like MySQL.
         </p>
 
-        <Typography variant='h3' gutterBottom>What else changed</Typography>
+        <Typography variant='h3' gutterBottom>From Create React App to Vite</Typography>
+        <p>
+          React is still the library behind every page; what changed is the build tool around it. A build tool turns the code we write into the files a
+          browser downloads, and runs a local preview of the site during development. In 2023, we used Create React App, which set all of this up with one
+          command and was the standard way to start a React project at the time.
+        </p>
+        <p>
+          React's maintainers deprecated Create React App in 2025. It was no longer actively maintained, its dependencies had fallen out of date, and newer
+          tools like Vite do the same job much faster. I moved the client to Vite and updated the rest of the dependencies. The switch changed how the site
+          is built, not how React is written, so the React skills from 2023 still apply.
+        </p>
+
+        <Typography variant='h3' gutterBottom>Showing the SQL</Typography>
+        <p>
+          Each chart and table's query is stored once in the site's code and run as is against the in-browser database, so the text you see is exactly
+          what runs. The Show SQL button under every chart and table opens that query, lists the current filter values passed into it, and notes whether
+          it is one we wrote in 2023, one fixed in 2026, or one added in 2026.
+        </p>
+
+        <Typography variant='h3' gutterBottom>Smaller changes</Typography>
         <ul>
-          <li><strong>Show SQL button:</strong> a Show SQL button under every chart and table to display the query that we wrote.</li>
           <li><strong>Default results:</strong> pages that open with results and a one-line takeaway.</li>
           <li><strong>Design:</strong> small edits to the color scheme and font, a cleaner layout built from one shared set of components, a tabbed Country Profiles page, and a reorganized and decluttered home page.</li>
-          <li><strong>History:</strong> this write-up of the project's history.</li>
           <li><strong>Fixes:</strong> corrected problems in the 2023 data and code, such as wages converted as if people worked around the clock and continent totals that counted some products twice.</li>
-          <li><strong>Tooling:</strong> Vite in place of Create React App, updated dependencies, and tests that run every query against the real data. React itself is still in use; only Create React App was retired. Its maintainers deprecated it in 2025 because it was no longer actively maintained and was slower than newer tools like Vite, which do the same job. Only the build tool changed, so the React skills from 2023 still apply.</li>
+          <li><strong>Tests:</strong> every query runs against the real data before each deploy.</li>
+          <li><strong>History:</strong> this write-up of the project's history.</li>
         </ul>
 
         <Typography variant='h3' gutterBottom>Lessons learned</Typography>
