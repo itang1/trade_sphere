@@ -102,13 +102,13 @@ export default function TradesPage() {
         </>
       }
     >
-      <Typography variant='h2' gutterBottom>Trading by Trade Category</Typography>
+      <Typography variant='h2' gutterBottom>By product</Typography>
       <Typography color='text.secondary' sx={{ mb: 3 }}>
         Trading category is the most diverse part of trading data, as it describes what goods were exchanged between the trading partners. The data reports on over 1,000 categories that range from food, agriculture, and clothing to raw materials, tools, and more.
       </Typography>
 
       <Section
-        title='Top 5 Largest Trading Partners with the United States'
+        title='Who buys or sells the most of a product?'
         query={['/trading_partner', { type: topPartnersType, category: topPartnersCategory }]}
         description='The five countries that trade the most of one product with the United States, pinned on the map.'
       >
@@ -151,7 +151,7 @@ export default function TradesPage() {
       </Section>
 
       <Section
-        title='All Trading Partners with the United States'
+        title='Which countries trade a product with the US?'
         description='Every country that trades the chosen product with the United States, largest first. The World row is the total the source reports for all countries.'
         query={['/trading_data', { type: partnersType, category: partnersCategory }]}
       >
@@ -167,13 +167,13 @@ export default function TradesPage() {
         <DataTable rows={partners.rows} columns={partnerColumns} getRowId={row => row.Symbol} sortBy='Value' />
       </Section>
 
-      <Typography variant='h2' gutterBottom sx={{ mt: 6 }}>Regional Trading Differences</Typography>
+      <Typography variant='h2' gutterBottom sx={{ mt: 6 }}>By region</Typography>
       <Typography color='text.secondary' sx={{ mb: 3 }}>
         The two tables below show the total trade value with each continent for a trade type, and the largest trading category a country has with the United States. The data covers close to 200 trading partners of the United States.
       </Typography>
 
       <Section
-        title='Total Trade Value by Continent'
+        title='How much does the US trade with each continent?'
         description='The total value of US trade with each continent for the chosen trade type, adding up whole product groups so that no product is counted twice.'
         query={['/trading_volume', { type: volumeType }]}
       >
@@ -189,7 +189,7 @@ export default function TradesPage() {
       </Section>
 
       <Section
-        title='Largest Trade Category for United States Trade Partners'
+        title='What does the US trade most with a given country?'
         description='The single product group the United States trades most with the chosen country.'
         query={['/trading_partner_catg', { type: topCategoryType, country2: topCategoryCountry }]}
       >
