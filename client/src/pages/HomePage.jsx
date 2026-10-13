@@ -124,7 +124,7 @@ export default function HomePage() {
         ))}
       </Grid>
       <Typography variant='body2' color='text.secondary' sx={{ mb: 4 }}>
-        Every chart and table runs a SQL query in your browser; press Show SQL under any of them to read it. The data was collected in November 2023, so trade figures run through 2022 and country indicators through 2023.
+        Every chart and table runs a SQL query in your browser, most of them written by the team in 2023. Press Show SQL under any of them to read the exact query and where it came from. The data was collected in November 2023, so trade figures run through 2022 and country indicators through 2023.
       </Typography>
     </Page>
   );

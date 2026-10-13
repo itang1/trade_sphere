@@ -105,7 +105,7 @@ export default function AboutPage() {
         <ul>
           <li><strong>Building a React app from scratch:</strong> starting a project with Create React App, then building it out with pages and routing (React Router), components with state and hooks, and libraries for tables, charts, and maps.</li>
           <li><strong>Designing a relational schema:</strong> normalizing tables to BCNF or 3NF, drawing the ER diagram, and breaking 3NF on purpose when it made queries simpler (<code>UnitConversion</code>).</li>
-          <li><strong>Writing and tuning complex SQL:</strong> CTEs, window functions, and multi-table joins, and rewriting slow queries. Press Show SQL under any chart or table to read its query, and see the example below.</li>
+          <li><strong>Writing and tuning complex SQL:</strong> using CTEs, window functions, and multi-table joins, and rewriting slow queries to run faster. Most charts and tables on this site run the team's original queries; press Show SQL under any of them to read the exact query, or see the example below.</li>
           <li><strong>Keeping data consistent across sources:</strong> merging two sources with different country names, currencies, units, and reporting frequencies into one schema, and fixing the country names that broke foreign key constraints.</li>
           <li><strong>Wiring up a full stack:</strong> connecting a React client to an Express API and a MySQL database on AWS, so that every filter, toggle, and slider becomes a query parameter and every result becomes a table, chart, or map, while the API contract kept changing.</li>
         </ul>
@@ -128,7 +128,7 @@ export default function AboutPage() {
         </Grid>
       </Section>
 
-      <Section title='October 2026: the revamp'>
+      <Section title='October 2026: the revamp and what Irene learned'>
         <p>
           By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene revived the project with
           help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant.

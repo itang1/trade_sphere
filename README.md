@@ -62,7 +62,7 @@ The four of them built TradeSphere over the semester for CIS 5500. Along the way
 - **Keep data consistent across sources:** clean and merge datasets, and fix the country names that broke foreign key constraints.
 - **Wire up a full stack:** connect a React client to an Express API and a MySQL database on AWS, while the API contract kept changing.
 
-### October 2026: the revamp
+### October 2026: the revamp and what Irene learned
 
 By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene Tang revived the project with help from [Claude Code](https://claude.com/claude-code), an AI coding assistant. She decided what to change and reviewed every result; Claude read the old code and history, wrote most of the changes, and tested them. The original took four people a semester, and the revamp took about a day.
 
