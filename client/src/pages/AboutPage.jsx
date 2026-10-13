@@ -164,11 +164,7 @@ export default function AboutPage() {
           I did the revamp with help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that works inside a code project: it
           can read and edit files and run commands. I described each change in plain English, such as "get the live demo website running
           without a paid server," "let visitors see the SQL code that we wrote for every chart," and "make the pages give context instead of just displaying tables." Claude read the 2023 code, its git history, and our team's documents, then wrote the changes, ran the
-          tests, and checked each page in a browser.
-        </p>
-        <p>
-          I decided what to change and checked the assistant's work for errors in the
-          calculations, wording, and clarity.
+          tests, and checked each page in a browser. I then reviewed its work for errors in the calculations, wording, and clarity.
         </p>
 
         <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
