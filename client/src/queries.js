@@ -36,9 +36,10 @@ const queries = {
     [country2, type]],
 
   '/trading_volume': ({ type = '' }) => [`
+    -- Only whole product chapters, so products inside a chapter aren't counted twice
     SELECT C.Continent, format_number(SUM(U.Value)) AS TotalExportValue
     FROM USTradingData U JOIN CountryInfo C ON C.CountryName = U.Country2
-    WHERE U.Type = ? AND C.Continent IS NOT NULL
+    WHERE U.Type = ? AND C.Continent IS NOT NULL AND U.Symbol LIKE 'USA___XX%'
     GROUP BY C.Continent
     ORDER BY SUM(U.Value) DESC`,
     [type]],
