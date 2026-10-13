@@ -200,7 +200,7 @@ export default function AboutPage() {
         <ul>
           <li><strong>Check the data against reality.</strong> I found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.</li>
           <li><strong>Choose the database for how the data is used.</strong> A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.</li>
-          <li><strong>AI shifts the work from writing code to judging it.</strong> The hard parts for me were deciding what mattered, checking that the results were right, and catching the assistant's mistakes.</li>
+          <li><strong>AI shifts the work from writing code to judging it.</strong> My job became deciding what mattered, checking that the results were right, and catching the assistant's mistakes.</li>
         </ul>
       </Section>
     </Page>
