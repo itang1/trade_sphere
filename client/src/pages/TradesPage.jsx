@@ -96,7 +96,7 @@ export default function TradesPage() {
           <p>Where US exports go and where US imports come from. Every section starts with an example; change the filters and press Search to explore.</p>
           <p>
             <strong>How to read the values:</strong> each value is the US dollar value of the goods traded, for the most recent year reported for that
-            product and country, which is usually 2022. Trade types are <strong>exports</strong> (US goods sold abroad), <strong>imports</strong> (goods the US buys)
+            product and country, which is usually 2022. The data is a snapshot, so it shows who trades what rather than how trade changed over time. Trade types are <strong>exports</strong> (US goods sold abroad), <strong>imports</strong> (goods the US buys)
             and <strong>re-exports</strong> (foreign goods the US imports and sells on).
           </p>
         </>
@@ -104,7 +104,7 @@ export default function TradesPage() {
     >
       <Typography variant='h2' gutterBottom>Trading by Trade Category</Typography>
       <Typography color='text.secondary' sx={{ mb: 3 }}>
-        Trading category is the most diverse part of trading data, as it describes what goods were exchanged between the trading partners. The data reports on over 1,000 categories that range from food, agriculture and clothing to raw materials, tools and more.
+        Trading category is the most diverse part of trading data, as it describes what goods were exchanged between the trading partners. The data reports on over 1,000 categories that range from food, agriculture, and clothing to raw materials, tools, and more.
       </Typography>
 
       <Section

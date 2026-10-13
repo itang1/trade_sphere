@@ -106,7 +106,7 @@ export default function HomePage() {
             water and climate.
           </p>
           <Typography variant='body2' sx={{ mb: 3 }}>
-            By Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang for CIS 5500: Databases & Information Systems at the University of Pennsylvania, Fall 2023.
+            By Lisa Garcia, Zung-Ru Lin, Hanling Su, and Irene Tang for CIS 5500: Databases & Information Systems at the University of Pennsylvania, Fall 2023.
             Revamped by Irene Tang in October 2026. <Link to='/about'>About the project</Link>
           </Typography>
         </>

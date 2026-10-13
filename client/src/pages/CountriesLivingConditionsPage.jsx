@@ -47,7 +47,7 @@ export default function CountriesLivingConditionsPage() {
 
   return (
     <>
-      <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Filter countries by how urban they are, how many people have clean drinking water and sanitation, and the share of infants in the population.</Typography>
+      <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Filter countries by how urban they are, how many people have clean drinking water and sanitation, and the share of infants in the population. The figures are from 2020.</Typography>
       <Section title='Living Conditions by Country' query={['/country/population', params]}>
         <Filters onSearch={search}>
           <RangeSlider label='Urban areas (%)' value={urbanProportion} onChange={setUrbanProportion} min={0} max={100} step={5} />
