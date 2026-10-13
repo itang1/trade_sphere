@@ -187,4 +187,10 @@ const queries = {
   '/distcountries2': () => ['SELECT DISTINCT Country FROM Labour ORDER BY Country', []],
 };
 
+// Where each query came from, shown under Show SQL. Anything not listed is a 2023 query ported as is.
+export const QUERY_ORIGINS = {
+  '/top_traded': 'added',
+  '/trading_volume': 'fixed',
+};
+
 export default queries;

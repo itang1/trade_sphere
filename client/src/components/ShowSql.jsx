@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Collapse, Typography } from '@mui/material';
 
-import queries from '../queries';
+import queries, { QUERY_ORIGINS } from '../queries';
 import { colors } from '../theme';
 
 function dedent(sql) {
@@ -24,6 +24,14 @@ export function CodeBlock({ children }) {
   );
 }
 
+const ROUTES_URL = 'https://github.com/itang1/trade_sphere/blob/main/server/routes.js';
+
+const ORIGIN_TEXT = {
+  ported: 'Written by the team in 2023 for MySQL, then adapted for SQLite in 2026 with small changes, such as ? placeholders for the filter values.',
+  fixed: 'Written by the team in 2023 for MySQL, then adapted for SQLite in 2026. The 2026 revamp also fixed it so that no product is counted twice.',
+  added: 'Added in the 2026 revamp.',
+};
+
 const formatParam = value => (typeof value === 'string' ? `'${value}'` : String(value));
 
 export default function ShowSql({ route, params = {} }) {
@@ -42,6 +50,10 @@ export default function ShowSql({ route, params = {} }) {
             Parameters, in order: {values.map(formatParam).join(', ')}
           </Typography>
         )}
+        <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
+          {ORIGIN_TEXT[QUERY_ORIGINS[route] ?? 'ported']}
+          {QUERY_ORIGINS[route] !== 'added' && <> <a href={ROUTES_URL}>See the original in server/routes.js.</a></>}
+        </Typography>
       </Collapse>
     </Box>
   );
