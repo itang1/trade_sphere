@@ -64,18 +64,18 @@ The four of them built TradeSphere over the semester for CIS 5500. Along the way
 
 ### October 2026: the revamp
 
-By 2026 the site no longer worked, because the paid AWS database behind it had been shut down after the course. Irene Tang revived the project with help from [Claude Code](https://claude.com/claude-code), an AI coding assistant. She decided what to change and reviewed every result; Claude read the old code and history, wrote most of the changes and tested them. The original took four people a semester, and the revamp took about a day.
+By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene Tang revived the project with help from [Claude Code](https://claude.com/claude-code), an AI coding assistant. She decided what to change and reviewed every result; Claude read the old code and history, wrote most of the changes and tested them. The original took four people a semester, and the revamp took about a day.
 
 - **Live demo:** the database now runs as SQLite inside the browser, so there is no server to pay for.
 - **SQL on display:** a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.
 - **Design:** a shared theme, a tabbed Countries page, a new home page and an About page with this history.
-- **Fixes:** the wages chart had plotted the text "No Data" as a value, query strings weren't URL-encoded, and continent totals counted some products twice.
+- **Fixes:** the wages chart had plotted the text "No Data" as a value, query strings weren't URL-encoded, continent totals counted some products twice, and hourly and daily wages were converted as if people worked around the clock, every day of the year.
 - **Tooling:** Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.
 - **Docs:** this README, rewritten with features, architecture and setup.
 
 What Irene learned:
 
-- **Check the data against reality.** The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, and continent totals that counted some products twice.
+- **Check the data against reality.** The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.
 - **Hosting decides how long a project lives.** The app died with its paid server; a free static site can stay up indefinitely.
 - **AI shifts the work from writing code to judging it.** The hard parts were deciding what mattered, checking that the results were right, and catching the assistant's mistakes.
 

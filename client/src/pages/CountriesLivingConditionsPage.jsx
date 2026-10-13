@@ -68,7 +68,7 @@ export default function CountriesLivingConditionsPage() {
           </p>
           <p>
             (2) Improved Sanitation Access:
-            This term refers to facilities that effectively separate human excreta from human contact, thus reducing health risks and enhancing hygiene, essential for preventing the spread of diseases.
+            This term refers to facilities that effectively separate human excreta from human contact, thus reducing health risks and improving hygiene, which is essential for preventing the spread of disease.
           </p>
           <p>
             (3) Infant:

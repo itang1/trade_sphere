@@ -65,15 +65,6 @@ export default function AboutPage() {
         </>
       }
     >
-      <Section title='What this project shows'>
-        <ul>
-          <li><strong>Database design and SQL:</strong> a normalized schema of 17 tables, and queries built from CTEs, window functions and multi-table joins. Press Show SQL under any chart or table to read its query.</li>
-          <li><strong>Turning messy data into consistent data:</strong> two sources with different country names, currencies, units and reporting frequencies, merged into one schema with a unit conversion table.</li>
-          <li><strong>Connecting a database to a product:</strong> every filter, toggle and slider becomes a query parameter, and every result becomes a table, chart or map.</li>
-          <li><strong>Maintaining and modernizing old code:</strong> in 2026, Irene moved the app off a paid server and outdated tooling, and added tests. See the revamp below.</li>
-        </ul>
-      </Section>
-
       <Section title='From raw data to the app'>
         <Typography variant='h3' gutterBottom>Pipeline</Typography>
         <ol>
@@ -108,9 +99,9 @@ export default function AboutPage() {
         <ul>
           <li><strong>Building a React app from scratch:</strong> starting a project with Create React App, then building it out with pages and routing (React Router), components with state and hooks, and libraries for tables, charts and maps.</li>
           <li><strong>Designing a relational schema:</strong> normalizing tables to BCNF or 3NF, drawing the ER diagram, and breaking 3NF on purpose when it made queries simpler (<code>UnitConversion</code>).</li>
-          <li><strong>Writing and tuning complex SQL:</strong> CTEs, window functions and multi-table joins, and rewriting slow queries. See the example below.</li>
-          <li><strong>Keeping data consistent across sources:</strong> cleaning and merging datasets, and fixing the country names that broke foreign key constraints.</li>
-          <li><strong>Wiring up a full stack:</strong> connecting a React client to an Express API and a MySQL database on AWS, while the API contract kept changing.</li>
+          <li><strong>Writing and tuning complex SQL:</strong> CTEs, window functions and multi-table joins, and rewriting slow queries. Press Show SQL under any chart or table to read its query, and see the example below.</li>
+          <li><strong>Keeping data consistent across sources:</strong> merging two sources with different country names, currencies, units and reporting frequencies into one schema, and fixing the country names that broke foreign key constraints.</li>
+          <li><strong>Wiring up a full stack:</strong> connecting a React client to an Express API and a MySQL database on AWS, so that every filter, toggle and slider becomes a query parameter and every result becomes a table, chart or map, while the API contract kept changing.</li>
         </ul>
 
         <Typography variant='h3' gutterBottom>Example: making a query faster</Typography>
@@ -133,12 +124,13 @@ export default function AboutPage() {
 
       <Section title='October 2026: the revamp'>
         <p>
-          By 2026 the site no longer worked, because the paid AWS database behind it had been shut down after the course. Irene revived the project with
+          By 2026 the site no longer worked because the paid AWS database behind it had been shut down after the course. Irene revived the project with
           help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant.
         </p>
         <ul>
           <li><strong>Live demo:</strong> the database now runs as SQLite inside your browser, so there is no server to pay for.</li>
           <li><strong>SQL on display:</strong> a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.</li>
+          <li><strong>Fixes:</strong> continent totals that counted some products twice, and hourly and daily wages converted as if people worked around the clock, every day of the year.</li>
           <li><strong>Design:</strong> a shared theme, a tabbed Countries page, a new home page and this About page.</li>
           <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
         </ul>
@@ -149,7 +141,7 @@ export default function AboutPage() {
 
         <Typography variant='h3' gutterBottom>What Irene learned</Typography>
         <ul>
-          <li><strong>Check the data against reality.</strong> The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, and continent totals that counted some products twice.</li>
+          <li><strong>Check the data against reality.</strong> The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.</li>
           <li><strong>Hosting decides how long a project lives.</strong> The app died with its paid server; a free static site can stay up indefinitely.</li>
           <li><strong>AI shifts the work from writing code to judging it.</strong> The hard parts were deciding what mattered, checking that the results were right, and catching the assistant's mistakes.</li>
         </ul>

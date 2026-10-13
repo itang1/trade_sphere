@@ -40,7 +40,7 @@ function TopTraded() {
   return (
     <Section
       title={`Top US ${direction} ${place}, 2022`}
-      description="The five largest product groups by dollar value, with each one's share of the total."
+      description='The five largest product groups by dollar value. Hover over a bar to see its share of the total.'
       query={['/top_traded', { type, country }]}
     >
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ mb: 2 }}>
@@ -124,7 +124,7 @@ export default function HomePage() {
         ))}
       </Grid>
       <Typography variant='body2' color='text.secondary' sx={{ mb: 4 }}>
-        Every chart and table runs a SQL query in your browser; press Show SQL under any of them to read it. The data was collected in November 2023: trade figures run through 2022 and country indicators through 2023.
+        Every chart and table runs a SQL query in your browser; press Show SQL under any of them to read it. The data was collected in November 2023, so trade figures run through 2022 and country indicators through 2023.
       </Typography>
     </Page>
   );

@@ -93,11 +93,11 @@ export default function TradesPage() {
       title='International Trade'
       intro={
         <>
-          <p>Where US goods go, and where its imports come from. Every section starts with an example; change the filters and press Search to explore.</p>
+          <p>Where US exports go and where US imports come from. Every section starts with an example; change the filters and press Search to explore.</p>
           <p>
             <strong>How to read the values:</strong> each value is the US dollar value of the goods traded, for the most recent year reported for that
-            product and country, which is usually 2022. Trade types are exports (US goods sold abroad), imports (goods the US buys) and re-exports
-            (foreign goods the US imports and sells on).
+            product and country, which is usually 2022. Trade types are <strong>exports</strong> (US goods sold abroad), <strong>imports</strong> (goods the US buys)
+            and <strong>re-exports</strong> (foreign goods the US imports and sells on).
           </p>
         </>
       }
