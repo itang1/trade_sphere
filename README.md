@@ -54,7 +54,7 @@ Built by Lisa Garcia, Zung-Ru Lin, Hanling Su and Irene Tang.
 
 ### December 2023: the original project
 
-Four of us built TradeSphere over the semester for CIS 5500. Along the way I learned to:
+The four of them built TradeSphere over the semester for CIS 5500. Along the way, the team learned to:
 
 - **Build a React app from scratch:** start a project with Create React App, then build it out with pages and routing (React Router), components with state and hooks, and libraries for tables, charts and maps.
 - **Design a relational schema:** normalize tables to BCNF or 3NF, draw the ER diagram, and break 3NF on purpose when it made queries simpler (`UnitConversion`).
@@ -64,20 +64,20 @@ Four of us built TradeSphere over the semester for CIS 5500. Along the way I lea
 
 ### October 2026: the revamp
 
-By 2026 the site no longer worked: the app depended on a paid AWS database that was shut down after the course. I wanted it to work again as a portfolio piece that anyone can try.
+By 2026 the site no longer worked, because the paid AWS database behind it had been shut down after the course. Irene Tang revived the project with help from [Claude Code](https://claude.com/claude-code), an AI coding assistant. She decided what to change and reviewed every result; Claude read the old code and history, wrote most of the changes and tested them. The original took four people a semester, and the revamp took about a day.
 
-Coming back almost three years later, I worked through the project with an AI coding assistant ([Claude Code](https://claude.com/claude-code)). I decided what to change and what to keep; the assistant read the code and history, wrote most of the changes and tested them.
+- **Live demo:** the database now runs as SQLite inside the browser, so there is no server to pay for.
+- **SQL on display:** a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.
+- **Design:** a shared theme, a tabbed Countries page, a new home page and an About page with this history.
+- **Fixes:** the wages chart had plotted the text "No Data" as a value, query strings weren't URL-encoded, and continent totals counted some products twice.
+- **Tooling:** Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.
+- **Docs:** this README, rewritten with features, architecture and setup.
 
-- **UI:** one shared theme and set of components across all pages, charts that resize with the window, a map that zooms to fit its markers, and clearer empty states.
-- **Bugs:** the wages chart had been plotting the text "No Data" as a value, and query strings weren't URL-encoded.
-- **Live demo:** the app ran only while the paid AWS database did. It now runs entirely in the browser on SQLite, with tests that run every query against the real data.
-- **SQL on display:** every chart and table has a Show SQL button with the query behind it, and the home page opens with the top US imports and exports by country.
-- **Dependencies:** replaced the unmaintained Create React App with Vite, updated the rest and removed unused packages.
-- **Docs:** this README, rewritten with features, architecture and setup, plus an About page on the site with this history.
+What Irene learned:
 
-Moving to Vite doesn't undo what I learned with Create React App. React deprecated Create React App in favor of tools like Vite, and only the build tool changed: the components, state, routing and data flow are the same code.
-
-What changed with AI: the 2023 project took four people a semester. The revamp, including reading old code I barely remembered and tracing who wrote what from git history, took about a day. The assistant made it cheap to fix things a class project usually leaves behind. What it didn't change: I still had to decide what mattered, check the results, and catch its mistakes.
+- **Check the data against reality.** The revamp found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, and continent totals that counted some products twice.
+- **Hosting decides how long a project lives.** The app died with its paid server; a free static site can stay up indefinitely.
+- **AI shifts the work from writing code to judging it.** The hard parts were deciding what mattered, checking that the results were right, and catching the assistant's mistakes.
 
 ## Running it locally
 
