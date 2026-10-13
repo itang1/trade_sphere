@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Typography } from '@mui/material';
 
 import { getJson } from '../api';
-import Page, { Note, Section } from '../components/Page';
+import { Note, Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 import { Filters, RangeSlider } from '../components/Controls';
 
@@ -23,11 +24,9 @@ export default function CountriesLaborPage() {
     };
 
     return (
-        <Page
-            title='Highest Unemployment Rate by Country'
-            intro={<p>Dive into the revealing world of global unemployment rates, where numbers tell stories of socio-economic landscapes and pivotal events shaping nations. Discovering countries with the highest unemployment rates opens a window into complex issues like political unrest, economic downturns, or transformative industrial shifts. This knowledge not only illuminates the challenges faced by these countries but also offers a deeper understanding of global economic interconnections. By exploring these unemployment statistics, you become a witness to the evolving narratives of nations and the resilience of their people in the face of adversity.</p>}
-        >
-            <Section query={['/home/labour', { unemp_low: unemployment[0], unemp_high: unemployment[1] }]}>
+        <>
+            <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Each country's highest monthly unemployment rate since 2005, and when it happened.</Typography>
+            <Section title='Highest Unemployment Rate by Country' query={['/home/labour', { unemp_low: unemployment[0], unemp_high: unemployment[1] }]}>
                 <Filters onSearch={search}>
                     <RangeSlider label='Highest unemployment rate (%)' value={unemployment} onChange={setUnemployment} min={0} max={100} step={10} />
                 </Filters>
@@ -38,6 +37,6 @@ export default function CountriesLaborPage() {
                     South Africa coverage (2021): <a href="https://www.reuters.com/world/africa/south-africas-unemployment-rate-hits-new-record-high-q4-2021-2022-03-29/" target="_blank" rel="noopener noreferrer">Reuters: South Africa's unemployment rate hits new record high</a>
                 </Note>
             </Section>
-        </Page>
+        </>
     );
 }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Typography } from '@mui/material';
 
 import { getJson } from '../api';
-import Page, { Note, Section } from '../components/Page';
+import { Note, Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 import { Filters, RangeSlider } from '../components/Controls';
 
@@ -21,11 +22,9 @@ export default function CountriesTemperaturePage() {
     };
 
     return (
-        <Page
-            title='Temperature Change, 2005 to 2021'
-            intro={<p>Embark on a journey to understand how countries around the world are tackling the pressing challenge of global warming. Discover the innovative strategies and measures being implemented to combat climate change, from cutting-edge green technologies to bold policy initiatives. This exploration not only highlights the urgency of the issue but also celebrates the collective efforts to protect our planet. Gain insights into the global temperature trends and become part of a growing community that's raising environmental awareness. Your awareness and actions can make a significant difference in shaping a sustainable future.</p>}
-        >
-            <Section query={['/country/temperature', { delta_low: temperatureChange[0], delta_high: temperatureChange[1] }]}>
+        <>
+            <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>How much each country's average temperature changed between its first and last year of data, 2005 to 2021.</Typography>
+            <Section title='Temperature Change, 2005 to 2021' query={['/country/temperature', { delta_low: temperatureChange[0], delta_high: temperatureChange[1] }]}>
                 <Filters onSearch={search}>
                     <RangeSlider label='Temperature change (°C)' value={temperatureChange} onChange={setTemperatureChange} min={-2} max={2} step={0.5} />
                 </Filters>
@@ -36,6 +35,6 @@ export default function CountriesTemperaturePage() {
                     Kuwait extreme climate: <a href="https://www.dw.com/en/kuwaits-climate-crisis-a-scorching-nation-in-denial/a-61261999" target="_blank" rel="noopener noreferrer">DW: Kuwait's climate crisis</a>
                 </Note>
             </Section>
-        </Page>
+        </>
     );
 }

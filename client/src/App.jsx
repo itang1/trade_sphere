@@ -5,13 +5,9 @@ import React from 'react';
 import { theme } from './theme';
 import NavBar from './components/NavBar';
 import HomePage from './pages/HomePage';
-import CountriesLivingConditionsPage from './pages/CountriesLivingConditionsPage'
 import TradesPage from './pages/TradesPage'
-import CountriesTemperaturePage from "./pages/CountriesTemperaturePage";
-import CountriesWagesPage from "./pages/CountriesWagesPage";
-import CountriesWageGrowthPage from "./pages/CountriesWageGrowthPage";
-import CountriesLaborPage from "./pages/CountriesLaborPage";
 import AboutPage from "./pages/AboutPage";
+import CountriesPage from "./pages/CountriesPage";
 
 export default function App() {
   return (
@@ -21,11 +17,9 @@ export default function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/countries-living-conditions" element={<CountriesLivingConditionsPage />} />
-          <Route path="/countries-temperature" element={<CountriesTemperaturePage />} />
-          <Route path="/countries-labor" element={<CountriesLaborPage />} />
-          <Route path="/countries-wages" element={<CountriesWagesPage />} />
-          <Route path="/countries-wage-growth" element={<CountriesWageGrowthPage />} />
+          {['/countries-living-conditions', '/countries-temperature', '/countries-labor', '/countries-wages', '/countries-wage-growth'].map(path => (
+            <Route key={path} path={path} element={<CountriesPage />} />
+          ))}
           <Route path="/trades" element={<TradesPage />} />
           <Route path="/about" element={<AboutPage />} />
         </Routes>

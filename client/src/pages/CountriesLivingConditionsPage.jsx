@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 import { getJson } from '../api';
-import Page, { Note, Section } from '../components/Page';
+import { colors } from '../theme';
+import { Note, Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 import { Filters, RangeSlider } from '../components/Controls';
 
@@ -20,6 +23,11 @@ export default function CountriesLivingConditionsPage() {
   const [drinkingWaterProportion, setDrinkingWaterProportion] = useState([0, 100]);
   const [sanitationProportion, setSanitationProportion] = useState([0, 100]);
   const [infantProportion, setInfantProportion] = useState([0, 5]);
+  const [water, setWater] = useState([]);
+
+  useEffect(() => {
+    getJson('/country/populationwater').then(setWater).catch(console.error);
+  }, []);
 
   const params = {
     urban_low: urbanProportion[0], urban_high: urbanProportion[1],
@@ -35,11 +43,9 @@ export default function CountriesLivingConditionsPage() {
   };
 
   return (
-    <Page
-      title='Living Conditions'
-      intro={<p>Uncover the realities of living conditions around the world, a journey that reveals the contrasts and similarities between nations. From the bustling urban landscapes to the availability of essential services like clean drinking water and sanitation, each country tells a unique story. Understanding these conditions, including the share of infants in each population, offers invaluable insights into the challenges and progress of different societies. This knowledge not only enriches your global perspective but also empowers you to engage with international issues more meaningfully. Dive into this exploration to grasp the diverse tapestry of life across our planet.</p>}
-    >
-      <Section query={['/country/population', params]}>
+    <>
+      <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Filter countries by how urban they are, how many people have clean drinking water and sanitation, and the share of infants in the population.</Typography>
+      <Section title='Living Conditions by Country' query={['/country/population', params]}>
         <Filters onSearch={search}>
           <RangeSlider label='Urban areas (%)' value={urbanProportion} onChange={setUrbanProportion} min={0} max={100} step={5} />
           <RangeSlider label='Drinking water (%)' value={drinkingWaterProportion} onChange={setDrinkingWaterProportion} min={0} max={100} step={5} />
@@ -62,6 +68,22 @@ export default function CountriesLivingConditionsPage() {
           </p>
         </Note>
       </Section>
-    </Page>
+
+      <Section
+        title='Least Access to Drinking Water, by Continent'
+        description='For each continent, the country where the largest share of people lack improved drinking water.'
+        query={['/country/populationwater']}
+      >
+        <ResponsiveContainer width='100%' height={320}>
+          <BarChart data={water} margin={{ top: 10, right: 10, bottom: 30, left: 0 }}>
+            <CartesianGrid strokeDasharray='3 3' vertical={false} />
+            <XAxis dataKey='Continent' interval={0} angle={-25} textAnchor='end' tick={{ fontSize: 12 }} />
+            <YAxis unit='%' />
+            <Tooltip formatter={(value, name, { payload }) => [`${value}% in ${payload.Country}`, 'Without improved drinking water']} />
+            <Bar dataKey='MaxUnimprovedWater' fill={colors.teal} radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </Section>
+    </>
   );
 }

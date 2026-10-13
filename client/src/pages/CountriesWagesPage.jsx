@@ -4,7 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 import { getJson } from '../api';
 import { colors } from '../theme';
-import Page, { Note, Section } from '../components/Page';
+import { Note, Section } from '../components/Page';
 import DataTable from '../components/DataTable';
 import { Filters, Picker } from '../components/Controls';
 
@@ -53,10 +53,8 @@ export default function CountriesWagesPage() {
   const timeSeries = toTimeSeries(data, selected);
 
   return (
-    <Page
-      title='Wages'
-      intro={<p>Unlock the fascinating world of wage comparison between two countries over time, a journey that not only reveals differences in pay scales but also mirrors the domestic economic environments within these nations. This exploration provides insights into how economic policies, market trends, and cultural factors influence wage structures. Witness how shifts in the global economy, technological advancements, and political changes impact earnings in different regions. Delving into this comparative analysis offers a deeper understanding of the interconnectedness of global economies and the unique challenges and opportunities each country faces.</p>}
-    >
+    <>
+      <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Compare average yearly wages in two countries over time, converted to US dollars, and see which countries' wages grew fastest.</Typography>
       <Section title='Comparison of Wages' query={['/country/wages', { country1, country2 }]}>
         <Filters onSearch={searchWages}>
           <Picker label='Country #1' value={country1} onChange={setCountry1} options={countries} />
@@ -85,12 +83,9 @@ export default function CountriesWagesPage() {
             </ResponsiveContainer>
           </Box>
         )}
+        {data.length > 0 && <DataTable rows={data} columns={columns} getRowId={row => row.Country + row.Year + row.Month} />}
         <Note>Note: If no line is drawn for a selected country, our dataset has no wage data for that country.</Note>
       </Section>
-
-      <Section>
-        <DataTable rows={data} columns={columns} getRowId={row => row.Country + row.Year + row.Month} />
-      </Section>
-    </Page>
+    </>
   );
 }
