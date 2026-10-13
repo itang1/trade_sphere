@@ -56,7 +56,9 @@ export default function AboutPage() {
         <>
           <p>
             By Lisa Garcia, Zung-Ru Lin, Hanling Su, and Irene Tang for CIS 5500: Databases & Information Systems at the University of Pennsylvania,
-            taught by Professor Susan B. Davidson, Fall 2023. Revamped by Irene Tang in October 2026.
+            taught by Professor Susan B. Davidson, Fall 2023.
+            <br />
+            Revamped by Irene Tang in October 2026.
           </p>
           <p>
             <a href={REPO_URL}>Code on GitHub</a> · <a href={`${REPO_URL}/blob/main/Final_Report.pdf`}>Final report</a> ·{' '}
@@ -98,7 +100,7 @@ export default function AboutPage() {
           <li><strong>Temperature:</strong> yearly figures from 2005 to 2021.</li>
           <li><strong>Wages and unemployment:</strong> monthly or yearly figures from 2005 to 2023.</li>
         </ul>
-        <p>Some countries are incomplete. China and Germany, for example, have no product-level trade figures.</p>
+        <p>Some countries are incomplete. China has only 402 trade records, none after 2021, and Germany has 780, while other major partners have 3,000 or more. Neither has totals for whole product groups.</p>
       </Section>
 
       <Section title='December 2023: what we learned'>
@@ -156,13 +158,12 @@ export default function AboutPage() {
       <Section title='October 2026: the revamp with AI tools'>
         <p>
           By 2026, the site no longer worked because the paid AWS database behind it had been shut down after the course. I (Irene) revived the project so that
-          anyone can try it, at no hosting cost.
+          anyone can try it at no hosting cost, by moving the database to SQLite, which runs inside each visitor's web browser instead of on a paid server.
         </p>
 
         <Typography variant='h3' gutterBottom>How AI was used</Typography>
         <p>
-          I did the revamp with help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that works inside a code project: it
-          can read and edit files and run commands. I described each change in plain English, such as "get the live demo website running
+          I used AI to save time and money, and because I was curious what it could do on a real project. I did the revamp with help from <a href='https://claude.com/claude-code'>Claude Code</a>, an AI coding assistant that can read and edit a project's files. I described each desired change in plain English, such as "get the live demo website running
           without a paid server," "let visitors see the SQL code that we wrote for every chart," and "make the pages give context instead of just displaying tables." Claude read the 2023 code, its git history, and our team's documents, then wrote the changes, ran the
           tests, and checked each page in a browser. I then reviewed its work for errors in the calculations, wording, and clarity.
         </p>
@@ -187,16 +188,37 @@ export default function AboutPage() {
         <Typography variant='h3' gutterBottom>What else changed</Typography>
         <ul>
           <li><strong>SQL on display:</strong> a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.</li>
-          <li><strong>Fixes:</strong> continent totals that counted some products twice, and hourly and daily wages converted as if people worked around the clock, every day of the year.</li>
           <li><strong>Design:</strong> small edits to the color scheme and font, a cleaner layout built from one shared set of components, a tabbed Country Profiles page, a reorganized and decluttered home page, and this write-up of the project's history.</li>
           <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
         </ul>
 
+        <Typography variant='h3' gutterBottom>Problems found in the 2023 version</Typography>
+        <p>Checking the site's output against the real world turned up these problems, all fixed or disclosed in the revamp.</p>
+        <p><strong>Data</strong></p>
+        <ul>
+          <li><strong>Wages:</strong> the unit conversion multiplied hourly wages by 8,760 (every hour of the year) and daily wages by 365, so the average US wage showed as $254,040 a year. They now use a full-time year of 2,080 hours or 260 working days, which brings it to about $58,800.</li>
+          <li><strong>Double counting:</strong> the continent totals added whole product groups and the individual products inside them, so many values were counted twice.</li>
+          <li><strong>Missing countries:</strong> China and Germany have far fewer trade records than other major partners and no product-group totals, so they drop out of rankings. Vietnam, for example, appears as the top source of US toys and phones.</li>
+          <li><strong>Incomplete totals:</strong> the source's World figure is larger than the sum of its countries ($103 billion vs. $71 billion for aircraft exports), so country-level trade data doesn't cover everything.</li>
+          <li><strong>Wrong year ranges:</strong> the trade data is a snapshot, mostly from 2022, but the site described it as 2005 to 2022, and two page titles gave the wrong years for temperature and wage growth.</li>
+          <li><strong>Inconsistent labels:</strong> the data mixed "Re-export" with "Re-Export," "Bosnia And Herzegovina" with "Bosnia and Herzegovina," and "AUD/Week" with "AUD/week," and it listed "Other Asia" as a country. MySQL ignored capitalization, which hid most of these.</li>
+          <li><strong>Lost coordinates:</strong> the map's country coordinates existed only in the AWS database, so they disappeared with it and had to be rebuilt.</li>
+          <li><strong>Unclear wording:</strong> trade values were labeled "Volume" without saying they were US dollars, and the Living Conditions intro mentioned infant mortality, but the data is the share of infants in the population.</li>
+        </ul>
+        <p><strong>Code</strong></p>
+        <ul>
+          <li>The wages chart plotted the text "No Data" as if it were a number.</li>
+          <li>Search values weren't URL-encoded, so names containing characters such as "&" could break a search.</li>
+          <li>Five routes read their page settings from <code>req.param</code> instead of <code>req.query</code>, so pagination was silently ignored.</li>
+          <li>The map didn't zoom to its markers, and the wages chart showed empty axes before a search.</li>
+          <li>Leftovers from the course's starter template, including an unused table component, and a dependency with no version limit that would break fresh installs.</li>
+        </ul>
+
         <Typography variant='h3' gutterBottom>Lessons learned</Typography>
         <ul>
-          <li><strong>Check the data against reality.</strong> I found gaps that went unnoticed in 2023, such as China and Germany missing from the trade data, continent totals that counted some products twice, and US wages shown as $254,000 a year.</li>
+          <li><strong>Check the data against reality.</strong> Most of the problems above went unnoticed in 2023 because nobody compared the output with the real world. A US average wage of $254,000 a year should have been a red flag.</li>
           <li><strong>Choose the database for how the data is used.</strong> A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.</li>
-          <li><strong>AI shifts the work from writing code to judging it.</strong> My job became deciding what mattered, checking that the results were right, and catching the assistant's mistakes.</li>
+          <li><strong>AI speeds up the work but doesn't replace judgment.</strong> Claude made changes far faster than I could by hand, but deciding which changes mattered and noticing when a result looked wrong were still up to me.</li>
         </ul>
       </Section>
     </Page>
