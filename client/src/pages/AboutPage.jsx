@@ -113,7 +113,7 @@ export default function AboutPage() {
           <li><strong>US trade:</strong> one value per product and country, for the most recent year reported. Most values are from 2022, and a few go back to 2010. It is a snapshot, so it can't show how trade changed over time.</li>
           <li><strong>Living conditions:</strong> a single snapshot from 2020.</li>
           <li><strong>Temperature:</strong> yearly figures from 2005 to 2021.</li>
-          <li><strong>Wages and unemployment:</strong> monthly or yearly figures from 2005 to 2023.</li>
+          <li><strong>Wages and unemployment:</strong> figures from 2005 to 2023, reported monthly, quarterly, or yearly depending on the country.</li>
         </ul>
         <p>Some countries are incomplete. China has only 402 trade records, none after 2021, and Germany has 780, while other major partners have 3,000 or more. Neither has totals for whole product groups.</p>
       </Section>
