@@ -27,7 +27,7 @@ export default function CountriesWageGrowthPage() {
         <>
             <Section title='Average Yearly Wage Growth, 2005 to 2023' query={['/country/wage_growth', { growth_low: growth[0], growth_high: growth[1] }]}>
                 <Filters onSearch={search}>
-                    <RangeSlider label='Average yearly increase (%)' value={growth} onChange={setGrowth} min={-5} max={1200} step={5} />
+                    <RangeSlider label='Average yearly increase' unit='%' value={growth} onChange={setGrowth} min={-5} max={1200} step={5} />
                 </Filters>
                 {fastest && (
                     <Insight>

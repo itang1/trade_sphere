@@ -91,8 +91,8 @@ To run the original Express server instead, you need a MySQL database of your ow
 
 - Download the code as a .zip file and extract it.
 - Create `server/config.json` with `rds_host`, `rds_port`, `rds_user`, `rds_password`, `rds_db`, `server_host`, and `server_port` for your database. This file is gitignored.
-- Open the `server` folder in a terminal or command prompt.
+- Navigate to the `server` folder using a terminal or command prompt.
 - Install packages and start the server with `npm install` and `npm start`.
-- Open the `client` folder in a terminal or command prompt.
+- Navigate to the `client` folder using a terminal or command prompt.
 - Install packages and start the client with `npm install` and `npm start`. Set `VITE_API_URL` to the server's URL, such as `http://localhost:8080`, so the client calls the server instead of the in-browser database.
 - Deprecation warnings can be ignored.

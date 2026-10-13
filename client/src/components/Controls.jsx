@@ -24,13 +24,13 @@ export function Picker({ label, value, onChange, options }) {
   );
 }
 
-export function RangeSlider({ label, value, onChange, min, max, step }) {
+export function RangeSlider({ label, unit = '', value, onChange, min, max, step }) {
+  const format = number => `${number}${unit}`;
   return (
     <Box sx={{ flex: 1, minWidth: 200, px: 1 }}>
-      <Typography variant='body2' fontWeight={600} noWrap>
-        {label}: {value[0]} to {value[1]}
-      </Typography>
-      <Slider value={value} min={min} max={max} step={step} onChange={(_, newValue) => onChange(newValue)} valueLabelDisplay='auto' />
+      <Typography variant='body2' fontWeight={600} noWrap>{label}</Typography>
+      <Typography variant='body2' color='text.secondary'>{format(value[0])} to {format(value[1])}</Typography>
+      <Slider value={value} min={min} max={max} step={step} onChange={(_, newValue) => onChange(newValue)} valueLabelDisplay='auto' valueLabelFormat={format} />
     </Box>
   );
 }

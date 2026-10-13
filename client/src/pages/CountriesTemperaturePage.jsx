@@ -31,7 +31,7 @@ export default function CountriesTemperaturePage() {
             <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>How much each country's average temperature changed between its first and last year of data, 2005 to 2021.</Typography>
             <Section title='Temperature Change, 2005 to 2021' query={['/country/temperature', { delta_low: temperatureChange[0], delta_high: temperatureChange[1] }]}>
                 <Filters onSearch={search}>
-                    <RangeSlider label='Temperature change (°C)' value={temperatureChange} onChange={setTemperatureChange} min={-2} max={2} step={0.5} />
+                    <RangeSlider label='Temperature change' unit=' °C' value={temperatureChange} onChange={setTemperatureChange} min={-2} max={2} step={0.5} />
                 </Filters>
                 {warmest && (
                     <Insight>

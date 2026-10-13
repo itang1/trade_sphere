@@ -33,7 +33,7 @@ export default function CountriesLaborPage() {
             <Typography color='text.secondary' sx={{ mb: 3, maxWidth: 820 }}>Each country's highest monthly unemployment rate since 2005, and when it happened.</Typography>
             <Section title='Highest Unemployment Rate by Country' query={['/home/labour', { unemp_low: unemployment[0], unemp_high: unemployment[1] }]}>
                 <Filters onSearch={search}>
-                    <RangeSlider label='Highest unemployment rate (%)' value={unemployment} onChange={setUnemployment} min={0} max={100} step={10} />
+                    <RangeSlider label='Highest unemployment rate' unit='%' value={unemployment} onChange={setUnemployment} min={0} max={100} step={10} />
                 </Filters>
                 {highest && (
                     <Insight>
