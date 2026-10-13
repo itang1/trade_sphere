@@ -141,7 +141,8 @@ export default function AboutPage() {
           Services (AWS), and created and loaded the tables there.
         </p>
         <p>
-          <strong>Building a React app from scratch.</strong> We started the client with Create React App, then built it out with pages and routing
+          <strong>Building a React app from scratch.</strong> React is a JavaScript library for building interactive web pages out of reusable pieces
+          called components. We started the client with Create React App, a tool that set up a new React project and everything needed to build it, then built it out with pages and routing
           (React Router), components with state and hooks, and libraries for tables, charts, and maps.
         </p>
         <p>
@@ -200,9 +201,11 @@ export default function AboutPage() {
 
         <Typography variant='h3' gutterBottom>What else changed</Typography>
         <ul>
-          <li><strong>SQL on display:</strong> a Show SQL button under every chart and table, and pages that open with results and a one-line takeaway.</li>
-          <li><strong>Design:</strong> small edits to the color scheme and font, a cleaner layout built from one shared set of components, a tabbed Country Profiles page, a reorganized and decluttered home page, and this write-up of the project's history.</li>
-          <li><strong>Tooling:</strong> Vite in place of the deprecated Create React App, updated dependencies, and tests that run every query against the real data. Only the build tool changed; the React skills from 2023 still apply.</li>
+          <li><strong>Show SQL button:</strong> a Show SQL button under every chart and table to display the query that we wrote.</li>
+          <li><strong>Default results:</strong> pages that open with results and a one-line takeaway.</li>
+          <li><strong>Design:</strong> small edits to the color scheme and font, a cleaner layout built from one shared set of components, a tabbed Country Profiles page, and a reorganized and decluttered home page.</li>
+          <li><strong>History:</strong> this write-up of the project's history.</li>
+          <li><strong>Tooling:</strong> Vite in place of Create React App, updated dependencies, and tests that run every query against the real data. React itself is still in use; only Create React App was retired. Its maintainers deprecated it in 2025 because it was no longer actively maintained and was slower than newer tools like Vite, which do the same job. Only the build tool changed, so the React skills from 2023 still apply.</li>
         </ul>
 
         <Typography id='problems' variant='h3' gutterBottom sx={{ scrollMarginTop: 80 }}>Problems found in the 2023 version</Typography>
