@@ -5,6 +5,7 @@ import React from 'react';
 import { theme } from './theme';
 import NavBar from './components/NavBar';
 import DatabaseStatus from './components/DatabaseStatus';
+import PageViews from './components/PageViews';
 import HomePage from './pages/HomePage';
 import TradesPage from './pages/TradesPage'
 import AboutPage from "./pages/AboutPage";
@@ -17,6 +18,7 @@ export default function App() {
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <NavBar />
         <DatabaseStatus />
+        <PageViews />
         <Routes>
           <Route path="/" element={<HomePage />} />
           {['/countries-living-conditions', '/countries-temperature', '/countries-labor', '/countries-wages', '/countries-wage-growth'].map(path => (
