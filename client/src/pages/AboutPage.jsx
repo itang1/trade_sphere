@@ -204,8 +204,14 @@ export default function AboutPage() {
         <Typography variant='h3' gutterBottom>Switched from Create React App to Vite</Typography>
         <p>
           React is still the library behind every page; what changed is the build tool around it. A build tool turns the code we write into the files a
-          browser downloads, and runs a local preview of the site during development. In 2023, we used Create React App, which set all of this up with one
-          command and was the standard way to start a React project at the time.
+          browser downloads, and runs a local preview of the site during development.
+        </p>
+        <p>
+          In 2023, we used a tool called Create React App. One command generated a ready-to-run project: a folder structure, a starter page, and the
+          behind-the-scenes setup that converts React code into plain JavaScript that browsers understand and bundles it into a few files. It also gave
+          us two commands we used throughout the project: <code>npm start</code> to preview the site while editing, and <code>npm run build</code> to
+          produce the final files to publish. Because it hid all of that setup, it was the standard way to start a React project at the time, and the
+          course's starter code was built with it.
         </p>
         <p>
           React's maintainers deprecated Create React App in 2025. It was no longer actively maintained, its dependencies had fallen out of date, and newer
