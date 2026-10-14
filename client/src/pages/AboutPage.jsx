@@ -225,8 +225,8 @@ export default function AboutPage() {
           settings also live in one short file that anyone can read and change, instead of being hidden.
         </p>
         <p>
-          I moved the client to Vite and updated the rest of the dependencies. The switch changed how the site is built, not how React is written, so the
-          React skills from 2023 still apply.
+          I moved the client to Vite and updated the rest of the dependencies. The switch changed how the site is built, not how its React code is
+          written.
         </p>
 
         <Typography variant='h3' gutterBottom>Showing the SQL</Typography>
