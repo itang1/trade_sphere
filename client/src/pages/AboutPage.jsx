@@ -231,7 +231,7 @@ export default function AboutPage() {
 
         <Typography variant='h3' gutterBottom>Lessons learned</Typography>
         <ul>
-          <li><strong>Check the data against reality.</strong> Some problems went unnoticed in 2023 because nobody compared the output with the real world. A US average wage of $254,000 a year should have been a red flag.</li>
+          <li><strong>Check the data against reality.</strong> Some problems went unnoticed in 2023 because the output was never compared with the real world. A US average wage of $254,000 a year should have been a red flag.</li>
           <li><strong>Choose the database for how the data is used.</strong> A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.</li>
           <li><strong>AI speeds up the work but doesn't replace judgment.</strong> Claude made changes far faster than I could by hand, but deciding which changes mattered and noticing when a result looked wrong were still up to me.</li>
         </ul>
