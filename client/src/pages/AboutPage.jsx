@@ -215,8 +215,18 @@ export default function AboutPage() {
         </p>
         <p>
           React's maintainers deprecated Create React App in 2025. It was no longer actively maintained, its dependencies had fallen out of date, and newer
-          tools like Vite do the same job much faster. I moved the client to Vite and updated the rest of the dependencies. The switch changed how the site
-          is built, not how React is written, so the React skills from 2023 still apply.
+          tools did the same job much faster.
+        </p>
+        <p>
+          Vite (French for "quick") is one of those newer build tools, and it does the same two jobs differently. Create React App bundled the entire
+          site before showing a preview, so starting it and seeing each edit got slower as the project grew. Vite skips that step during development: it
+          sends each file to the browser only when the browser asks for it, using a feature that modern browsers support natively, so the preview starts
+          almost instantly and edits appear right away. When the site is published, Vite still bundles everything into a few optimized files. Its
+          settings also live in one short file that anyone can read and change, instead of being hidden.
+        </p>
+        <p>
+          I moved the client to Vite and updated the rest of the dependencies. The switch changed how the site is built, not how React is written, so the
+          React skills from 2023 still apply.
         </p>
 
         <Typography variant='h3' gutterBottom>Showing the SQL</Typography>
