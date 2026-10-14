@@ -104,7 +104,7 @@ export default function TradesPage() {
     >
       <Typography variant='h2' gutterBottom>By product</Typography>
       <Typography color='text.secondary' sx={{ mb: 3 }}>
-        Trading category is the most diverse part of trading data, as it describes what goods were exchanged between the trading partners. The data reports on over 1,000 categories that range from food, agriculture, and clothing to raw materials, tools, and more.
+        The data covers over 1,000 product categories, from food and clothing to raw materials and tools.
       </Typography>
 
       <Section
