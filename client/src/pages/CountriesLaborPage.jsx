@@ -40,7 +40,7 @@ export default function CountriesLaborPage() {
                         The highest peak is {highest.Country}: {highest.HighestUnemploymentRate}% in {monthName(highest.Month)} {highest.Year}.
                     </Insight>
                 )}
-                <DataTable rows={data} columns={columns} getRowId={row => row.Country} />
+                <DataTable rows={data} columns={columns} getRowId={row => `${row.Country}-${row.Year}-${row.Month}`} />
                 <Note>
                     The peak year and month can shed light on significant real-world events, offering insights into underlying factors and circumstances.
                     <br />
