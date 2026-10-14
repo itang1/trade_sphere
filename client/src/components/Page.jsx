@@ -18,7 +18,7 @@ export default function Page({ title, intro, children }) {
 
 export function Section({ id, title, description, query, children }) {
   return (
-    <Paper id={id} sx={{ p: { xs: 2, md: 3 }, mb: 4, scrollMarginTop: 80 }}>
+    <Paper id={id} sx={{ p: { xs: 2, md: 3 }, mb: 4, scrollMarginTop: 80, '& li + li': { mt: 1 } }}>
       {title && <Typography variant='h2' gutterBottom>{title}</Typography>}
       {description && (
         <Typography variant='body2' color='text.secondary' sx={{ mb: 2, lineHeight: 1.7 }}>

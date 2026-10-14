@@ -123,35 +123,37 @@ export default function AboutPage() {
           TradeSphere was the final project for a course that covered SQL, ER design, relational design theory, transactions, indexing, query optimization,
           and NoSQL databases such as MongoDB and Neo4j. The project put the relational half of that into practice.
         </p>
-        <p>
-          <strong>Designing a schema before writing code.</strong> We drew the ER diagram first, then turned it into 17 tables normalized to BCNF or
-          3NF. Normalizing stores each fact once, such as a country's continent, so it can't fall out of sync. We also broke 3NF on purpose in{' '}
-          <code>UnitConversion</code>, storing a conversion rate that could be computed from two other columns, because every wage query needed it.
-        </p>
-        <p>
-          <strong>Writing and tuning complex SQL.</strong> The queries use CTEs, window functions, and multi-table joins, and we rewrote slow ones to
-          run faster. The charts and tables on this site run our original queries, except the home page's top imports and exports chart; press Show SQL
-          under any of them to read the exact query, or see the example below.
-        </p>
-        <p>
-          <strong>Keeping data consistent across sources.</strong> The two sources spelled country names differently and reported values in different
-          currencies, units, and reporting frequencies. Making country names foreign keys exposed every mismatch, because the database refused rows that
-          didn't match a known country, and we fixed them one by one.
-        </p>
-        <p>
-          <strong>Running a database in the cloud.</strong> We hosted the MySQL database on Amazon RDS, a managed database service from Amazon Web
-          Services (AWS), and created and loaded the tables there.
-        </p>
-        <p>
-          <strong>Building a React app.</strong> React is a JavaScript library for building interactive web pages out of reusable pieces
-          called components. We started the client with Create React App, a tool that set up a new React project and everything needed to build it, then built it out with pages and routing
-          (React Router), components with state and hooks, and libraries for tables, charts, and maps.
-        </p>
-        <p>
-          <strong>Wiring up a full stack.</strong> An Express API connected the React client to the database, so that every filter, toggle, and slider
-          became a query parameter and every result became a table, chart, or map. The request and response formats kept changing as the pages evolved,
-          so both sides had to adapt.
-        </p>
+        <ul>
+          <li>
+            <strong>Designing a schema before writing code.</strong> We drew the ER diagram first, then turned it into 17 tables normalized to BCNF or
+            3NF. Normalizing stores each fact once, such as a country's continent, so it can't fall out of sync. We also broke 3NF on purpose in{' '}
+            <code>UnitConversion</code>, storing a conversion rate that could be computed from two other columns, because every wage query needed it.
+          </li>
+          <li>
+            <strong>Writing and tuning complex SQL.</strong> The queries use CTEs, window functions, and multi-table joins, and we rewrote slow ones to
+            run faster. The charts and tables on this site run our original queries, except the home page's top imports and exports chart; press Show SQL
+            under any of them to read the exact query, or see the example below.
+          </li>
+          <li>
+            <strong>Keeping data consistent across sources.</strong> The two sources spelled country names differently and reported values in different
+            currencies, units, and reporting frequencies. Making country names foreign keys exposed every mismatch, because the database refused rows that
+            didn't match a known country, and we fixed them one by one.
+          </li>
+          <li>
+            <strong>Running a database in the cloud.</strong> We hosted the MySQL database on Amazon RDS, a managed database service from Amazon Web
+            Services (AWS), and created and loaded the tables there.
+          </li>
+          <li>
+            <strong>Building a React app.</strong> React is a JavaScript library for building interactive web pages out of reusable pieces
+            called components. We started the client with Create React App, a tool that set up a new React project and everything needed to build it, then built it out with pages and routing
+            (React Router), components with state and hooks, and libraries for tables, charts, and maps.
+          </li>
+          <li>
+            <strong>Wiring up a full stack.</strong> An Express API connected the React client to the database, so that every filter, toggle, and slider
+            became a query parameter and every result became a table, chart, or map. The request and response formats kept changing as the pages evolved,
+            so both sides had to adapt.
+          </li>
+        </ul>
 
         <Typography id='query-example' variant='h3' gutterBottom sx={{ scrollMarginTop: 80 }}>Example: making a query faster</Typography>
         <p>
@@ -245,11 +247,29 @@ export default function AboutPage() {
           <li><strong>History:</strong> this write-up of the project's history.</li>
         </ul>
 
-        <Typography variant='h3' gutterBottom>Lessons learned</Typography>
+        <Typography variant='h3' gutterBottom>What I learned</Typography>
         <ul>
-          <li><strong>Check the data against reality.</strong> Some problems went unnoticed in 2023 because the output was never compared with the real world. A US average wage of $254,000 a year should have been a red flag.</li>
-          <li><strong>Choose the database for how the data is used.</strong> A read-only dataset doesn't need a server; moving to SQLite cut the hosting cost to zero without changing the SQL.</li>
-          <li><strong>AI speeds up the work but doesn't replace judgment.</strong> Claude made changes far faster than I could by hand, but deciding which changes mattered and noticing when a result looked wrong were still up to me.</li>
+          <li>
+            <strong>Moving a database between systems.</strong> How a server database like MySQL differs from a single-file database like SQLite, how
+            to rebuild a database from its source files, and the small differences that matter when moving queries between them, such as whether text
+            comparisons ignore capitalization.
+          </li>
+          <li>
+            <strong>Modern front-end tooling.</strong> What a build tool does behind the scenes, why Create React App was retired, and how to move a
+            React project to Vite.
+          </li>
+          <li>
+            <strong>Automating tests and deployment.</strong> Using GitHub Actions to rebuild the database, run every query as a test, and publish the
+            site whenever the code changes.
+          </li>
+          <li>
+            <strong>Sanity-checking results.</strong> Comparing a site's numbers with outside benchmarks, such as typical wages in a country, to catch
+            errors that tests alone can't.
+          </li>
+          <li>
+            <strong>Working with an AI coding assistant.</strong> Describing changes clearly enough for it to act on, then reviewing and refining what it
+            produced until the result was right.
+          </li>
         </ul>
       </Section>
     </Page>
