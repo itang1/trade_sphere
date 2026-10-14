@@ -4,9 +4,9 @@ Problems found in the 2023 version while reviving TradeSphere in October 2026, a
 
 ## Data
 
-- **Wage conversion.** `data/Unit_Conversion.csv` multiplied hourly wages by 8,760 (every hour of the year) and daily wages by 365, so the site showed the average US wage as $254,040 a year. The 17 affected rows now use a full-time year of 2,080 hours or 260 working days, which brings the US to about $58,800. Wage growth was unaffected, because the multiplier cancels out.
+- **Wage conversion.** `data/Unit_Conversion.csv` multiplied hourly wages by 8,760 (every hour of the year) and daily wages by 365, so the site showed the average US wage as $254,040 a year. The 17 affected rows now use a full-time year of 2,080 hours or 260 working days, which brings the US to about $60,000 a year in 2023. Wage growth was unaffected, because the multiplier cancels out.
 - **Double counting.** Trade categories come at two levels: whole HS chapters, such as "Electrical, electronic equipment," and the products inside them. The continent totals summed both. The query now keeps only chapters, which are identifiable by their symbol code (`USA___XX%`).
-- **Coverage gaps.** China has only 402 trade records, none after 2021, and Germany has 780, compared with 3,000 to 3,900 for other major partners. Neither has chapter-level totals, so both drop out of rankings, and Vietnam shows up as the top source of US toys and phones. The site's About page discloses this.
+- **Coverage gaps.** China has only 402 trade records, none after 2021, and Germany has 780, compared with 3,000 to 3,900 for other major partners. Neither has chapter-level import or export totals (only a handful of re-export ones), so both drop out of rankings, and Vietnam shows up as the top source of US toys and phones. The site's About page discloses this.
 - **Incomplete totals.** The source's World figure is larger than the sum of its countries ($103 billion vs. $71 billion for aircraft exports), so country-level trade data doesn't cover everything.
 - **Snapshot, not a time series.** The trade data has one value per product and country, for the most recent year reported (mostly 2022, as early as 2010).
 - **Unexplained row count.** The trade CSV has 288,564 rows, but the final report says the 2023 database held 232,412. What was dropped when loading it is unknown.
@@ -18,11 +18,13 @@ Problems found in the 2023 version while reviving TradeSphere in October 2026, a
 - The wages chart plotted the text "No Data" as if it were a number.
 - Search values weren't URL-encoded, so names containing characters such as "&" could break a search.
 - Five routes in `server/routes.js` read `req.param.page` instead of `req.query.page`, so pagination was silently ignored.
-- The routes paste user input directly into SQL strings, which allows SQL injection. The browser version binds parameters instead; the Express server still has the original code.
+- Most routes paste user input directly into SQL strings, which allows SQL injection; only the wages route used placeholders. The browser version binds parameters for every query, but the Express server still has the original code.
 - The map didn't zoom to its markers, and the wages chart showed empty axes before a search.
 - `react-leaflet` was declared as `>=3.0.0`, which installs an incompatible version 5 on a fresh install. It's now pinned to version 4.
 - The client started from the course's Homework 2 template, and an unused `LazyTable` component was left over from it.
-- Create React App was deprecated, and the client's dependencies had 163 Dependabot alerts. The client now builds with Vite, and both `npm audit` reports are clean.
+- Create React App was deprecated, and the dependencies had 163 Dependabot alerts (127 in the client and 36 in the server). The client now builds with Vite, the server dropped unused packages (`jest`, `supertest`, and `nodemon`), and both `npm audit` reports are clean.
+- There were no tests, even though `jest` and `supertest` were installed. The revamp adds tests that run every query against the real data before each deploy.
+- `.gitignore` listed `client/package.json` and both `package-lock.json` files, even though they were tracked.
 
 ## Wording
 
