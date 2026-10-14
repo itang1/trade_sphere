@@ -184,7 +184,7 @@ export default function AboutPage() {
           tests, and checked each page in a browser. I reviewed its work for errors in the calculations, wording, and clarity, asked for revisions until each page was right, and edited much of the final wording myself.
         </p>
 
-        <Typography variant='h3' gutterBottom>From MySQL on AWS to SQLite in the browser</Typography>
+        <Typography variant='h3' gutterBottom>Switched from MySQL to SQLite</Typography>
         <p>
           SQLite is a database that lives in a single file instead of on a server. A server database like our MySQL runs as a program that apps
           connect to, and it costs money for as long as it runs. SQLite has no server; a program opens the file and runs SQL on it directly, and it is built
@@ -201,7 +201,7 @@ export default function AboutPage() {
           need a server database like MySQL.
         </p>
 
-        <Typography variant='h3' gutterBottom>From Create React App to Vite</Typography>
+        <Typography variant='h3' gutterBottom>Switched from Create React App to Vite</Typography>
         <p>
           React is still the library behind every page; what changed is the build tool around it. A build tool turns the code we write into the files a
           browser downloads, and runs a local preview of the site during development. In 2023, we used Create React App, which set all of this up with one
