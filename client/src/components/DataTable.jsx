@@ -8,7 +8,7 @@ export default function DataTable({ rows, columns, getRowId, defaultPageSize = 1
   return (
     <DataGrid
       rows={rows}
-      columns={columns}
+      columns={columns.map(column => ({ minWidth: 90, ...column }))}
       getRowId={getRowId}
       pageSize={pageSize}
       rowsPerPageOptions={[5, 10, 25]}

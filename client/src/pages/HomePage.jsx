@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Paper, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Grid, Paper, Stack, ToggleButton, ToggleButtonGroup, Typography, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
@@ -29,6 +29,7 @@ function TopTraded() {
   const [type, setType] = useState('Import');
   const [country, setCountry] = useState('World');
   const [rows, setRows] = useState([]);
+  const narrow = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   useEffect(() => {
     getJson('/top_traded', { type, country }).then(setRows).catch(console.error);
@@ -53,10 +54,10 @@ function TopTraded() {
         </ToggleButtonGroup>
       </Stack>
       <ResponsiveContainer width='100%' height={280}>
-        <BarChart data={rows} layout='vertical' margin={{ top: 0, right: 30, bottom: 0, left: 0 }}>
+        <BarChart data={rows} layout='vertical' margin={{ top: 0, right: narrow ? 16 : 30, bottom: 0, left: 0 }}>
           <CartesianGrid strokeDasharray='3 3' horizontal={false} />
           <XAxis type='number' tickFormatter={billions} />
-          <YAxis type='category' dataKey='Category' width={260} tick={{ fontSize: 12 }} />
+          <YAxis type='category' dataKey='Category' width={narrow ? 120 : 260} tick={{ fontSize: narrow ? 10 : 12 }} />
           <Tooltip formatter={(value, name, { payload }) => [`${billions(value)} (${payload.SharePercent}% of the total)`, 'Value']} />
           <Bar dataKey='Value' fill={colors.teal} radius={[0, 4, 4, 0]} />
         </BarChart>
