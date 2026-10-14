@@ -9,6 +9,9 @@ function formatNumber(value) {
 }
 
 async function gunzip(response) {
+  if (!response.ok) {
+    throw new Error(`Database download failed: ${response.status}`);
+  }
   const bytes = new Uint8Array(await response.arrayBuffer());
   // Some servers already decode .gz files, so only decompress if the gzip header is still there
   if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) {
@@ -18,7 +21,13 @@ async function gunzip(response) {
   return new Uint8Array(await new Response(stream).arrayBuffer());
 }
 
+const SQLITE_HEADER = 'SQLite format 3';
+
 export function openDatabase(SQL, bytes) {
+  // Static hosts can answer a missing file with an HTML page, which would otherwise open as an empty database
+  if (new TextDecoder().decode(bytes.subarray(0, SQLITE_HEADER.length)) !== SQLITE_HEADER) {
+    throw new Error('Downloaded file is not a SQLite database');
+  }
   const db = new SQL.Database(bytes);
   db.create_function('format_number', formatNumber);
   return db;
@@ -26,7 +35,7 @@ export function openDatabase(SQL, bytes) {
 
 let database;
 
-function getDatabase() {
+export function getDatabase() {
   database ??= Promise.all([
     initSqlJs({ locateFile: () => wasmUrl }),
     fetch(DB_URL).then(gunzip),
