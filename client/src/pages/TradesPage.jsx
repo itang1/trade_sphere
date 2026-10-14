@@ -93,7 +93,7 @@ export default function TradesPage() {
       title='US Trade'
       intro={
         <>
-          <p>Where US exports go and where US imports come from. Every section starts with an example; change the filters and press Search to explore.</p>
+          <p>Which country buys the most American-made aircraft? (Hint: it's in Europe.) Each section below opens with an example like this one; change the filters and press Search to ask your own questions about where US exports go and where US imports come from.</p>
           <p>
             <strong>How to read the values:</strong> each value is the US dollar value of the goods traded, for the most recent year reported for that
             product and country, which is usually 2022. The data is a snapshot, so it shows who trades what rather than how trade changed over time. Trade types are <strong>exports</strong> (US goods sold abroad), <strong>imports</strong> (goods the US buys)
